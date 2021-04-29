@@ -11,7 +11,6 @@ import os
 import logging
 import redis
 from urllib.parse import urlparse
-from redis import Redis
 import gevent
 from flask import Flask, render_template
 from flask_sockets import Sockets
