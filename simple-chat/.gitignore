@@ -3,6 +3,6 @@ testing-project
 .mypy_cache
 poetry.lock
 dev-link/
-../.env
+.env
 .json
 .cfg
