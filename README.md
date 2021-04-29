@@ -1,7 +1,9 @@
 # Python Websockets Example: Chat
+On Windows runs with 
+>heroku local -f Procfile.windows
 
 This is a simple application that serves tasty WebSockets to your users
-with Flask, Flask-Sockets, Gevent, and Gunicorn.
+with Flask, Flask-Sockets, Gevent, and Gunicorn. Deploy to Heroku.
 
 Mmmm.
 
