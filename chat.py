@@ -10,6 +10,8 @@ This simple application uses WebSockets to run a primitive chat server.
 import os
 import logging
 import redis
+from urllib.parse import urlparse
+from redis import Redis
 import gevent
 from flask import Flask, render_template
 from flask_sockets import Sockets
@@ -21,7 +23,9 @@ app = Flask(__name__)
 app.debug = 'DEBUG' in os.environ
 
 sockets = Sockets(app)
-redis = redis.from_url(REDIS_URL)
+
+url = urlparse(os.environ.get("REDIS_URL"))
+r = redis.Redis(port=url.port, ssl=True, ssl_cert_reqs=None)
 
 
 class ChatBackend(object):
@@ -29,7 +33,7 @@ class ChatBackend(object):
 
     def __init__(self):
         self.clients = list()
-        self.pubsub = redis.pubsub()
+        self.pubsub = r.pubsub()
         self.pubsub.subscribe(REDIS_CHAN)
 
     def __iter_data(self):
@@ -81,7 +85,7 @@ def inbox(ws):
 
         if message:
             app.logger.info(u'Inserting message: {}'.format(message))
-            redis.publish(REDIS_CHAN, message)
+            r.publish(REDIS_CHAN, message)
 
 
 @sockets.route('/receive')
