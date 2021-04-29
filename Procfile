@@ -1,1 +1,1 @@
-web: gunicorn --listen "*:PORT" flask_sockets.worker chat:app
+web: py manage.py runserver 0.0.0.0:5000
