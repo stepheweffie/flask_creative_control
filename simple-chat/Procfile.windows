@@ -1,1 +1,1 @@
-web: py main.py runserver localhost:21039
+web: gunicorn main:app
