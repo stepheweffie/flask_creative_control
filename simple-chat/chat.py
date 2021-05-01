@@ -13,7 +13,7 @@ import redis
 from urllib.parse import urlparse
 import gevent
 from flask import Flask, render_template
-from flask_socketio import Socketio
+from flask_socketio import SocketIO
 
 REDIS_URL = os.environ.get('REDIS_URL')
 REDIS_CHAN = 'chat'
@@ -21,7 +21,7 @@ REDIS_CHAN = 'chat'
 app = Flask(__name__)
 app.debug = 'DEBUG' in os.environ
 
-sockets = Socketio(app)
+sockets = SocketIO(app)
 
 url = urlparse(os.environ.get("REDIS_URL"))
 r = redis.Redis(port=url.port, ssl=True, ssl_cert_reqs=None)
