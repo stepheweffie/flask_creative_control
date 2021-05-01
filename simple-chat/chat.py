@@ -6,7 +6,8 @@ Chat Server
 
 This simple application uses WebSockets to run a primitive chat server.
 """
-
+from gevent import monkey
+monkey.patch_all()
 import os
 import logging
 import redis
@@ -74,7 +75,7 @@ def hello():
     return render_template('index.html')
 
 
-@sockets.route('/submit')
+@sockets.on('/submit')
 def inbox(ws):
     """Receives incoming chat messages, inserts them into Redis."""
     while not ws.closed:
@@ -87,7 +88,7 @@ def inbox(ws):
             r.publish(REDIS_CHAN, message)
 
 
-@sockets.route('/receive')
+@sockets.on('/receive')
 def outbox(ws):
     """Sends outgoing chat messages, via `ChatBackend`."""
     chats.register(ws)
@@ -98,4 +99,4 @@ def outbox(ws):
 
 
 if __name__ == '__main__':
-    sockets.run(app, debug=True)
+    sockets.run(app, message_queue='redis://', debug=True)
