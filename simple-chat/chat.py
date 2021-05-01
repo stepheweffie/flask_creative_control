@@ -98,4 +98,4 @@ def outbox(ws):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    sockets.run(app, debug=True)
