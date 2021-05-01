@@ -21,7 +21,7 @@ REDIS_CHAN = 'chat'
 
 app = Flask(__name__)
 app.debug = 'DEBUG' in os.environ
-
+app.config['SECRET_KEY'] = 'my_secret_key'
 sockets = SocketIO(app)
 
 url = urlparse(os.environ.get("REDIS_URL"))
@@ -70,7 +70,7 @@ chats = ChatBackend()
 chats.start()
 
 
-@app.route('/')
+@app.route('/', methods =["GET", "POST"])
 def hello():
     return render_template('index.html')
 
