@@ -99,4 +99,4 @@ def outbox(ws):
 
 
 if __name__ == '__main__':
-    sockets.run(app, message_queue='redis://', debug=True)
+    sockets.run(app, message_queue=REDIS_URL, channel=REDIS_CHAN, debug=True)
