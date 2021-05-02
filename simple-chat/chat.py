@@ -75,7 +75,7 @@ def hello():
     return render_template('index.html')
 
 
-@sockets.on('/submit')
+@sockets.route('/submit')
 def inbox(ws):
     """Receives incoming chat messages, inserts them into Redis."""
     while not ws.closed:
@@ -88,7 +88,7 @@ def inbox(ws):
             r.publish(REDIS_CHAN, message)
 
 
-@sockets.on('/receive')
+@sockets.route('/receive')
 def outbox(ws):
     """Sends outgoing chat messages, via `ChatBackend`."""
     chats.register(ws)
