@@ -15,7 +15,7 @@ def echo_socket(ws):
         ws.send(message)
 
 
-@sockets.route('/')
+@app.route('/')
 def hello():
     return 'Hello World!'
 
