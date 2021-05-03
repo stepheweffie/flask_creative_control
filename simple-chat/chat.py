@@ -1,6 +1,6 @@
 from gevent import monkey
 monkey.patch_all()
-from flask import Flask
+from flask import Flask, render_template
 from flask_sockets import Sockets
 
 
@@ -16,8 +16,8 @@ def echo_socket(ws):
 
 
 @app.route('/')
-def hello():
-    return 'Hello World!'
+def index():
+    render_template('index.html')
 
 
 if __name__ == "__main__":
