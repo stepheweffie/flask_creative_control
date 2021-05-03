@@ -17,7 +17,7 @@ def echo_socket(ws):
 
 @app.route('/')
 def index():
-    render_template('index.html')
+    return render_template('index.html')
 
 
 if __name__ == "__main__":
