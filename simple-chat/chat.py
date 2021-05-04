@@ -8,7 +8,7 @@ from websocket import create_connection
 app = Flask(__name__)
 sockets = Sockets(app)
 
-ws = create_connection("wss://cc-simple-chat.herokuapp.com:8000/echo")
+ws = create_connection("wss://cc-simple-chat.herokuapp.com:8000")
 
 
 @sockets.route('/')
