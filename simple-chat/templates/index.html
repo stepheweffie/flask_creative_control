@@ -6,7 +6,7 @@
     </script>
     <script type="text/javascript">
       evtsrc = new EventSource("chat.py");
-      const ws = new WebSocket("wss://cc-simple-chat.herokuapp.com:8000");
+      const ws = new WebSocket("https://cc-simple-chat.herokuapp.com:5000");
       ws.addEventListener('message', function(event) {
          console.log('Message from server ', event.data);
          const messages = document.getElementsByTagName('ul')[0],

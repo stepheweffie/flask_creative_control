@@ -2,13 +2,13 @@ from gevent import monkey
 monkey.patch_all()
 from flask import Flask, render_template
 from flask_sockets import Sockets
-from websocket import create_connection
+# from websocket import create_connection
 
 
 app = Flask(__name__)
 sockets = Sockets(app)
 
-ws = create_connection("wss://cc-simple-chat.herokuapp.com:8000")
+# ws = create_connection("wss://cc-simple-chat.herokuapp.com:8000")
 
 
 @sockets.route('/')
