@@ -26,7 +26,9 @@ def index():
 if __name__ == "__main__":
     from gevent import pywsgi
     from geventwebsocket.handler import WebSocketHandler as Handler
-    server = pywsgi.WSGIServer(('https://cc-simple-chat.herokuapp.com', 5000), app, handler_class=Handler)
+
     Handler.upgrade_websocket()
+    server = pywsgi.WSGIServer(('https://cc-simple-chat.herokuapp.com', 5000), app, handler_class=Handler)
+
     print(Handler.connection_upgraded)
     server.serve_forever()
