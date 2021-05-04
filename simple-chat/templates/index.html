@@ -2,8 +2,6 @@
 <html>
 
   <head>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js">
-    </script>
     <script type="text/javascript">
       evtsrc = new EventSource("chat.py");
       const ws = new WebSocket("https://cc-simple-chat.herokuapp.com:5000");
@@ -21,7 +19,6 @@
 <body>
 <form>
   <input type="text">
-  <submit></submit>
 </form>
 <ul>
 
