@@ -29,5 +29,4 @@ if __name__ == "__main__":
 
     server = pywsgi.WSGIServer(('https://cc-simple-chat.herokuapp.com', 5000), app, handler_class=Handler)
 
-    print(Handler.connection_upgraded)
     server.serve_forever()
