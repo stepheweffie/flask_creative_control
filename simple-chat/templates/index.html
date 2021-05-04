@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <script type="text/javascript">
-       var ws = new WebSocket("ws://cc-simple-chat.herokuapp.com:8000/echo");
-       ws.onopen = function() {
-           ws.send("socket open");
-           alert("socket open");
-       };
-       ws.onmessage = function(event) {
-
-         var messages = document.getElementsByTagName('ul')[0],
+       const ws = new WebSocket("ws://cc-simple-chat.herokuapp.com:8000/echo");
+       ws.addEventListener('open', function (event) {
+         ws.send('Hello Server!');
+       });
+       ws.addEventListener('message', function(event) {
+         console.log('Message from server ', event.data);
+         const messages = document.getElementsByTagName('ul')[0],
                  message = document.createElement('li'),
                  content = document.createTextNode(event.data);
          message.appendChild(content);
          messages.appendChild(message);
-       };
-       ws.onclose = function(evt) {
-         alert("socket closed");
-       };
+       document.body.appendChild(messages);
+       });
     </script>
   </head>
+<body>
+<ul>
+
+</ul>
+</body>
 </html>
