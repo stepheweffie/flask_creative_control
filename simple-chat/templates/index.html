@@ -5,7 +5,7 @@
     <script type="text/javascript">
        const ws = new WebSocket("wss://cc-simple-chat.herokuapp.com:8000/echo");
        ws.addEventListener('open', function (event) {
-         ws.send('Hello Server!');
+         console.log('Hello Server!');
        });
        ws.addEventListener('message', function(event) {
          console.log('Message from server ', event.data);
