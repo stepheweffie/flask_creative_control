@@ -3,7 +3,6 @@ monkey.patch_all()
 import gevent
 import os
 import redis
-from redis import publish
 from flask import Flask, render_template
 from flask_sockets import Sockets
 REDIS_URL = os.environ.get('REDIS_URL')
