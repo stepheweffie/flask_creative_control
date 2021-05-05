@@ -3,6 +3,14 @@
 
   <head>
     <script type="text/javascript">
+      const ws = require('ws');
+      const client = new ws('wss:://cc-simple-chat.herokuapp.com:5000');
+      client.on('open', () => {
+      // Causes the server to print "Hello"
+      client.send('Hello');
+      client.close;
+    });
+
       const ws = new WebSocket("https://cc-simple-chat.herokuapp.com:5000");
       ws.addEventListener('message', function(event) {
          console.log('Message from server ', event.data);
@@ -17,7 +25,7 @@
   </head>
 <body>
 <form>
-  <input type="text">
+  <input type="text"><button type="submit">Send</button>
 </form>
 <ul>
 
