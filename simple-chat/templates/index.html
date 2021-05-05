@@ -7,12 +7,7 @@
       const client = new WebSocket('wss://cc-simple-chat.herokuapp.com:5000');
       const chat = document.getElementById("chat"),
               btn= document.getElementById("send");
-      btn.onclick = function() {
-        client.emit('message', {
-          chat: chat.value,
-        });
-        chat.value = "";
-      };
+
 
       // Causes the server to post to the client
       client.addEventListener('message', function(event) {
@@ -40,7 +35,12 @@
 </ul>
 
 <script>
-
+btn.onclick = function() {
+        client.emit('message', {
+          chat: chat.value,
+        });
+        chat.value = "";
+      };
 </script>
 </body>
 </html>
