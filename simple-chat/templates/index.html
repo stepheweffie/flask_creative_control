@@ -11,8 +11,8 @@
       client.close;
     });
 
-      const ws = new WebSocket("https://cc-simple-chat.herokuapp.com:5000");
-      ws.addEventListener('message', function(event) {
+      const chat = new WebSocket("https://cc-simple-chat.herokuapp.com:5000");
+      chat.addEventListener('message', function(event) {
          console.log('Message from server ', event.data);
          const messages = document.getElementsByTagName('ul')[0],
                  message = document.createElement('li'),
