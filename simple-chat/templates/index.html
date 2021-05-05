@@ -3,9 +3,19 @@
   <head>
 
     <script type="text/javascript">
+      // Connect to server and emit messages onclick
       const client = new WebSocket('wss://cc-simple-chat.herokuapp.com:5000');
+      const chat = document.getElementById("chat"),
+              btn= document.getElementById("send");
+      btn.onclick = function() {
+        client.emit('message', {
+          chat: chat.value,
+        });
+        chat.value = "";
+      };
+
       // Causes the server to post to the client
-      client.on('message', function(event) {
+      client.addEventListener('message', function(event) {
          console.log('Message from server ', event.data);
          const messages = document.getElementsByTagName('ul')[0],
                  message = document.createElement('li'),
@@ -30,14 +40,7 @@
 </ul>
 
 <script>
-  var chat = document.getElementById("chat"),
-              btn= document.getElementById("send");
-      btn.addEventListener('click', function(){
-        client.emit('message', {
-          chat: chat.value,
-        });
-        chat.value = "";
-      });
+
 </script>
 </body>
 </html>
