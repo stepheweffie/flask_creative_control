@@ -29,6 +29,7 @@ def echo_socket(ws):
 
 @app.route('/', methods=["GET", "POST"])
 def index():
+
     return render_template('index.html')
 
 

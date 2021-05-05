@@ -5,6 +5,10 @@
     <script type="text/javascript">
       // Connect to server and emit messages onclick
       const client = new WebSocket('wss://cc-simple-chat.herokuapp.com:5000');
+      client.onopen = function(evt) {
+            onOpen(evt)
+         };
+
       const chat = document.getElementById("chat"),
               btn= document.getElementById("send");
 
@@ -19,7 +23,6 @@
          messages.appendChild(message);
        document.body.appendChild(messages);
        });
-
     </script>
   </head>
 <body>
@@ -36,7 +39,11 @@
 
 <script>
 function message() {
-        client.send('message')}
+        client.send('message');
+      }
+function onOpen(evt) {
+         writeToScreen("CONNECTED");
+      }
 </script>
 </body>
 </html>
