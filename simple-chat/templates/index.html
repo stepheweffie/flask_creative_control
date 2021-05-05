@@ -4,19 +4,7 @@
 
     <script type="text/javascript">
       const client = new WebSocket('wss://cc-simple-chat.herokuapp.com:5000');
-      client.on('open', () => {
-      // Causes the server to print "Hello"
-      console.log("Connected");
-      });
-
-      var chat = document.getElementById("chat"),
-              btn= document.getElementById("send");
-      btn.addEventListener('click', function(){
-        client.emit('message', {
-          chat: chat.value,
-        });
-        chat.value = "";
-      });
+      // Causes the server to post to the client
       client.on('message', function(event) {
          console.log('Message from server ', event.data);
          const messages = document.getElementsByTagName('ul')[0],
@@ -31,7 +19,7 @@
   </head>
 <body>
 
-<form method="post" id="chat">
+<form method="post" id="chat" action="index.html">
   <input type="text"><button type="submit" id="send">Send</button>
 </form>
 
@@ -41,6 +29,15 @@
 
 </ul>
 
-
+<script>
+  var chat = document.getElementById("chat"),
+              btn= document.getElementById("send");
+      btn.addEventListener('click', function(){
+        client.emit('message', {
+          chat: chat.value,
+        });
+        chat.value = "";
+      });
+</script>
 </body>
 </html>
