@@ -7,13 +7,13 @@ from flask import Flask, render_template
 from flask_sockets import Sockets
 REDIS_URL = os.environ.get('REDIS_URL')
 REDIS_CHAN = 'simple-chat'
-from websocket import create_connection
+# from websocket import create_connection
 
 
 app = Flask(__name__)
 sockets = Sockets(app)
 r = redis.from_url(REDIS_URL)
-ws = create_connection("wss://cc-simple-chat.herokuapp.com:8000")
+# ws = create_connection("wss://cc-simple-chat.herokuapp.com:8000")
 
 
 @sockets.route('/')
@@ -29,7 +29,7 @@ def echo_socket(ws):
 
 @app.route('/', methods=["GET", "POST"])
 def index():
-    return render_template('index.html', ws=ws)
+    return render_template('index.html')
 
 
 if __name__ == "__main__":
