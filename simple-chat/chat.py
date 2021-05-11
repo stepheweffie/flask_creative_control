@@ -30,9 +30,9 @@ def echo_socket(ws):
 
 @app.route('/', methods=["GET", "POST"])
 def index():
-    data = request.POST.data
+    data = request.data
     if request.method == 'POST':
-        print(request.POST.data)
+        print(request.data)
         echo_socket(data)
         r.publish(REDIS_CHAN, "Incoming")
         r.broadcast(REDIS_CHAN)
