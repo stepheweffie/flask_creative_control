@@ -3,30 +3,7 @@
   <head>
   <link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="static/css/application.css" rel="stylesheet" media="screen">
-    <script type="text/javascript" charset="utf-8">
-      // Chat Engine
-      message = $(document).ready(function(){
-        $('form').submit(function(){
-          client.send($('#data').val(),
-          return false;
-        });
-      });
 
-      // Connect to server and emit messages onclick
-      if ("WebSocket" in window) {
-        var client = new WebSocket('wss://' + document.domain + ':5000');
-        client.onopen = function(evt) {
-            $("#log").append("Welcome Home")
-        };
-        client.onmessage = function(msg) {
-        $("#log").append.("<p>"+msg.data+"</p>")
-        };
-      }
-
-      const chat = document.getElementById("chat"),
-              btn= document.getElementById("send");
-
-    </script>
   </head>
 <body>
 <div id="log">
