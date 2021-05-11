@@ -59,6 +59,7 @@ chats = ChatBackend()
 chats.start()
 
 
+'''
 @sockets.route('/')
 def echo_socket(ws):
     while not ws.closed:
@@ -71,6 +72,8 @@ def echo_socket(ws):
             chats.register(ws)
             gevent.sleep(0.1)
 
+'''
+
 
 @app.route('/', methods=["GET", "POST"])
 def index():
@@ -79,6 +82,29 @@ def index():
     if request.method == 'POST':
         data = request.form
     return render_template('index.html', data=json.dumps(data), welcome_message=welcome_message)
+
+
+@sockets.route('/submit')
+def inbox(ws):
+    """Receives incoming chat messages, inserts them into Redis."""
+    while not ws.closed:
+        # Sleep to prevent *constant* context-switches.
+        gevent.sleep(0.1)
+        message = ws.receive()
+
+        if message:
+            app.logger.info(u'Inserting message: {}'.format(message))
+            r.publish(REDIS_CHAN, message)
+
+
+@sockets.route('/receive')
+def outbox(ws):
+    """Sends outgoing chat messages, via `ChatBackend`."""
+    chats.register(ws)
+
+    while not ws.closed:
+        # Context switch while `ChatBackend.start` is running in the background.
+        gevent.sleep(0.1)
 
 
 if __name__ == "__main__":

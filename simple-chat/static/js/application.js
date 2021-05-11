@@ -6,13 +6,15 @@ if (window.location.protocol == "https:") {
 };
 
 
-var inbox = new ReconnectingWebSocket(ws_scheme + location.host + "/");
-var outbox = new ReconnectingWebSocket(ws_scheme + location.host + "/");
+var inbox = new ReconnectingWebSocket(ws_scheme + location.host + "/submit");
+var outbox = new ReconnectingWebSocket(ws_scheme + location.host + "/receive");
 
 inbox.onmessage = function(message) {
   var data = JSON.parse(message.data);
-  $("#chat-text").append("<div class='panel panel-default'><div class='panel-heading'>" + $('<span/>').text(data.handle).html() + "</div><div class='panel-body'>" + $('<span/>').text(data.text).html() + "</div></div>");
-  $("#chat-text").stop().animate({
+  $("#log").append("<div class='panel panel-default'><div class='panel-heading'>" +
+      $('<span/>').text(data.handle).html() + "</div><div class='panel-body'>" +
+      $('<span/>').text(data.text).html() + "</div></div>");
+  $("#log").stop().animate({
     scrollTop: $('#chat-text')[0].scrollHeight
   }, 800);
 };
@@ -28,10 +30,10 @@ outbox.onclose = function(){
     this.outbox = new WebSocket(outbox.url);
 };
 
-$("#input-form").on("submit", function(event) {
+$("#chat").on("submit", function(event) {
   event.preventDefault();
-  var handle = $("#input-handle")[0].value;
-  var text   = $("#input-text")[0].value;
+  var handle = $("#handle")[0].value;
+  var text   = $("#data")[0].value;
   outbox.send(JSON.stringify({ handle: handle, text: text }));
-  $("#input-text")[0].value = "";
+  $("#data")[0].value = "";
 });
