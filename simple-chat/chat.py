@@ -22,7 +22,7 @@ class ChatBackend(object):
 
     def __init__(self):
         self.clients = list()
-        self.pubsub = redis.pubsub()
+        self.pubsub = r.pubsub()
         self.pubsub.subscribe(REDIS_CHAN)
 
     def __iter_data(self):
