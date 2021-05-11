@@ -25,6 +25,39 @@ class ChatBackend(object):
         self.pubsub = redis.pubsub()
         self.pubsub.subscribe(REDIS_CHAN)
 
+    def __iter_data(self):
+        for message in self.pubsub.listen():
+            data = message.get('data')
+            if message['type'] == 'message':
+                app.logger.info(u'Sending message: {}'.format(data))
+                yield data
+
+    def register(self, client):
+        """Register a WebSocket connection for Redis updates."""
+        self.clients.append(client)
+
+    def send(self, client, data):
+        """Send given data to the registered client.
+        Automatically discards invalid connections."""
+        try:
+            client.send(data)
+        except AttributeError:
+            self.clients.remove(client)
+
+    def run(self):
+        """Listens for new messages in Redis, and sends them to clients."""
+        for data in self.__iter_data():
+            for client in self.clients:
+                gevent.spawn(self.send, client, data)
+
+    def start(self):
+        """Maintains Redis subscription in the background."""
+        gevent.spawn(self.run)
+
+
+chats = ChatBackend()
+chats.start()
+
 
 @sockets.route('/')
 def echo_socket(ws):
@@ -35,12 +68,16 @@ def echo_socket(ws):
         if message:
             app.logger.info(f''.format(message))
             r.publish(REDIS_CHAN, message)
+            chats.register(ws)
+            gevent.sleep(0.1)
 
 
 @app.route('/', methods=["GET", "POST"])
 def index():
     data = str(request.data)
     welcome_message = os.environ.get("WELCOME")
+    if request.method == 'POST':
+        data = request.form
     return render_template('index.html', data=json.dumps(data), welcome_message=welcome_message)
 
 
