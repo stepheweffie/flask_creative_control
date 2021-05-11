@@ -1,4 +1,5 @@
 from gevent import monkey
+import json
 monkey.patch_all()
 import gevent
 import os
@@ -33,7 +34,9 @@ def index():
         print(request.POST.data)
         data = request.POST.data
         echo_socket(data)
-    return render_template('index.html')
+        r.publish(REDIS_CHAN, "Incoming")
+        r.broadcast(REDIS_CHAN)
+    return render_template('index.html', data=json.dumps(data))
 
 
 if __name__ == "__main__":
