@@ -17,6 +17,15 @@ r = redis.from_url(REDIS_URL)
 # ws = create_connection("wss://cc-simple-chat.herokuapp.com:8000")
 
 
+class ChatBackend(object):
+    """Interface for registering and updating WebSocket clients."""
+
+    def __init__(self):
+        self.clients = list()
+        self.pubsub = redis.pubsub()
+        self.pubsub.subscribe(REDIS_CHAN)
+
+
 @sockets.route('/')
 def echo_socket(ws):
     while not ws.closed:
@@ -30,13 +39,9 @@ def echo_socket(ws):
 
 @app.route('/', methods=["GET", "POST"])
 def index():
-    data = request.data
-    if request.method == 'POST':
-        print(request.data)
-        echo_socket(data)
-        r.publish(REDIS_CHAN, "Incoming")
-        r.broadcast(REDIS_CHAN)
-    return render_template('index.html', data=json.dumps(data))
+    data = str(request.data)
+    welcome_message = os.environ.get("WELCOME")
+    return render_template('index.html', data=json.dumps(data), welcome_message=welcome_message)
 
 
 if __name__ == "__main__":

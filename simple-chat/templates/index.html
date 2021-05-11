@@ -2,50 +2,47 @@
 <html>
   <head>
 
-    <script type="text/javascript">
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+            integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous">
+
+    </script>
+
+    <script type="text/javascript" charset="utf-8">
+      $(document).ready(function(){
+        $('form').submit(function(event){
+          client.send($('#data').val())
+          return false;
+        });
+
       // Connect to server and emit messages onclick
-      const client = new WebSocket('wss://cc-simple-chat.herokuapp.com:5000');
-      client.onopen = function(evt) {
-            onOpen(evt)
-         };
+      if ("WebSocket" in window) {
+
+        const client = new WebSocket('wss://' + document.domain + ':5000');
+        client.onopen = function(evt) {
+            $("#log").append.data
+        };
+        client.onmessage = function(msg) {
+        $("#log").append.("<p>"+msg.data+"</p>")
+        };
+      }
 
       const chat = document.getElementById("chat"),
               btn= document.getElementById("send");
 
-
-      // Causes the server to post to the client
-      client.addEventListener('message', function(event) {
-         console.log('Message from server ', event.data);
-         const messages = document.getElementsByTagName('ul')[0],
-                 message = document.createElement('li'),
-                 content = document.createTextNode(event.data);
-         message.appendChild(content);
-         messages.appendChild(message);
-       document.body.appendChild(messages);
-       });
     </script>
   </head>
 <body>
-
-<form method="post" id="chat" action="index.html">
-  <input type="text"><button type="submit" id="send" onclick="message">Send</button>
-</form>
-
-<br>
-<br>
+<div id="log">
 <ul>
 {% for d in data %}
   {{d |safe}}
   {% endfor %}
 </ul>
-
-<script>
-function message() {
-        client.send('message');
-      }
-function onOpen(evt) {
-         writeToScreen("CONNECTED");
-      }
-</script>
+<br>
+<br>
+</div>
+<form method="POST" id="chat" action="index.html">
+  <input type="text" id="data"><button type="submit" id="send" onclick="message">Send</button>
+</form>
 </body>
 </html>
