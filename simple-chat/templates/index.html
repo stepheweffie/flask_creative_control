@@ -6,20 +6,20 @@
             integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous">
 
     </script>
-
     <script type="text/javascript" charset="utf-8">
-      $(document).ready(function(){
-        $('form').submit(function(event){
-          client.send($('#data').val())
+      // Chat Engine
+      message = $(document).ready(function(){
+        $('form').submit(function(){
+          client.send($('#data').val(),
           return false;
         });
+      });
 
       // Connect to server and emit messages onclick
       if ("WebSocket" in window) {
-
-        const client = new WebSocket('wss://' + document.domain + ':5000');
+        var client = new WebSocket('wss://' + document.domain + ':5000');
         client.onopen = function(evt) {
-            $("#log").append.data
+            $("#log").append("Welcome Home")
         };
         client.onmessage = function(msg) {
         $("#log").append.("<p>"+msg.data+"</p>")
@@ -41,7 +41,7 @@
 <br>
 <br>
 </div>
-<form method="POST" id="chat" action="index.html">
+<form method="POST" id="chat" action="/">
   <input type="text" id="data"><button type="submit" id="send" onclick="message">Send</button>
 </form>
 </body>
