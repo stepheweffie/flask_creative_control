@@ -4,11 +4,10 @@ if (window.location.protocol == "https:") {
 } else {
   var ws_scheme = "ws://"
 };
-
-
-var inbox = new ReconnectingWebSocket(ws_scheme + location.host + "/submit");
-var outbox = new ReconnectingWebSocket(ws_scheme + location.host + "/receive");
-
+if ("WebSocket in window") {
+    var inbox = new ReconnectingWebSocket(ws_scheme + document.domain + ":5000");
+    var outbox = new ReconnectingWebSocket(ws_scheme + location.host + ":5000");
+}
 inbox.onmessage = function(message) {
   var data = JSON.parse(message.data);
   $("#log").append("<div class='panel panel-default'><div class='panel-heading'>" +
