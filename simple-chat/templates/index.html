@@ -34,7 +34,9 @@
 <br>
 <br>
 <ul>
-
+{% for d in data %}
+  {{d |safe}}
+  {% endfor %}
 </ul>
 
 <script>
