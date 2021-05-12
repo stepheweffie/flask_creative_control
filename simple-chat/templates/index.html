@@ -33,10 +33,12 @@ if (window.location.protocol == "https:") {
 };
 
 if ("WebSocket in window") {
-    const socket = new WebSocket(ws_scheme + location.host + "/");
-    socket.onmessage = function(message) {
-    const message_data = JSON.parse(message.data);
-  $("#chat-log").append("<div class='panel panel-default'><div class='panel-heading'>" +
+    alert("WebSocket is supported by your Browser!");
+    const ws = new WebSocket(ws_scheme + document.domain + "/");
+    ws.onmessage = function(evt) {
+    const message_data = JSON.parse(evt.data);
+
+    $("#chat-log").append("<div class='panel panel-default'><div class='panel-heading'>" +
       $('<span/>').text(message_data.handle).html() + "</div><div class='panel-body'>" +
       $('<span/>').text(message_data.text).html() + "</div></div>");
 };
@@ -45,7 +47,7 @@ $("#chat").on("submit", function(event) {
   event.preventDefault();
   const handle = $("#handle")[0].value;
   const text = $("#chat-text")[0].value;
-  socket.send(JSON.stringify({ handle: handle, text: text }));
+  ws.send(JSON.stringify({ handle: handle, text: text }));
   text[0].value = "";
 })}
 </script>
