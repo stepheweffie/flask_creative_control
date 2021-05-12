@@ -8,8 +8,9 @@ from flask import Flask, render_template, request
 from flask_sockets import Sockets
 REDIS_URL = os.environ.get('REDIS_URL')
 REDIS_CHAN = 'simple-chat'
-# from websocket import create_connection
 
+# from websocket import create_connection
+# run in cloud functions Firebase
 # socketio = SocketIO(manage_session=True, message_queue=REDIS_URL, channel=REDIS_CHAN)
 # socketio.emit('starting client test', {'data': 'new client'}, namespace='/test', broadcast=True)
 
