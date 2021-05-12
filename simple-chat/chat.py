@@ -66,6 +66,7 @@ chats.start()
 @app.route('/', methods=["GET", "POST"])
 def index():
     welcome_message = "WELCOME"
+    # TODO loop over previous chat messages
     if request.method == 'POST':
         data = json.dumps(request.form)
         r.publish(REDIS_CHAN, data)

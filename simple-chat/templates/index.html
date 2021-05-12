@@ -30,29 +30,25 @@
 if ("WebSocket in window") {
     alert("WebSocket is supported by your Browser!");
     const client = new WebSocket('wss://cc-simple-chat.herokuapp.com:5000');
+
     client.onmessage = function(message) {
         const message_data = JSON.parse(message.data);
-    $("#chat-log").slideUp(2000).html().css("").stop().animate({
+    $("#chat-log").slideUp(2000).load(message_data).css("").stop().animate({
     scrollTop: $('#chat-log')[0].scrollHeight
   }, 800);
 };
 
 $("button").click = function(event) {
   event.preventDefault();
-  const handle = $("#handle")[0].value;
-  const text = $("#chat-text")[0].value;
-  client.send(JSON.stringify({ handle: handle, text: text }));
-  $.post("chat.asp"),
-      {
-          handle: handle,
-          text: text,
-      },
-      function(data,status){
-      $('#chat-log').append(data)
-          const code = status
-      };
   $(".text-input")[0].value = "";
 };}
+
+$("form").submit = function() {
+    const handle = $("#handle")[0].value;
+  const text = $("#chat-text")[0].value;
+  client.send(JSON.stringify({ handle: handle, text: text }));
+}
+
 </script>
 </body>
 </html>
