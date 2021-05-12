@@ -71,7 +71,7 @@ def echo_socket(ws):
 
 @app.route('/', methods=["GET", "POST"])
 def index():
-    welcome_message = os.environ.get("WELCOME")
+    welcome_message = "WELCOME"
     if request.method == 'POST':
         data = request.form
         r.publish(REDIS_CHAN, data)
