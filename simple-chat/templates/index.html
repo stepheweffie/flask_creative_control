@@ -39,7 +39,7 @@ $("#chat").on("submit", function(event) {
   event.preventDefault();
   var handle = $("#handle")[0].value;
   var text   = $("#chat-text")[0].value;
-  outbox.send(JSON.stringify({ handle: handle, text: text }));
+  socket.send(JSON.stringify({ handle: handle, text: text }));
   text[0].value = "";
 });
 </script>
