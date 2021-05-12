@@ -18,7 +18,7 @@
 <form id="chat" class="form-inline" action="/">
     <input type="text" id="handle"><input type="text" id="chat-text"><button type="submit" id="send">Send</button>
 </form>
-    <script type="text/javascript" src="{{ url_for('/static', filename='jquery-2.0.3.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-2.0.3.min.js') }}"></script>
 <script>
     // Support TLS-specific URLs, when appropriate.
 if (window.location.protocol == "https:") {
