@@ -12,12 +12,18 @@
 {{ welcome_message }}
 
 </ul>
+
 <br>
 <br>
+
 </div>
+
 <form id="chat" class="form-inline" action="/">
-    <input type="text" id="handle"><input type="text" id="chat-text"><button type="submit" id="send">Send</button>
+    <input type="text" id="handle"><br>
+    <input type="text" id="chat-text"><br>
+    <button type="submit" id="send">Send</button>
 </form>
+
     <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
      <script type="text/javascript" src="{{ url_for('static', filename='jquery-2.0.3.min.js') }}"></script>
 <script>
@@ -28,20 +34,20 @@ if (window.location.protocol == "https:") {
 
 if ("WebSocket in window") {
     const socket = new WebSocket(ws_scheme + location.host + "/");
-socket.onmessage = function(message) {
-  const message_data = JSON.parse(message.data);
+    socket.onmessage = function(message) {
+    const message_data = JSON.parse(message.data);
   $("#chat-log").append("<div class='panel panel-default'><div class='panel-heading'>" +
       $('<span/>').text(message_data.handle).html() + "</div><div class='panel-body'>" +
       $('<span/>').text(message_data.text).html() + "</div></div>");
-}}
+};
 
 $("#chat").on("submit", function(event) {
   event.preventDefault();
-  var handle = $("#handle")[0].value;
-  var text   = $("#chat-text")[0].value;
-  message.send(JSON.stringify({ handle: handle, text: text }));
+  const handle = $("#handle")[0].value;
+  const text = $("#chat-text")[0].value;
+  socket.send(JSON.stringify({ handle: handle, text: text }));
   text[0].value = "";
-});
+})}
 </script>
 </body>
 </html>
