@@ -77,9 +77,8 @@ def echo_socket(ws):
 
 @app.route('/', methods=["GET", "POST"])
 def index():
-    data = str(request.data)
     welcome_message = os.environ.get("WELCOME")
-    return render_template('index.html', data=json.dumps(data), welcome_message=welcome_message)
+    return render_template('index.html', welcome_message=welcome_message)
 
 
 @sockets.route('/submit')
