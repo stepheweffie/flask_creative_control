@@ -79,8 +79,6 @@ def echo_socket(ws):
 def index():
     data = str(request.data)
     welcome_message = os.environ.get("WELCOME")
-    if request.method == 'POST':
-        data = request.form
     return render_template('index.html', data=json.dumps(data), welcome_message=welcome_message)
 
 

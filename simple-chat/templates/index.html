@@ -6,17 +6,20 @@
 
   </head>
 <body>
-<div id="log">
+<div id="chat-log">
 <ul>
-{% for d in data %}
-  {{d |safe}}
-  {% endfor %}
+
+    {% for key,value in form.items() %}
+    <h2> {{key}}</h2>
+    <p> {{value}}</p>
+    {% endfor %}
+
 </ul>
 <br>
 <br>
 </div>
 <form id="chat" class="form-inline">
-  <input type="text" id="handle"><input type="text" id="data"><button type="submit" id="send" onclick="message">Send</button>
+  <input type="text" id="handle"><input type="text" id="chat-text"><button type="submit" id="send">Send</button>
 </form>
 
     <script type="text/javascript" src="static/js/jquery-2.0.3.min.js"></script>
