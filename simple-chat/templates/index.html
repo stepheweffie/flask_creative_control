@@ -6,6 +6,8 @@
 
   </head>
 <body>
+
+<div class="container">
 <div id="chat-log">
 <ul>
 
@@ -17,8 +19,6 @@
 <br>
 
 </div>
-<div class="container">
-
 <form id="chat" class="form-inline">
     <div class="row">
     <div class="col-sm-6 bg-success">
@@ -60,7 +60,8 @@ $("button").click = function(event) {
 $("form").submit = function() {
     const handle = $("#handle")[0].value;
     const text = $("#chat-text")[0].value;
-    client.send(JSON.stringify({ handle: handle, text: text }));
+    const msg = (JSON.stringify({ handle: handle, text: text, type: message}));
+    client.send(msg)
 }
 
 </script>
