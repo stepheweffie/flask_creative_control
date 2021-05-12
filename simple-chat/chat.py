@@ -58,7 +58,7 @@ chats = ChatBackend()
 chats.start()
 
 
-@sockets.route('/echo')
+@sockets.route('/')
 def echo_socket(ws):
     chats.register(ws)
     while not ws.closed:
