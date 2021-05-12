@@ -1,6 +1,7 @@
 from gevent import monkey
 monkey.patch_all()
 import gevent
+import json
 import os
 import redis
 # from flask_socketio import SocketIO
@@ -66,7 +67,7 @@ chats.start()
 def index():
     welcome_message = "WELCOME"
     if request.method == 'POST':
-        data = request.form
+        data = json.dumps(request.form)
         r.publish(REDIS_CHAN, data)
         # make socketio controller
     return render_template('index.html', welcome_message=welcome_message)
