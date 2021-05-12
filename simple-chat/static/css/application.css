@@ -1,4 +1,4 @@
-#chat-text {
+#chat-log {
   overflow: auto;
-  height: 50px;
+  height: auto;
 }
