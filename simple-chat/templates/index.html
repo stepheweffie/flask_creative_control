@@ -27,7 +27,7 @@ if (window.location.protocol == "https:") {
 };
 
 if ("WebSocket in window") {
-    const socket = new WebSocket(ws_scheme + location.host + "/echo");
+    const socket = new WebSocket(ws_scheme + location.host + "/");
 socket.onmessage = function(message) {
   const message_data = JSON.parse(message.data);
   $("#chat-log").append("<div class='panel panel-default'><div class='panel-heading'>" +
