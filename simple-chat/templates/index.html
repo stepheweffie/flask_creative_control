@@ -35,6 +35,7 @@
 </form>
 </div>
 <script>
+    $('.chat').draggable({ handle: 'form' });
 if ("WebSocket in window") {
     alert("WebSocket is supported by your Browser!");
     const client = new WebSocket('wss://cc-simple-chat.herokuapp.com:5000');
