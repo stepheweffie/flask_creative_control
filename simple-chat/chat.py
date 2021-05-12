@@ -80,7 +80,6 @@ def echo_socket(ws):
         message = ws.receive()
         if message:
             gevent.sleep(0.1)
-
             ws.send(message)
 
 

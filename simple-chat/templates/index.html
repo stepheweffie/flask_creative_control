@@ -18,7 +18,7 @@
 
 </div>
 
-<form id="chat" class="form-inline" action="/">
+<form method="POST" id="chat" class="form-inline" action="/">
     <input type="text" id="handle"><br>
     <input type="text" id="chat-text"><br>
     <button type="submit" id="send">Send</button>
@@ -27,29 +27,27 @@
     <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
      <script type="text/javascript" src="{{ url_for('static', filename='jquery-2.0.3.min.js') }}"></script>
 <script>
-    // Support TLS-specific URLs, when appropriate.
-if (window.location.protocol == "https:") {
-  var ws_scheme = "wss://";
-};
-
 if ("WebSocket in window") {
     alert("WebSocket is supported by your Browser!");
-    const ws = new WebSocket(ws_scheme + document.domain + "/");
-    ws.onmessage = function(evt) {
-    const message_data = JSON.parse(evt.data);
+    const client = new WebSocket('wss://cc-simple-chat.herokuapp.com:5000');
 
+    client.onmessage = function(evt) {
+        const handle = $("#handle")[0].value;
+        const text = $("#chat-text")[0].value;
+    const message_data = JSON.parse(evt.data);
+    client.send(JSON.stringify({ handle: handle, text: text }));
     $("#chat-log").append("<div class='panel panel-default'><div class='panel-heading'>" +
       $('<span/>').text(message_data.handle).html() + "</div><div class='panel-body'>" +
       $('<span/>').text(message_data.text).html() + "</div></div>");
+    $("#chat-log").stop().animate({
+    scrollTop: $('#chat-log')[0].scrollHeight
+  }, 800);
 };
 
-$("#chat").on("submit", function(event) {
+$("#send").onclick = function(event) {
   event.preventDefault();
-  const handle = $("#handle")[0].value;
-  const text = $("#chat-text")[0].value;
-  ws.send(JSON.stringify({ handle: handle, text: text }));
-  text[0].value = "";
-})}
+  $("#chat-text")[0].value = "";
+};}
 </script>
 </body>
 </html>
