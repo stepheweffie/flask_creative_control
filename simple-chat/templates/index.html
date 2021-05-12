@@ -7,7 +7,6 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
   </head>
 <body>
 
@@ -17,17 +16,17 @@
 </div>
 
 
-<div class="container-fluid" id="draggable">
+<div class="container-fluid">
 <form id="chat" class="form-inline">
-    <div class="row">
+    <div class="row" id="draggable">
     <div class="col-sm-6">
         <input type="text" id="handle" class="text-input">
     </div>
     <div class="col-sm-6">
         <input type="text" id="chat-text" class="text-input" placeholder="Chat away...">
     </div>
-  </div>
-    <button type="submit" id="send">Send</button>
+        <button type="submit" id="send">Send</button>
+    </div>
 </form>
 </div>
 
@@ -65,6 +64,7 @@ const msg = (JSON.stringify({ handle: handle, text: text, type: message}));
 
 $("button").click = function() {
     $('#chat-message').prepend('<div>'+msg.text+'</div>');
+    console.log('Connection open!');
     $('.text-input')[0].value = "";
 };}
 
