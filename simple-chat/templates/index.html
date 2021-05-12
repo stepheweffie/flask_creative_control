@@ -18,7 +18,7 @@
 
 </div>
 
-<form id="chat" class="form-inline" action="/">
+<form id="chat" class="form-inline">
     <input type="text" id="handle" class="text-input"><br>
     <input type="text" id="chat-text" class="text-input"><br>
     <button type="submit" id="send">Send</button>
@@ -31,23 +31,29 @@
 if ("WebSocket in window") {
     alert("WebSocket is supported by your Browser!");
     const client = new WebSocket('wss://cc-simple-chat.herokuapp.com:5000');
-
+    client.onopen = function(){
+    // Send a small message to the console once the connection is established */
+    console.log('Connection open!');
+};
+    client.onclose = function(){
+    console.log('Connection closed');
+};
     client.onmessage = function(message) {
         const message_data = JSON.parse(message.data);
-    $("#chat-log").slideUp(2000).load(message_data).css("").stop().animate({
-    scrollTop: $('#chat-log')[0].scrollHeight
-  }, 800);
+        $("#chat-log").slideUp(2000).append(message_data).css("").stop().animate({
+        scrollTop: $('#chat-log')[0].scrollHeight
+        }, 800);
 };
 
 $("button").click = function(event) {
-  event.preventDefault();
-  $(".text-input")[0].value = "";
+    event.preventDefault();
+    $(".text-input")[0].value = "";
 };}
 
 $("form").submit = function() {
     const handle = $("#handle")[0].value;
-  const text = $("#chat-text")[0].value;
-  client.send(JSON.stringify({ handle: handle, text: text }));
+    const text = $("#chat-text")[0].value;
+    client.send(JSON.stringify({ handle: handle, text: text }));
 }
 
 </script>
