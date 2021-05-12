@@ -14,9 +14,9 @@
 </div>
 <div class="container-fluid flex-container">
 <div id="chat-log" class="row">
-<ul>
+<div id="chat-message">
 
-</ul>
+</div>
 </div>
 </div>
 
@@ -35,7 +35,7 @@
 </div>
 
 <script>
-    $('.chat').draggable({ handle: 'form' });
+
 if ("WebSocket in window") {
     alert("WebSocket is supported by your Browser!");
     const client = new WebSocket('wss://cc-simple-chat.herokuapp.com:5000');
@@ -48,22 +48,21 @@ if ("WebSocket in window") {
 };
     client.onmessage = function(message) {
         const message_data = JSON.parse(message.data);
-        ("ul").innerHTML += message_data + "<br>";
-        $("#chat-log").slideUp(2000).css("").stop().animate({
-        scrollTop: $('#chat-log')[0].scrollHeight
-        }, 800);
+        $("#chat-log").slideUp(5000);
 };
+
+const handle = $("#handle")[0].value;
+const text = $("#chat-text")[0].value;
+const msg = (JSON.stringify({ handle: handle, text: text, type: message}));
 
 $("button").click = function(event) {
     event.preventDefault();
+    $('#chat-message').append('<div>'+msg.text+'</div>');
     $(".text-input")[0].value = "";
 };}
 
 $("form").submit = function() {
-    const handle = $("#handle")[0].value;
-    const text = $("#chat-text")[0].value;
-    const msg = (JSON.stringify({ handle: handle, text: text, type: message}));
-    client.send(msg)
+    client.send(msg);
 }
 
 </script>
