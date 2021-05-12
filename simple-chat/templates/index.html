@@ -36,7 +36,7 @@ $(function () {
 
 $(document).ready(function(){
     if ("WebSocket in window") {
-        const client = new WebSocket('wss://cc-simple-chat.herokuapp.com:5000');
+        const client = new WebSocket('wss://cc-simple-chat.herokuapp.com:5000/chat');
         client.onopen = function(){
         // Send a small message to the console once the connection is established */
         console.log('Connection open!');

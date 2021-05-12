@@ -74,7 +74,7 @@ def index():
     return render_template('index.html', welcome_message=welcome_message)
 
 
-@sockets.route('/')
+@sockets.route('/chat')
 def echo_socket(ws):
     chats.register(ws)
     while not ws.closed:
