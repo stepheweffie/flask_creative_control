@@ -11,4 +11,7 @@ form {
   font-size: 14px;
   cursor: move;
  }
-
+.flex-container {
+  display: flex;
+  flex-direction: column;
+}

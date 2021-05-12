@@ -10,7 +10,7 @@
   </head>
 <body>
 
-<div class="container-fluid">
+<div class="container-fluid flex-container">
 <div id="chat-log" class="row">
 <ul>
 
@@ -22,6 +22,9 @@
 <br>
 
 </div>
+</div>
+
+<div class="container-fluid">
 <form id="chat" class="form-inline">
     <div class="row">
     <div class="col-sm-6">
@@ -34,6 +37,7 @@
     <button type="submit" id="send">Send</button>
 </form>
 </div>
+
 <script>
     $('.chat').draggable({ handle: 'form' });
 if ("WebSocket in window") {
