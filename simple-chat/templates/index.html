@@ -15,7 +15,7 @@
 <br>
 <br>
 </div>
-<form id="chat" class="form-inline">
+<form id="chat" class="form-inline" action="/echo">
     <input type="text" id="handle"><input type="text" id="chat-text"><button type="submit" id="send">Send</button>
 </form>
 
@@ -24,19 +24,16 @@
     // Support TLS-specific URLs, when appropriate.
 if (window.location.protocol == "https:") {
   var ws_scheme = "wss://";
-} else {
-  var ws_scheme = "ws://"
 };
 
 if ("WebSocket in window") {
-    var echo = new WebSocket(ws_scheme + location.host + "/echo");
-}
-echo.onmessage = function(message) {
-  var data = JSON.parse(message.data);
+    const socket = new WebSocket(ws_scheme + location.host + "/echo");
+socket.onmessage = function(message) {
+  const message_data = JSON.parse(message.data);
   $("#chat-log").append("<div class='panel panel-default'><div class='panel-heading'>" +
-      $('<span/>').text(data.handle).html() + "</div><div class='panel-body'>" +
-      $('<span/>').text(data.text).html() + "</div></div>");
-};
+      $('<span/>').text(message_data.handle).html() + "</div><div class='panel-body'>" +
+      $('<span/>').text(message_data.text).html() + "</div></div>");
+}}
 
 $("#chat").on("submit", function(event) {
   event.preventDefault();

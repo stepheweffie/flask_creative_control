@@ -3,7 +3,7 @@ monkey.patch_all()
 import gevent
 import os
 import redis
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_sockets import Sockets
 REDIS_URL = os.environ.get('REDIS_URL')
 REDIS_CHAN = 'simple-chat'
@@ -73,6 +73,9 @@ def echo_socket(ws):
 @app.route('/', methods=["GET", "POST"])
 def index():
     welcome_message = os.environ.get("WELCOME")
+    if request.method == 'POST':
+        data = request.form
+
     return render_template('index.html', welcome_message=welcome_message)
 
 
