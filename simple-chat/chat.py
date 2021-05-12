@@ -65,7 +65,6 @@ def echo_socket(ws):
         gevent.sleep(0.1)
         message = ws.receive()
         if message:
-            r.publish(REDIS_CHAN, message)
             gevent.sleep(0.1)
             ws.send(message)
 
@@ -75,7 +74,8 @@ def index():
     welcome_message = os.environ.get("WELCOME")
     if request.method == 'POST':
         data = request.form
-
+        r.publish(REDIS_CHAN, data)
+        # make socketio controller
     return render_template('index.html', welcome_message=welcome_message)
 
 
