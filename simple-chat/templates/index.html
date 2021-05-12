@@ -23,7 +23,7 @@
 </div>
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid" id="draggable">
 <form id="chat" class="form-inline">
     <div class="row">
     <div class="col-sm-6">
@@ -37,12 +37,11 @@
 </form>
 </div>
 
-<script>
+<script type="text/javascript">
 
-$( init );
-function init() {
-  $('#chat').draggable();
-}
+$(function () {
+  $('#draggable').draggable();
+});
 
 if ("WebSocket in window") {
     const client = new WebSocket('wss://cc-simple-chat.herokuapp.com:5000');
@@ -62,8 +61,7 @@ const handle = $("#handle")[0].value;
 const text = $("#chat-text")[0].value;
 const msg = (JSON.stringify({ handle: handle, text: text, type: message}));
 
-$("button").click = function(event) {
-    event.preventDefault();
+$("button").click = function() {
     $('#chat-message').append('<div>'+msg.text+'</div>');
     $(".text-input")[0].value = "";
 };}
