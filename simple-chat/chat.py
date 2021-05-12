@@ -87,5 +87,5 @@ if __name__ == "__main__":
     from geventwebsocket.handler import WebSocketHandler as Handler
 
     server = pywsgi.WSGIServer(('https://cc-simple-chat.herokuapp.com', 5000), app, handler_class=Handler)
-    socket_server =
+
     server.serve_forever()
