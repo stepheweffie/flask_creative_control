@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -33,9 +34,6 @@
     <button type="submit" id="send">Send</button>
 </form>
 </div>
-
-<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
-
 <script>
 if ("WebSocket in window") {
     alert("WebSocket is supported by your Browser!");
@@ -49,7 +47,8 @@ if ("WebSocket in window") {
 };
     client.onmessage = function(message) {
         const message_data = JSON.parse(message.data);
-        $("#chat-log").slideUp(2000).append(message_data).css("").stop().animate({
+        ("ul").innerHTML += message_data + "<br>";
+        $("#chat-log").slideUp(2000).css("").stop().animate({
         scrollTop: $('#chat-log')[0].scrollHeight
         }, 800);
 };
