@@ -62,17 +62,6 @@ chats = ChatBackend()
 chats.start()
 
 
-@sockets.route('/')
-def echo_socket(ws):
-    chats.register(ws)
-    while not ws.closed:
-        gevent.sleep(0.1)
-        message = ws.receive()
-        if message:
-            gevent.sleep(0.1)
-            ws.send(message)
-
-
 @app.route('/', methods=["GET", "POST"])
 def index():
     welcome_message = "WELCOME"
@@ -83,10 +72,20 @@ def index():
     return render_template('index.html', welcome_message=welcome_message)
 
 
+@sockets.route('/')
+def echo_socket(ws):
+    chats.register(ws)
+    while not ws.closed:
+        gevent.sleep(0.1)
+        message = ws.receive()
+        if message:
+            gevent.sleep(0.1)
+
+            ws.send(message)
+
+
 if __name__ == "__main__":
     from gevent import pywsgi
     from geventwebsocket.handler import WebSocketHandler as Handler
-
     server = pywsgi.WSGIServer(('https://cc-simple-chat.herokuapp.com', 5000), app, handler_class=Handler)
-
     server.serve_forever()
