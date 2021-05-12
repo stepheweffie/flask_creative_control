@@ -1,5 +1,8 @@
-form {
-  position: absolute;
+
+#chat-log {
+  height: 100%;
+}
+#chat {
+  position: relative;
   bottom: 0;
-  left: 0;
 }
