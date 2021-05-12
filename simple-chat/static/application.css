@@ -3,7 +3,7 @@
   height: 100%;
 }
 #chat {
-  position: relative;
+  position: absolute;
   bottom: 0;
 }
 form {
@@ -19,6 +19,7 @@ form {
 .flex-container > div {
   background-color: #073B36;
   width: 60px;
+  height: 100%;
   margin: 2px;
   line-height: 75px;
   font-size: 30px;
