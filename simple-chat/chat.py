@@ -3,15 +3,15 @@ monkey.patch_all()
 import gevent
 import os
 import redis
-from flask_socketio import SocketIO
+# from flask_socketio import SocketIO
 from flask import Flask, render_template, request
 from flask_sockets import Sockets
 REDIS_URL = os.environ.get('REDIS_URL')
 REDIS_CHAN = 'simple-chat'
 # from websocket import create_connection
 
-socketio = SocketIO(manage_session=True, message_queue=REDIS_URL, channel=REDIS_CHAN)
-socketio.emit('starting client test', {'data': 'new client'}, namespace='/test', broadcast=True)
+# socketio = SocketIO(manage_session=True, message_queue=REDIS_URL, channel=REDIS_CHAN)
+# socketio.emit('starting client test', {'data': 'new client'}, namespace='/test', broadcast=True)
 
 app = Flask(__name__)
 sockets = Sockets(app)
