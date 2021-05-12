@@ -3,12 +3,15 @@ monkey.patch_all()
 import gevent
 import os
 import redis
+from flask_socketio import SocketIO
 from flask import Flask, render_template, request
 from flask_sockets import Sockets
 REDIS_URL = os.environ.get('REDIS_URL')
 REDIS_CHAN = 'simple-chat'
 # from websocket import create_connection
 
+socketio = SocketIO(manage_session=True, message_queue=REDIS_URL, channel=REDIS_CHAN)
+socketio.emit('starting client test', {'data': 'new client'}, namespace='/test', broadcast=True)
 
 app = Flask(__name__)
 sockets = Sockets(app)
@@ -84,5 +87,5 @@ if __name__ == "__main__":
     from geventwebsocket.handler import WebSocketHandler as Handler
 
     server = pywsgi.WSGIServer(('https://cc-simple-chat.herokuapp.com', 5000), app, handler_class=Handler)
-
+    socket_server =
     server.serve_forever()
