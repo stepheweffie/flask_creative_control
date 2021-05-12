@@ -9,7 +9,7 @@
   </head>
 <body>
 
-<div class="container">
+<div class="container-fluid">
 <div id="chat-log" class="row">
 <ul>
 
@@ -33,9 +33,9 @@
     <button type="submit" id="send">Send</button>
 </form>
 </div>
+
 <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
-<script type="text/javascript" src="{{ url_for('static', filename='jquery-2.0.3.min.js') }}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script>
 if ("WebSocket in window") {
     alert("WebSocket is supported by your Browser!");
