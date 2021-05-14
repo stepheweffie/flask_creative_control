@@ -67,7 +67,7 @@ chats.start()
 def index():
     welcome_message = "WELCOME"
     username = "Savant"
-    # TODO loop over previous chat messages
+    # TODO loop over previous chat messages or load them in html
     if request.method == 'POST':
         data = json.dumps(request.form)
         r.publish(REDIS_CHAN, data)
