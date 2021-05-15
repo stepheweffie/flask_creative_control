@@ -72,12 +72,11 @@ def index():
         data = json.dumps(request.form)
         r.publish(REDIS_CHAN, data)
         # make socketio controller
-    return render_template('index.html', welcome_message=welcome_message, usrname=username)
+    return render_template('index.html', welcome_message=welcome_message, username=username)
 
 
 @sockets.route('/chat')
 def echo_socket(ws):
-    chats.register(ws)
     while not ws.closed:
         gevent.sleep(0.1)
         message = ws.receive()
