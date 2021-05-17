@@ -52,20 +52,21 @@ $(document).ready(function(){
 };
     client.onmessage = function(message) {
         const message_data = JSON.parse(message.data);
-        $("#chat-log").slideUp(5000);
+        $('#chat-message').append('<div>'+message_data.text+'</div>');
+
 };
-    const handle = $("#handle")[0].value;
-    const text = $("#chat-text")[0].value;
-    const message = (JSON.stringify({ handle: handle, text: text, type: message}));
+// server
+const handle = $("#handle")[0].value;
+const text = $("#chat-text")[0].value;
+const message = (JSON.stringify({ handle: handle, text: text, type: message}));
 
 $("button").click = function() {
-    $('#chat-message').prepend('<div>'+message.text+'</div>');
     console.log('chatting...');
     $('.text-input')[0].value = "";
 };
 
 $("form").submit = function() {
-    client.send(msg);
+    client.send(message);
 }}})
 </script>
 
