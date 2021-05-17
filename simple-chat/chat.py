@@ -71,6 +71,7 @@ def index():
     if request.method == 'POST':
         data = json.dumps(request.form)
         r.publish(REDIS_CHAN, data)
+        return False 
         # make socketio controller
     return render_template('index.html', welcome_message=welcome_message, username=username)
 
