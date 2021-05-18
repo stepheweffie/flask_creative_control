@@ -21,11 +21,13 @@ const text = $("#chat-text")[0].value;
 const message = (JSON.stringify({ handle: handle, text: text, type: message}));
 
 $("button").click = function() {
-
     console.log('chatting...');
-    $('.text-input')[0].value = "";
 };
 
-$("form").onsubmit = function(event) {
-    event.preventDefault();
-    server.send(message);};
+$("#input-form").on("submit", function(event) {
+  event.preventDefault();
+  const handle = $("#handle")[0].value;
+  const text   = $("#chat-text")[0].value;
+  server.send(JSON.stringify({ handle: handle, text: text }));
+  $("#text-input")[0].value = "";
+});
