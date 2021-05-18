@@ -34,13 +34,8 @@
                 if (ws != null && ws.readyState == 1) {
                   ws.close();
                 }
-
                 let room_info = new URLSearchParams(new FormData(document.getElementById('chat-info'))).toString();
-                let ws_protocol = "wss://";
-                if (window.location.protocol == 'http:') {
-                    ws_protocol =  "ws://";
-                }
-                ws = new WebSocket('wss://cc-simple-chat.herokuapp.com:5000/chat');
+                ws = new WebSocket('wss://cc-simple-chat.herokuapp.com:5000/chat' + "/ws?" + room_info);
 
                 // Listen for the connection open event then call the sendMessage function
                 ws.onopen = function (e) {
