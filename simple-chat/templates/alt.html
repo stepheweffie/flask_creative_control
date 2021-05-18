@@ -40,7 +40,7 @@
                 if (window.location.protocol == 'http:') {
                     ws_protocol =  "ws://";
                 }
-                ws = new WebSocket(ws_protocol + window.location.host + "/ws?" + room_info);
+                ws = new WebSocket('wss://cc-simple-chat.herokuapp.com:5000/chat');
 
                 // Listen for the connection open event then call the sendMessage function
                 ws.onopen = function (e) {
