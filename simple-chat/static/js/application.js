@@ -2,7 +2,7 @@ $(document).ready(function(){
     if ("WebSocket in window") {
         const client = new ReconnectingWebSocket('wss://'+location.host+'/submit');
         const server = new ReconnectingWebSocket('wss://'+location.host+'/recieve');
-        client.onopen = function(){
+        client.onopen = function(event){
         // Send a small message to the console once the connection is established */
         console.log('Connection open!');
 };
