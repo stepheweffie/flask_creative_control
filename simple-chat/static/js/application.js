@@ -21,7 +21,7 @@ const handle = $("#handle")[0].value;
 const text = $("#chat-text")[0].value;
 const message = (JSON.stringify({ handle: handle, text: text, type: message}));
 
-$("button").click = function() {
+$("button").onclick = function() {
     console.log('chatting...');
 };
 
