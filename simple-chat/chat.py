@@ -90,8 +90,7 @@ def outbox(ws):
 
 
 if __name__ == "__main__":
-    sockets.run(app, message_queue=REDIS_URL, channel=REDIS_CHAN, debug=True)
     from gevent import pywsgi
     from geventwebsocket.handler import WebSocketHandler as Handler
-    server = pywsgi.WSGIServer(('https://cc-simple-chat.herokuapp.com', 5000), app, handler_class=Handler)
+    server = pywsgi.WSGIServer(('', 5000), app, handler_class=Handler)
     server.serve_forever()
