@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
     if ("WebSocket in window") {
-        const wsuri = (window.location.protocol=='https:'&&'wss://'||'ws://')+'cc-simple-chat.herokuapp.com:5000';
+        const wsuri = 'wss://'+'cc-simple-chat.herokuapp.com:5000';
         const client = new ReconnectingWebSocket(wsuri + '/submit');
         const server = new ReconnectingWebSocket(wsuri + '/recieve');
         client.onopen = function () {
