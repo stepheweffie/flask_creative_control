@@ -22,7 +22,7 @@ $(document).ready(function() {
         const text = $("#chat-text")[0].value;
         const message = (JSON.stringify({handle: handle, text: text, type: message}));
 
-        $("button").onclick = function () {
+        button_click = function () {
             console.log('chatting...');
         };
 
