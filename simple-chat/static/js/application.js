@@ -11,6 +11,7 @@ $(document).ready(function(){
 };
     client.onmessage = function(message) {
         const message_data = JSON.parse(message.data);
+        console.log('Message sent');
         $('#chat-message').append('<div><p>'+message_data.handle+': '+ message_data.text+'</p></div>');
         $("#chat-message").stop().animate({
     scrollTop: $('#chat-text')[0].scrollHeight
