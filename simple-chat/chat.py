@@ -4,7 +4,6 @@ import gevent
 import json
 import os
 import redis
-# from flask_socketio import SocketIO
 from flask import Flask, render_template, request
 from flask_sockets import Sockets
 REDIS_URL = os.environ.get('REDIS_URL')
