@@ -6,8 +6,12 @@ import os
 import redis
 from flask import Flask, render_template, request
 from flask_sockets import Sockets
-REDIS_URL = os.environ.get('REDIS_URL')
+from six.moves.urllib.parse import urlparse
+
+url = urlparse(os.environ.get("REDIS_URL"))
+REDIS_URL = os.environ.get('REDIS_URL', port=url.port)
 REDIS_CHAN = 'simple-chat'
+
 app = Flask(__name__)
 sockets = Sockets(app)
 r = redis.from_url(REDIS_URL)
