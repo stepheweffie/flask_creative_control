@@ -30,6 +30,7 @@ $(document).ready(function() {
             event.preventDefault();
             const handle = $("#handle")[0].value;
             const text = $("#chat-text")[0].value;
+            console.log(handle, text);
             server.send(JSON.stringify({handle: handle, text: text}));
             $("#text-input")[0].value = "";
         });
