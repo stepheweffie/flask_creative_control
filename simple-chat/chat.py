@@ -68,7 +68,7 @@ def index():
         data = json.dumps(request.form)
         r.publish(REDIS_CHAN, data)
         return False
-    return render_template('index.html', welcome_message=welcome_message, username=username)
+    return render_template('index.html', welcome_message=welcome_message, username=username, url=url)
 
 
 @sockets.route('/submit')
