@@ -9,7 +9,7 @@ from flask_sockets import Sockets
 from six.moves.urllib.parse import urlparse
 
 url = urlparse(os.environ.get("REDIS_URL"))
-REDIS_URL = os.environ.get('REDIS_URL', port=url.port)
+REDIS_URL = os.environ.get('REDIS_URL')
 REDIS_CHAN = 'simple-chat'
 
 app = Flask(__name__)
