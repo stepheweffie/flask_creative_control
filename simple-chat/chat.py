@@ -67,17 +67,6 @@ def index():
         return False
     return render_template('index.html', welcome_message=welcome_message, username=username)
 
-'''
-@sockets.route('/chat')
-def echo_socket(ws):
-    while not ws.closed:
-        gevent.sleep(0.1)
-        message = ws.receive()
-        if message:
-            gevent.sleep(0.1)
-            ws.send(message)
-'''
-
 
 @sockets.route('/submit')
 def inbox(ws):
