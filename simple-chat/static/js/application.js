@@ -22,10 +22,6 @@ $(document).ready(function() {
         const text = $("#chat-text")[0].value;
         const message = (JSON.stringify({handle: handle, text: text, type: message}));
 
-        button_click = function () {
-            console.log('chatting...');
-        };
-
         $("#input-form").on("submit", function (event) {
             event.preventDefault();
             const handle = $("#handle")[0].value;

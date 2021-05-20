@@ -14,7 +14,7 @@
         <input type="text" id="chat-text" class="text-input" placeholder="Chat away...">
     </div>
     <div class="col-sm-2">
-    <button onclick="button_click()" type="submit" id="send">Send</button>
+    <button onclick="" type="submit" id="send">Send</button>
     </div>
     </div>
 </form>
@@ -31,6 +31,9 @@ messages here
  <div class="modal" id="myModal">
 {% include 'modal.html' %}
  </div>
-
+<script>
+button_click = function () {
+            console.log('chatting...');
+        };
+</script>
 {% endblock %}
-
