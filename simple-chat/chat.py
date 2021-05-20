@@ -11,7 +11,7 @@ REDIS_URL = os.environ.get('REDIS_URL')
 REDIS_CHAN = 'simple-chat'
 app = Flask(__name__)
 sockets = Sockets(app)
-r = redis.from_url(REDIS_URL, ssl=True, ssl_cert_reqs=None)
+r = redis.from_url(REDIS_URL)
 
 
 class ChatBackend(object):
