@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{{ super() }}
+<script type="text/javascript" src="js/stuff.js"></script>
+<script language="javascript" type="text/javascript">
+
+  function browserDetect()
+  {
+    document.getElementById("browserType").innerHTML = BrowserDetect.browser + ' ' + BrowserDetect.version;
+    document.getElementById("platform").innerHTML = BrowserDetect.OS;
+
+    if (window.WebSocket)
+    {
+      document.getElementById("wsSupportImg").src = "img/check.png"
+    }
+    else
+    {
+      document.getElementById("wsSupportImg").src = "img/cross.png"
+    }
+  }
+
+  // Handle difference for IE.
+
+  if (window.addEventListener)
+	{
+  window.addEventListener("load", browserDetect, false);
+	}
+ else if (window.attachEvent)
+	{
+    window.attachEvent("onload", browserDetect)
+	}
+</script>
+
+<!-- <div id="top-compat-box">
+ <p>Does your browser<br>support WebSocket?</p>
+ <div id="top-compat-info-box">
+   <div id="top-compat-info">
+     <span id="browserType"></span><br>
+     <span id="platform"></span>
+   </div>
+   <div id="top-compat-image">
+     <a href="echo.html"><img src="img/clear.png" id="wsSupportImg" alt="" width="25" height="25" border="0"></a>
+   </div>
+   <div class="clearfix"></div>
+ </div>
+</div> -->
+{% block content %}
+<section id="after-intro" class="page-wrapper light-bg">
+  <div class="container">
+      {{ welcome_message }}, {{ username }}, {{ url }}
+    <div class="row page-content article">
+      <h2>Echo Test</h2>
+      <p>
+      The first section of this page will let you do an HTML5 WebSocket test against the echo server. The second section walks you through creating a WebSocket application yourself.
+      </p>
+      <p>
+We host a WebSocket Echo Server at <b>ws://demos.kaazing.com/echo</b> which additionally supports <b>Binary</b> requests ("Blob", "Array Buffer" and "Byte Buffer").  The Kaazing Echo Demo which supports these requests, as well demos for AMQP and JMS can be found <a href="http://kaazing.com/demos/">here</a>.
+      </p>
+      You can also <a href="http://blog.kaazing.com/2012/05/09/inspecting-websocket-traffic-with-chrome-developer-tools/">inspect WebSocket messages</a> using your browser.
+      </p>
+      <h3>Try it out!</h3>
+      <div id="webSocketSupp">
+          <div style="float: left;">
+            <img src="img/check.png" width="36" height="36" align="absmiddle">
+          </div>
+          <div style="float: left; width: 600px; margin-left: 10px; position:relative; top: 8px;">
+            This browser supports WebSocket.
+          </div>
+          <div class="clearfix"></div>
+        </div>
+
+        <div id="top-compat-box" style="display:none;">
+          <p>Does your browser<br>support WebSocket?</p>
+          <div id="top-compat-info-box">
+           <div id="top-compat-info">
+             <span id="browserType"></span><br>
+             <span id="platform"></span>
+           </div>
+           <div id="top-compat-image">
+             <a href="echo.html"><img src="img/clear.png" id="wsSupportImg" alt="" width="25" height="25" border="0"></a>
+           </div>
+           <div class="clearfix"></div>
+          </div>
+          </div>
+
+        <div id="noWebSocketSupp">
+          <div style="float: left;">
+            <img src="img/cross.png" width="36" height="36" align="absmiddle">
+          </div>
+          <div style="float: left; width: 600px; margin-left: 10px;">
+            <p>Uh-oh, the browser you're using doesn't have native support for WebSocket. That means you can't run this demo.</p>
+            <p>The following link lists the browsers that support WebSocket:</p>
+            <p><a href="http://caniuse.com/#feat=websockets">http://caniuse.com/#feat=websockets</a></p>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+
+        <div id="echo">
+          <div id="echo-config" style="float: left;">
+            <strong>Location:</strong><br>
+            <input class="draw-border" id="wsUri" size="35">
+            <br>
+            <!-- <input class="draw-border echo-checkbox" type="checkbox" id="secureCb" onClick="toggleTls();"><br>
+            <span id="secureCbLabel" style="font-size: smaller; color: black;">Use secure WebSocket (TLS)</span><br> -->
+            <button class="echo-button" id="connect">Connect</button>
+            <button class="echo-button" id="disconnect">Disconnect</button>
+            <br>
+            <br>
+            <strong>Message:</strong><br>
+            <input class="draw-border" id="sendMessage" size="35" value="Rock it with HTML5 WebSocket">
+            <br>
+            <button class="echo-button" id="send" class="wsButton">Send</button>
+          </div>
+          <div id="echo-log" style="float: left; margin-left: 20px; padding-left: 20px; width: 350px; border-left: solid 1px #cccccc;"> <strong>Log:</strong>
+            <div id="consoleLog"></div>
+            <button class="echo-button" id="clearLogBut" style="position: relative; top: 3px;">Clear log</button>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <br/>
+        <h4>Instructions</h4>
+        <ol>
+          <li>
+            Press the <b>Connect</b> button.
+          </li>
+          <li>
+            Once connected, enter a message and press the <b>Send</b> button. The output will appear in the <b>Log</b> section. You can change the message and send again multiple times.
+          </li>
+          <li>
+            Press the <b>Disconnect</b> button.
+          </li>
+        </ol>
+        <b>Note:</b> In some environments the WebSocket connection may fail due to intermediary firewalls, proxies, routers, etc.
+        <br/><br/>
+        <h2>Creating your own test</h2>
+          <p>
+            Using a text editor, copy the following code and save it as <b>websocket.html</b> somewhere on your hard drive. Then simply open it in a browser. The page will automatically connect, send a message, display the response, and close the connection..
+          </p>
+          <pre class="prettyprint text-left">
+  &lt;!DOCTYPE html&gt;
+  &lt;meta charset="utf-8" /&gt;
+  &lt;title&gt;WebSocket Test&lt;/title&gt;
+  &lt;script language="javascript" type="text/javascript"&gt;
+
+  var wsUri = &quot;wss://echo.websocket.org/&quot;;
+  var output;
+
+  function init()
+  {
+    output = document.getElementById(&quot;output&quot;);
+    testWebSocket();
+  }
+
+  function testWebSocket()
+  {
+    websocket = new WebSocket(wsUri);
+    websocket.onopen = function(evt) { onOpen(evt) };
+    websocket.onclose = function(evt) { onClose(evt) };
+    websocket.onmessage = function(evt) { onMessage(evt) };
+    websocket.onerror = function(evt) { onError(evt) };
+  }
+
+  function onOpen(evt)
+  {
+    writeToScreen(&quot;CONNECTED&quot;);
+    doSend(&quot;WebSocket rocks&quot;);
+  }
+
+  function onClose(evt)
+  {
+    writeToScreen(&quot;DISCONNECTED&quot;);
+  }
+
+  function onMessage(evt)
+  {
+    writeToScreen('&lt;span style=&quot;color: blue;&quot;&gt;RESPONSE: ' + evt.data+'&lt;/span&gt;');
+    websocket.close();
+  }
+
+  function onError(evt)
+  {
+    writeToScreen('&lt;span style=&quot;color: red;&quot;&gt;ERROR:&lt;/span&gt; ' + evt.data);
+  }
+
+  function doSend(message)
+  {
+    writeToScreen(&quot;SENT: &quot; + message);
+    websocket.send(message);
+  }
+
+  function writeToScreen(message)
+  {
+    var pre = document.createElement(&quot;p&quot;);
+    pre.style.wordWrap = &quot;break-word&quot;;
+    pre.innerHTML = message;
+    output.appendChild(pre);
+  }
+
+  window.addEventListener(&quot;load&quot;, init, false);
+
+  &lt;/script&gt;
+
+  &lt;h2&gt;WebSocket Test&lt;/h2&gt;
+
+  &lt;div id=&quot;output&quot;&gt;&lt;/div&gt;
+          </pre>
+
+    </div>
+  </div>
+</section>
+{% endblock %}
+<script src='js/echo.js'></script>
