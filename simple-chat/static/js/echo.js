@@ -135,7 +135,7 @@
     }
     console.log(uri);
     const HOST = location.origin.replace(/^https/, 'ws');
-    const websocket = new ReconnectingWebSocket(HOST + '/submit');
+    const websocket = new WebSocket(HOST + '/submit');
     websocket.onopen = function(evt) { onOpen(evt) };
     websocket.onclose = function(evt) { onClose(evt) };
     websocket.onmessage = function(evt) { onMessage(evt) };
@@ -247,17 +247,5 @@
     }
   }
 
-/*  function getSecureTag()
-  {
-    if (secureCb.checked)
-    {
-      return '<img src="img/tls-lock.png" width="6px" height="9px"> ';
-    }
-    else
-    {
-      return '';
-    }
-  }
-*/
 
 window.addEventListener('load', echoHandlePageLoad, false);
