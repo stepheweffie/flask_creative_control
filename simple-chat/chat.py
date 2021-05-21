@@ -63,26 +63,28 @@ chats.start()
 def index():
     welcome_message = "WELCOME"
     username = "Savant"
+    # sockets_vals = request.app['websockets']
     # TODO loop over previous chat messages or load them in html
     if request.method == 'POST':
         data = json.dumps(request.form)
         r.publish(REDIS_CHAN, data)
-        sockets_vals = request.app['websockets'].values()
         return False
-    return render_template('index.html', welcome_message=welcome_message, username=username, url=url, sockets=sockets_vals)
+    return render_template('index.html', welcome_message=welcome_message, username=username, url=url)
 
 
 @sockets.route('/submit')
 def inbox(ws):
     """Receives incoming chat messages, inserts them into Redis."""
+    
     while not ws.closed:
         # Sleep to prevent *constant* context-switches.
-        gevent.sleep(0.1)
+        
         message = ws.receive()
 
         if message:
             app.logger.info(u'Inserting message: {}'.format(message))
             r.publish(REDIS_CHAN, message)
+            gevent.sleep(0.1)
 
 
 @sockets.route('/receive')
@@ -91,7 +93,7 @@ def outbox(ws):
     chats.register(ws)
     while not ws.closed:
         # Context switch while `ChatBackend.start` is running in the background.
-        gevent.sleep(0.1)
+        gevent.wait()
 
 
 if __name__ == "__main__":
