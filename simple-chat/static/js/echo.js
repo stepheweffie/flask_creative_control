@@ -133,7 +133,7 @@
     } else {
       uri += '&encoding=text';
     }
-    websocket = new WebSocket(uri);
+    const websocket = new ReconnectingWebSocket(uri  + '/submit');
     websocket.onopen = function(evt) { onOpen(evt) };
     websocket.onclose = function(evt) { onClose(evt) };
     websocket.onmessage = function(evt) { onMessage(evt) };

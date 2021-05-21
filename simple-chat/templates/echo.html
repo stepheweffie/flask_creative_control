@@ -8,14 +8,6 @@
     document.getElementById("browserType").innerHTML = BrowserDetect.browser + ' ' + BrowserDetect.version;
     document.getElementById("platform").innerHTML = BrowserDetect.OS;
 
-    if (window.WebSocket)
-    {
-      document.getElementById("wsSupportImg").src = "img/check.png"
-    }
-    else
-    {
-      document.getElementById("wsSupportImg").src = "img/cross.png"
-    }
   }
 
   // Handle difference for IE.
