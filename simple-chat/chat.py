@@ -3,6 +3,7 @@ monkey.patch_all()
 import gevent
 import json
 import os
+from os import environ
 import redis
 from flask import Flask, render_template, request
 from flask_sockets import Sockets
@@ -65,8 +66,11 @@ def index():
     username = "Savant"
     # sockets_vals = request.app['websockets']
     # TODO loop over previous chat messages or load them in html
+    if environ['PATH_INFO'] == "/submit":
+        inbox(environ['wsgi.websocket'])
     if request.method == 'POST':
         data = json.dumps(request.form)
+        # tests connection for now in Heroku logs
         r.publish(REDIS_CHAN, data)
         return False
     return render_template('echo.html', welcome_message=welcome_message, username=username, url=url)
