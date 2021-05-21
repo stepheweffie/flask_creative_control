@@ -87,7 +87,7 @@
 //      secureCb.checked = true;
     }
     var wsPort = (window.location.port.toString() == '' ? '' : ':'+window.location.port)
-    wsUri.value = wsScheme+'//echo.websocket.org'+wsPort
+    wsUri.value = wsScheme+'//patron-press-simple-chat.herokuapp.com'+wsPort
   }
 
 /*  function toggleTlS()
