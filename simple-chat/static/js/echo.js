@@ -86,7 +86,7 @@
       wsScheme = 'wss:';
 //      secureCb.checked = true;
     }
-    var wsPort = (window.location.port.toString() == '' ? '' : ':'+window.location.port)
+    var wsPort = (window.location.port.toString() == '' ? '' : ':'+window.location.port);
     wsUri.value = wsScheme+'//patron-press-simple-chat.herokuapp.com'+wsPort
   }
 
