@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {{ super() }}
 
-{% block body %}
+{% block content %}
 <div class="container-fluid welcome-message">
 {{ welcome_message }}, {{ username }}, {{ url }}
 </div>
@@ -32,9 +32,9 @@ messages here
 <div class="modal" id="myModal">
 {% include 'modal.html' %}
 </div>
+{% endblock %}
 <script>
 button_click = function () {
             console.log('chatting...');
         };
 </script>
-{% endblock %}
