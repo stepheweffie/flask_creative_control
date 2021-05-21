@@ -67,8 +67,9 @@ def index():
     if request.method == 'POST':
         data = json.dumps(request.form)
         r.publish(REDIS_CHAN, data)
+        sockets_vals = request.app['websockets'].values()
         return False
-    return render_template('index.html', welcome_message=welcome_message, username=username, url=url)
+    return render_template('index.html', welcome_message=welcome_message, username=username, url=url, sockets=sockets_vals)
 
 
 @sockets.route('/submit')
