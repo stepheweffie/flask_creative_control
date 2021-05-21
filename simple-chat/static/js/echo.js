@@ -133,7 +133,9 @@
     } else {
       uri += '&encoding=text';
     }
-    const websocket = new ReconnectingWebSocket(uri  + '/submit');
+    console.log(uri);
+    const HOST = location.origin.replace(/^http/, 'ws');
+    const websocket = new ReconnectingWebSocket(HOST + '/submit');
     websocket.onopen = function(evt) { onOpen(evt) };
     websocket.onclose = function(evt) { onClose(evt) };
     websocket.onmessage = function(evt) { onMessage(evt) };
