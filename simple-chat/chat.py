@@ -3,7 +3,7 @@ monkey.patch_all()
 import gevent
 import json
 import os
-from os import environ
+# from os import environ
 import redis
 from flask import Flask, render_template, request
 from flask_sockets import Sockets
@@ -11,11 +11,12 @@ from six.moves.urllib.parse import urlparse
 
 url = urlparse(os.environ.get("REDIS_URL"))
 REDIS_URL = os.environ.get('REDIS_URL')
-REDIS_CHAN = 'simple-chat'
+REDIS_CHAN = os.environ.get('REDIS_CHAN')
 
 app = Flask(__name__)
 sockets = Sockets(app)
 r = redis.from_url(REDIS_URL)
+p = r.pubsub()
 
 
 class ChatBackend(object):
@@ -23,7 +24,7 @@ class ChatBackend(object):
 
     def __init__(self):
         self.clients = list()
-        self.pubsub = r.pubsub()
+        self.pubsub = p
         self.pubsub.subscribe(REDIS_CHAN)
 
     def __iter_data(self):
@@ -66,10 +67,9 @@ def index():
     username = "Savant"
     # sockets_vals = request.app['websockets']
     # TODO loop over previous chat messages or load them in html
-    if environ['PATH_INFO'] == "/submit":
-        inbox(environ['wsgi.websocket'])
     if request.method == 'POST':
         data = json.dumps(request.form)
+
         # tests connection for now in Heroku logs
         r.publish(REDIS_CHAN, data)
         return False

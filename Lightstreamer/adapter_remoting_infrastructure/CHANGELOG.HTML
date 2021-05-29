@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lightstreamer Adapter Remoting Infrastructure Changelog</title>
+    
+    <style type="text/css">
+body {
+   font-family: Verdana,Arial,sans-serif
+}
+
+#wrap {
+   max-width: 980px;
+   margin: 0 auto
+}
+
+a,a:visited {
+   color: #006600;
+   font-size: 14px
+}
+a:hover {
+   color: #660000;
+   text-decoration: none
+}
+
+ul {
+   padding: 0 40px 5px 50px;
+   margin: 0;
+   font-size: 14px
+}
+
+.prettyprint {
+   border: 0px !important;
+}
+
+li {
+   margin-bottom: 5px
+}
+
+div.text {
+   margin-left: 20px;
+   margin-right: 20px;
+}
+
+div#summary>ul {
+   padding: 10px 40px 20px 40px;
+   margin: 0;
+   font-size: 14px
+}
+
+div#summary>ul>li {
+   margin-bottom: 3px
+}
+
+h4 {
+   font-size: 17px; 
+   line-height: 20px; 
+   font-weight: normal;
+   margin-bottom: 0px;
+}
+
+p {
+   font-size: 15px;
+   line-height: 20px;
+}
+
+li {
+   font-size: 15px; 
+}
+
+div#title {
+   font-size: 42px;
+   font-weight: bold;
+   color: #fff;
+   text-align: left;
+   margin: 0;
+   background: #689A68;
+   padding: 10px 20px 10px 20px;
+   border-radius: 8px 8px 0 0
+}
+div#summary {font-size: 18px; font-weight: normal; color: #333; text-align: left; margin-bottom: 30px; background: #B6CF87; padding: 20px 20px 0 20px; border-radius: 0 0 8px 8px}
+div.box {margin-top: 30px; border-radius: 8px; border-style: solid; border-width: 1px; border-color: #689A68; overflow: hidden}
+div.component {font-size: 24px; font-weight: bold; color: #fff; text-align: left; padding: 8px 20px 8px 20px; background: #689A68}
+div.version {font-size: 18px; font-weight: bold; color: #333; text-align: left; background: #B6CF87; margin: 25px 10px 0 10px; padding: 10px; border-radius: 8px 8px 0 0}
+div.compatibility {font-size: 14px; color: #444; margin: 0 10px 0 10px; padding: 2px 10px 2px 10px; background: #ECE981}
+div.date {font-size: 14px; font-weight: bold; color: #689A68; margin: 0 10px 7px 10px; padding: 5px 10px 10px 10px; background: #ECE981; border-radius: 0 0 8px 8px}
+span.compatibility {font-size: 13px; line-height: 18px; color: #A81600; display: block}
+
+div.subsectionTitle {font-size: 17px; font-weight: bold; color: #333; text-align: left; margin: 10px 20px 6px 20px}
+    </style>
+        
+</head>
+
+<body>
+<div id="wrap">
+<div class="box">
+<div id="title" style="font-size: 36px;">Adapter Remoting Infrastructure CHANGELOG</div>
+
+
+<!-- ======================================================================================== -->
+<!-- ======================================================================================== -->
+<!-- ======================================================================================== -->
+
+
+<div class="version">1.9.8 build 118</div>
+<div class="compatibility">Compatible with Lightstreamer Server since 7.1.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="compatibility">Compatible with Remote Servers based on the previous version.</div>
+<div class="date">Released on 25 Sep 2020</div>
+
+<div class="text">
+
+<p>Moved the "adapter_remoting_infrastructure" folder, which includes the provided
+   resources, from inside the old "DOCS-SDKs" to the main "Lightstreamer" folder.
+   Also renamed the subfolders used to contain the templates of adapters.xml for the
+   configuration of remote Adapters.<br/>
+   This local changelog has also been separated from the Server changelog and placed
+   in the "adapter_remoting_infrastructure" folder.</p>
+
+</div>
+
+
+<div class="version">1.9.7 build 116</div>
+<div class="compatibility">Compatible with Lightstreamer Server since 7.1.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="compatibility">Compatible with Remote Servers based on the previous version.</div>
+<div class="date">Released on 27 May 2020</div>
+
+<div class="text">
+
+<p>Fixed a NPE that could occur in the Robust Metadata Adapter Proxy
+   when failing to connect due to unexpected interruption of the underlying
+   server socket. As a consequence, the Proxy would give up retrying.</p>
+
+<p>Improved the handling of changes in the keystore, when configured to enforce
+   TLS encryption on the connections with the Remote counterpart. Changes are now
+   immediately detected also when the Proxy is currently waiting for connections.</p>
+
+</div>
+
+
+<div class="version">1.9.6 build 113</div>
+<div class="compatibility">Compatible with Lightstreamer Server since 7.1.</div>
+<div class="compatibility">May not be compatible with configuration files for the previous version;
+   see the compatibility notes below.</div>
+<div class="compatibility">May not be compatible with Remote Servers based on the previous version;
+   see the compatibility notes below.</div>
+<div class="date">Released on 24 Jan 2020</div>
+
+<div class="text">
+
+<p>Discontinued the support for old Remote Adapters targeted to
+   Adapter Remoting Infrastructure version up to 1.4.x. The backward compatibility
+   mode was triggered by setting the "init_remote" parameter to false. Now this
+   setting will cause the Proxy Adapter startup to fail.
+   <span class="compatibility">COMPATIBILITY NOTE: Existing installations using
+   very old Remote Adapter SDKs that require Adapter Remoting Infrastructure version
+   1.4.3 or earlier cannot be upgraded, until the Remote Adapter SDK is also
+   upgraded to a more recent version.</span></p>
+
+<p>Revised the support for custom configuration parameters defined in adapters.xml
+   and forwarded to the Remote Adapter upon initialization. All parameter names without
+   a ':' character are now reserved. To enforce this, the prefix specified in the
+   "remote_params_prefix" parameter must also contain a ':' character, although the
+   indication of an empty prefix is still supported.
+   <span class="compatibility">COMPATIBILITY NOTE: If custom parameters are used and they
+   don't contain a ':', they should be renamed, and the specified "remote_params_prefix"
+   should be changed accordingly. As a consequence, the Remote Adapter should also be modified.
+   However, by specifying an empty prefix in "remote_params_prefix" the names can be kept,
+   but name conflicts with new reserved parameters, with unpredictable consequences,
+   will become possible.</span></p>
+
+<p>Introduced the support for TLS encrypted connections from the Remote Adapters.
+   This is enabled by the new "tls" parameter, available independently for each
+   Remote Adapter in the corresponding &lt;metadata_provider&gt; or &lt;data_provider&gt;
+   block in adapters.xml. Further parameters are available for the configuration
+   of the certificate and the handshake preferences; see the sample adapters.xml files
+   for details.</p>
+
+<p>Introduced the support for authentication of the Remote Adapters based on user/password
+   credentials. This is enabled by the new "auth" parameter, available independently for each
+   Remote Adapter in the corresponding &lt;metadata_provider&gt; or &lt;data_provider&gt;
+   block in adapters.xml. Further parameters are available for the configuration
+   of the credentials; see the sample adapters.xml files for details.</p>
+
+<p>Allowed the &lt;install_dir&gt; configuration element for all Proxy Adapters,
+   to better support the new configuration options. Previously it was refused with
+   an error when &lt;classloader&gt; was set to "log-enabled".</p>
+
+<p>Revised the initialization phase, in which the connections from the Remote Adapters
+   are expected. Now multiple connections may be accepted and evaluated concurrently
+   on the same listening port, although only one per port will eventually be elected
+   and the others will be closed. If authentication is configured, a connection will be
+   elected only after successful authentication. However, after electing a connection,
+   the listening port will be closed, as before.<br/>
+   Modified the meaning of the "connection_recovery_timeout_millis" setting for Robust
+   Proxy Adapters accordingly.<br/>
+   Note that the log of the initialization phase may be quite different than before.</p>
+
+<p>Enabled the support for multiple protocol versions, to allow for backward compatibility
+   with the Remote Servers upon future extensions. To achieve this, a proper
+   initialization parameter is sent to the remote counterpart.
+   <span class="compatibility">COMPATIBILITY NOTE: Existing Remote Servers
+   based on previous Remote Adapter SDKs are still supported. They will just forward
+   the additional "ARI.version" parameter to the Remote Adapter upon initialization,
+   which is not supposed to hurt the Adapter (BTW, in the unlikely case
+   that the same parameter were supplied to a Remote Adapter by the Remote Application,
+   as possible with some SDKs, the supplied value would be preserved
+   and no changes at all would occur).</span></p>
+
+<p>Introduced the indication to the remote counterpart of the suggested time for
+   keepalive messages (when needed), through a proper initialization parameter.
+   Recent Remote Adapter SDKs can obey the suggestion instead of using a custom time.
+   <span class="compatibility">COMPATIBILITY NOTE: Existing Remote Servers
+   based on previous Remote Adapter SDKs will (if received) forward the additional
+   "keepalive_hint.millis" parameter to the Remote Adapter upon initialization,
+   which is not supposed to hurt the Adapter (BTW, in the unlikely case
+   that the same parameter were supplied to a Remote Adapter by the Remote Application,
+   as possible with some SDKs, the supplied value would be preserved
+   and no changes at all would occur).</span>
+   Added the "keepalive_hint_millis" parameter in both the &lt;metadata_provider&gt;
+   and &lt;data_provider&gt; block in adapters.xml, to customize the suggested
+   keepalive time instead of using a library-determined default.</p>
+
+<p>Added the "notify_user_on_disconnection" parameter for the Robust Proxy Metadata Adapter
+   and, when set, enforced the consistency with "notify_user_disconnection_code".
+   Added, in particular, the possibility to have Lightstreamer Server instruct the Client
+   to retry when the Remote Metadata Adapter is disconnected.</p>
+
+<p>Extended the client context provided to the remote counterpart upon the
+   notifyNewSession invocations, by adding the CLIENT_TYPE and
+   CLIENT_VERSION keys, with information on the Client SDK in use.</p>
+
+<p>Fixed the implementation of the activity (or keepalive) check, which could
+   have been heavy in case of very frequent request or update rates. This only
+   affected the cases in which the "keepalive_timeout_millis" setting was leveraged.</p>
+
+<p>Improved logging of the connection phase, with information on the remote side,
+   which was missing.<br/>
+   Improved activity and error logging.</p>
+
+<p>Changed the suggested settings for some of the dedicated thread pools
+   in the adapters.xml templates, and revised the count of queued tasks,
+   according to ARI specificities.<br/>
+   Fixed the documentation of &lt;authentication_pool&gt; and &lt;messages_pool&gt;
+   to account for changes introduced in ARI version 1.8.0.</p>
+
+</div>
+
+
+<div class="version">1.8.1 build 84</div>
+<div class="compatibility">Compatible with Lightstreamer Server since 7.0.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="compatibility">Compatible with Remote Servers based on the previous version.</div>
+<div class="date">Released on 28 Feb 2018</div>
+
+<div class="text">
+
+<p>Added a new configuration parameter, "keepalive_timeout_millis", for both Proxy
+Metadata and Data Adapters. The new configuration allows to set a timeout for received
+data and keepalives from the Remote Adapters to detect unresponsive connections
+(that will be handled differently by the "robust" and "non robust" versions.
+See the sample adapters.xml files for details.</p>
+
+<p>Aligned the protocol documentation to comply with current licensing policies.</p>
+
+</div>
+
+
+<div class="version">1.8.0 build 77</div>
+<div class="compatibility">Compatible with Lightstreamer Server since 7.0 b2.</div>
+<div class="compatibility">May not be compatible with configuration files for the previous version;
+   see the compatibility notes below.</div>
+<div class="compatibility">May not be compatible with Remote Servers based on the previous version;
+   see the compatibility notes below.</div>
+<div class="date">Released on 20 Dec 2017</div>
+
+<div class="text">
+
+<p>Modified the communication protocol for the Remote Metadata Adapters
+   in the part related to the MPN Module, after its full revision.
+   <span class="compatibility">COMPATIBILITY NOTE: Only if the MPN Module
+   is enabled, existing Remote Metadata Adapters based on the current SDKs
+   have to be ported to the new versions of the SDKs.</span></p>
+
+<p>Changed the default of the &lt;sequentialize_table_notifications&gt; flag
+   available in adapters.xml from Y to N, to better cope with cases in which
+   many subscriptions are performed at once. <span class="compatibility">
+   COMPATIBILITY NOTE: If any existing Remote Metadata Adapter relies on the invocations
+   of notifyNewTables and notifyTablesClose for the same session to never overlap,
+   ensure that the flag is explicitly configured as Y for this Adapter.</span></p>
+
+<p>Improved some error messages.</p>
+
+<p>Changed the preconfigured settings for the dedicated thread pools in the
+   adapters.xml templates, to leverage the new defaults for the SERVER pool.</p>
+
+</div>
+
+
+<div class="version">1.7.2 build 73</div>
+<div class="compatibility">Compatible with Lightstreamer Server since 6.0.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="compatibility">Compatible with Remote Servers based on the previous version.</div>
+<div class="date">Released on 23 Jan 2017</div>
+
+<div class="text">
+
+<p>Introduced a "first_connection_timeout_millis" configuration parameter for
+   the Robust Proxy Data Adapter, similarly to what is available for the
+   Robust Metadata case (but with a 0 default, which is consistent with the
+   previous behavior).</p>
+
+<p>Introduced a new strategy for the "events_recovery" configuration parameter
+   of the Robust Proxy Data Adapter. See "enforce_snapshot" in the sample
+   configuration file under "adapter_robust_conf_template".</p>
+
+<p>Extended the configuration templates to advertise the variable-expansion
+   feature introduced in Server version 6.1.</p>
+
+</div>
+
+
+<div class="version">1.7 build 70</div>
+<div class="compatibility">Compatible with Lightstreamer Server since 6.0.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="compatibility">Compatible with Remote Servers based on the previous version.</div>
+<div class="date">Released on 10 May 2016</div>
+
+<div class="text">
+
+<p>Improved a log message, which was unclear, related with Remote Adapter unavailability.</p>
+
+</div>
+
+
+<div class="version">1.7 build 67</div>
+<div class="compatibility">Compatible with Lightstreamer Server since 6.0.</div>
+<div class="compatibility">Not compatible with configuration files for the previous version;
+   see the compatibility notes below.</div>
+<div class="compatibility">May not be compatible with Remote Servers based on the previous version;
+   see the compatibility notes below.</div>
+<div class="date">Released on 21 Jan 2015</div>
+
+<div class="text">
+
+<p>Embedded the Proxy Adapter binaries related with the current version of the
+   Adapter Remoting Infrastructure. Previously, the ls-proxy-adapters.jar file
+   supplied by the ARI SDK had to be added to the Adapter Set libraries.
+   As a consequence, the ls-proxy-adapters.jar binaries are no longer provided
+   directly. As a further consequence, the compatibility constraint of the
+   Adapter Remoting Infrastructure is now stated directly with respect to
+   Lightstreamer Server. <span class="compatibility">COMPATIBILITY NOTE: Existing Adapter Set
+   deployments based on the old Proxy Adapters supplied in ls-proxy-adapters.jar
+   are supported seamlessly.</span></p>
+
+<p>Introduced the "PROXY_FOR_REMOTE_ADAPTER" and "ROBUST_PROXY_FOR_REMOTE_ADAPTER"
+   reserved names to be used in place of the class names for the inclusion of
+   the new embededd Proxy Adapters in adapters.xml.
+   <span class="compatibility">COMPATIBILITY NOTE: The new reserved names are not
+   expected to conflict with custom class names in an existing adapters.xml.</span>
+   <span class="compatibility">COMPATIBILITY NOTE: In order to port an existing
+   Adapter Set configured for Remote Adapters to the new Proxy Adapters, the adapters.xml
+   configuration file has to be changed to comply with the new naming (and
+   ls-proxy-adapters.jar can be discarded).</span></p>
+
+<p>Introduced an explicit initialization request sent by the Proxy Adapters
+   to the Remote Adapters upon connection. This now allows for:
+   <ul>
+   <li>Defining parameters for the Remote Adapter directly in the configuration
+   block of the Proxy Adapter.</li>
+   <li>Having the Proxy Adapter send its own identification information to the
+   Remote Adapter. With a "Robust" version of a Proxy Adapter, this also means
+   notifying the Remote Adapter of the instance identity of the Proxy Adapter
+   (hence Lightstreamer Server), so that if a previous detached instance of Remote Adapter
+   has persisted any context information, this information can be identified
+   and retrieved by the new instance.</li>
+   <li>Having the Remote Adapter inform the Proxy Adapter in case of any
+   initialization issue, instead of just having the Remote Server refrain from
+   connecting.</li>
+   </ul>
+   See "remote_params_prefix" in the sample "adapters.xml" files for details
+   on how the initialization parameters can be specified.
+   <span class="compatibility">COMPATIBILITY NOTE: Existing Remote Servers based
+   on the .NET and Generic Adapter SDKs have to be upgraded to the new SDK version.
+   However, backward compatibility can be restored by disabling the new request
+   through the new "init_remote" configuration parameter.</span></p>
+
+<p>Discontinued the support for the "Piped" versions of the Proxy Adapters.
+   Only the "Networked" versions and their "Robust" extensions are now available.
+   <span class="compatibility">COMPATIBILITY NOTE: Existing installations based
+   on the "Piped" versions should be ported to the "Networked" versions. But
+   we don't expect this case to occur for production deployments, as the use
+   of the "Piped" versions was not recommended for production.</span>
+   Removed the "eos_count_limit" and "eos_sleep_time" configuration parameters,
+   which were only used by the "Piped" versions of the Proxy Adapters.</p>
+
+<p>Introduced the "remote_address_whitelist" parameter, to be used to specify a list of IP
+   addresses, from where Remote Adapter connections are accepted by a Proxy Adapter.
+   If missing, connections are still accepted from any host.</p>
+
+<p>Changed the logger names used by the Proxy Adapters for their own logging
+   and replaced the old logger configuration with the new one in Lightstreamer Server's
+   factory log configuration file (see the supplied file for details).
+   <span class="compatibility">COMPATIBILITY NOTE: To keep using an existing
+   log configuration file, the logger should be manually replaced too.
+   Obviously, as long as existing Adapter Set deployments based on the old
+   Proxy Adapters are in use, the old logger should also be kept.</span></p>
+
+<p>Removed the description of the ARI Protocol (made available to custom
+   Remote Servers for implementing Lightstreamer Server Adapter interface via TCP) from the scope
+   of this component. Now, the "Adapter Remoting Infrastructure" component
+   (no longer an SDK) only covers Lightstreamer-Server-side support (based
+   on the Proxy Adapters) for all Remote Adapter SDKs.
+   See the new "SDK for Generic Adapters" for the ARI Protocol topic.</p>
+
+<p>As a consequence of the introduction, in Lightstreamer Server version 6.0,
+   of separate ClassLoaders for the loading of the external libraries
+   used by the Server internally, specifed the suggested
+   settings in the factory Proxy Adapter configuration (through the new &lt;classloader&gt;
+   setting), to enforce sharing of the slf4j/logback logging libraries with the Server.
+   This confirms the previous behavior, hence the log configuration of the Proxy Adapters
+   is still included in the Server log configuration file.</p>
+
+<p>Revised the factory configuration of the optional thread pools in adapters.xml;
+   with the new suggested configuration, some adapter-related pools are enabled
+   and will take on some tasks previously falling in the "SERVER" pool.</p>
+
+<p>Revised the default naming of connections (for logging purposes) and related threads,
+   by leaning on the configured proxy names instead of progressive numbers.<br/>
+   Introduced name suffixes to distinguish subsequent streams that may be
+   created by the Robust Proxy Metadata Adapter.</p>
+
+<p>Moved the configuration examples (which include parameter descriptions) under "doc".<br/>
+   Provided a new introductory document.</p>
+
+</div>
+
+
+<div class="version">1.4.3 build 58</div>
+<div class="compatibility">Compatible with Lightstreamer Server since 5.1.</div>
+<div class="compatibility">Compatible with Remote Servers for the previous version.</div>
+<div class="date">Released on 20 Dec 2012</div>
+
+<div class="text">
+
+<p>Revised and relieved the Notes on Method Sequence for the Notify New Tables
+   and Notify Tables Close methods, according with the locking policy change
+   and the new &lt;sequentialize_table_notifications&gt; parameter introduced
+   in SDK for Java In-Process Adapters version 5.1.</p>
+
+</div>
+
+
+<div class="version">1.4.2 build 57</div>
+<div class="compatibility">Compatible with Lightstreamer Server since 5.0.</div>
+<div class="compatibility">Compatible with Remote Servers for the previous version.</div>
+<div class="date">Released on 3 Aug 2012</div>
+
+<div class="text">
+
+<p>Discontinued the compatibility with the previous version of Lightstreamer Server.</p>
+
+</div>
+
+
+<div class="version">1.4.2 build 52</div>
+<div class="compatibility">Compatible with Lightstreamer Server since 4.0.</div>
+<div class="compatibility">Compatible with Remote Servers for the previous version.</div>
+<div class="date">Released on 9 Aug 2012</div>
+
+<div class="text">
+
+<p>Revised the low level log of the Proxy Adapters, to allow for suppressing
+   the log of real-time messages while logging the requests and replies from
+   the Remote Server; see com.lightstreamer.adapters.remote in the Lightstreamer Server log
+   configuration file.<br/>
+   Fixed a typo in the com.lightstreamer.adapters.remote logger description.</p>
+
+</div>
+
+
+<div class="version">1.4.2 build 51</div>
+<div class="compatibility">Compatible with Lightstreamer Server since 4.0.</div>
+<div class="compatibility">Compatible with Remote Servers for the previous version.</div>
+<div class="date">Released on 6 Apr 2012</div>
+
+<div class="text">
+
+<p>Introduced new configuration properties to let the RobustNetworkedMetadataProvider
+  return a custom error notification to the Client upon a request for a new session
+  when the Remote Server is currently unavailable; see "notify_user_disconnection_code"
+  and "notify_user_disconnection_msg" in "conf\sockets(robust)\adapters.xml".</p>
+
+<p>Introduced new configuration properties to let the RobustNetworkedDataProvider
+  manage a custom item which carries notifications about the availability of the
+  Remote Server; see "remote_adapter_status" in "conf\sockets(robust)\adapters.xml".</p>
+
+<p>Added checks on the correct configuration of the Proxy Adapters; in fact, wrongly
+  setting a notify port on a Proxy Metadata Adapter could lead to wrong behavior.</p>
+
+<p>Improved the extraction of HTTP headers supplied by the "NUS"/"NUA" request.</p>
+
+<p>Added log to detect issues caused by obsolete Remote Servers</p>
+
+</div>
+
+
+<div class="version">1.4.1 build 48</div>
+<div class="compatibility">Compatible with Lightstreamer Server since 4.0.</div>
+<div class="date">Released on 7 Jun 2011</div>
+
+<div class="text">
+
+<p>Introduction of Lightstreamer "Duomo" release (Server 4.0).</p>
+
+</div>
+
+
+</div>
+
+
+
+</div>
+</body>
+</html>

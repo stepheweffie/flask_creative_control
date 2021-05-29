@@ -1,0 +1,2729 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lightstreamer Server Changelog</title>
+    
+    <style type="text/css">
+body {
+   font-family: Verdana,Arial,sans-serif
+}
+
+#wrap {
+   max-width: 980px;
+   margin: 0 auto
+}
+
+a,a:visited {
+   color: #006600;
+   font-size: 14px
+}
+a:hover {
+   color: #660000;
+   text-decoration: none
+}
+
+ul {
+   padding: 0 40px 5px 50px;
+   margin: 0;
+   font-size: 14px
+}
+
+.prettyprint {
+   border: 0px !important;
+}
+
+li {
+   margin-bottom: 5px
+}
+
+div.text {
+   margin-left: 20px;
+   margin-right: 20px;
+}
+
+div#summary>ul {
+   padding: 10px 40px 20px 40px;
+   margin: 0;
+   font-size: 14px
+}
+
+div#summary>ul>li {
+   margin-bottom: 3px
+}
+
+h4 {
+   font-size: 17px; 
+   line-height: 20px; 
+   font-weight: normal;
+   margin-bottom: 0px;
+}
+
+p {
+   font-size: 15px;
+   line-height: 20px;
+}
+
+li {
+   font-size: 15px; 
+}
+
+div#title {
+   font-size: 42px;
+   font-weight: bold;
+   color: #fff;
+   text-align: left;
+   margin: 0;
+   background: #689A68;
+   padding: 10px 20px 10px 20px;
+   border-radius: 8px 8px 0 0
+}
+div#summary {font-size: 18px; font-weight: normal; color: #333; text-align: left; margin-bottom: 30px; background: #B6CF87; padding: 20px 20px 0 20px; border-radius: 0 0 8px 8px}
+div.box {margin-top: 30px; border-radius: 8px; border-style: solid; border-width: 1px; border-color: #689A68; overflow: hidden}
+div.component {font-size: 24px; font-weight: bold; color: #fff; text-align: left; padding: 8px 20px 8px 20px; background: #689A68}
+div.version {font-size: 18px; font-weight: bold; color: #333; text-align: left; background: #B6CF87; margin: 25px 10px 0 10px; padding: 10px; border-radius: 8px 8px 0 0}
+div.compatibility {font-size: 14px; color: #444; margin: 0 10px 0 10px; padding: 2px 10px 2px 10px; background: #ECE981}
+div.date {font-size: 14px; font-weight: bold; color: #689A68; margin: 0 10px 7px 10px; padding: 5px 10px 10px 10px; background: #ECE981; border-radius: 0 0 8px 8px}
+span.compatibility {font-size: 13px; line-height: 18px; color: #A81600; display: block}
+
+div.subsectionTitle {font-size: 17px; font-weight: bold; color: #333; text-align: left; margin: 10px 20px 6px 20px}
+    </style>
+        
+</head>
+
+<body>
+<div id="wrap">
+<div class="box">
+<div id="title" style="font-size: 36px;">Lightstreamer Server CHANGELOG</div>
+
+
+<!-- ======================================================================================== -->
+<!-- ======================================================================================== -->
+<!-- ======================================================================================== -->
+
+
+<div class="version">7.1.2 build 1985</div>
+<div class="compatibility">May not be compatible with the deployment structure of the previous version;
+see the compatibility notes below.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="compatibility">Compatible with client applications leveraging the MPN Module of the previous version.</div>
+<div class="compatibility">Compatible with the database of the MPN Module for the previous version.</div>
+<div class="date">Released on 25 Sep 2020</div>
+
+<div class="text">
+
+<p>Changed the distribution package, by removing the "DOCS-SDKs" folder.
+   Now the SDK resources, including their changelogs, can only be found by
+   browsing the download page (or from their online repositories, where available).
+   For the Server's own documentation resources, a new "docs" folder has been added.<br/>
+   The template of adapters.xml for the configuration of in-process Adapters
+   is also available inside the "docs" folder.<br/>
+   Note that this Server version is internally based on:<ul>
+   <li>Adapter Remoting Infrastructure version 1.9.8</li>
+   <li>SDK for JMX Extensions version 5.5.6</li>
+   <li>SDK for Java In-Process Adapters version 7.3.0</li>
+   <li>SDK for Generic Clients version 2.2.0</li>
+   </ul></p>
+
+<p>Moved and renamed the ls-adapter-interface jar in the internal Server deploy.
+   <span class="compatibility">COMPATIBILITY NOTE: Consider the change if trying
+   to upgrade an existing installation. Moreover, if using a custom launch script,
+   ensure that the new library location is now referred.</span></p>
+
+<p>Upgraded a few included third-party libraries to address related security issues.
+   <span class="compatibility">COMPATIBILITY NOTE: As the updated libraries have different
+   names, if upgrading an existing installation, make sure you have removed the previous
+   version of the libraries first. Moreover, if using a custom launch script,
+   ensure that the new libraries are now referred.</span></p>
+
+<p>Extended the configuration of CORS permissions, by accepting any scheme as the
+   "scheme" attribute of the &lt;allow_access_from&gt; element. This addresses
+   a compatibility issue with ionic and possibly similar tools, which prevented the
+   configuration of CORS restrictions when clients built with such tools were used.
+   However, for backward compatibility, setting scheme="*" is still expanded with
+   http and https only, although setting scheme="*" host="*" port="*" still accepts
+   everything.<br/>
+   Also added a startup WARN log on inconsistent configuration.</p>
+
+<p>Fixed the notes on MPN module enablement in the configuration file, to inform
+   that this introduces a reserved URL path needed to support special requests related
+   to the support of Web Push Notifications on Safari. In fact, the introduction
+   dates back to version 7.1.0.<br/>
+   Also added the &lt;apple_web_service_path&gt; configuration element, which is
+   needed to configure the reserved URL path. This was also available since version
+   7.1.0, but its documentation was forgotten.<br/>
+   Revised the handling of unrecognized requests based on the reserved URL path:
+   the Server now returns a 400 rather than a 404 error.<br/>
+   Added in the General Concepts document the missing notes on how to refer to
+   the reserved URLs.</p>
+
+<p>Fixed the implementation of the getCurrClientVersions operation of the ResourceMBean
+   supplied by the JMX service. Previously, the returned map triggered an error in external
+   clients; the JMX Tree was unaffected.</p>
+
+<p>Added startup WARN logs on inconsistent configurations of credentials where available.</p>
+
+<p>Improved the JMX Tree, by adding robustness upon the invocation of operations
+   by leaving empty fields for the parameter values.</p>
+
+<p>Improved robustness upon communication issues that may occur during online
+   license checks.</p>
+
+<p>Revised the included welcome page resources, so as to use log4j 2
+   instead of log4j 1.2 for the adapter implementation.</p>
+
+</div>
+
+
+<div class="version">7.1.1 build 1973</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="compatibility">Compatible with client applications leveraging the MPN Module of the previous version.</div>
+<div class="compatibility">Compatible with the database of the MPN Module for the previous version.</div>
+<div class="date">Released on 12 Jun 2020</div>
+
+<div class="text">
+
+<p>Fixed a bug in the MPN Module which prevented clients based on the
+   SDK for Web Clients and running on Safari from sending Web Push Notifications.</p>
+
+</div>
+
+
+<div class="version">7.1.1 build 1971</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="compatibility">Compatible with client applications leveraging the MPN Module of the previous version.</div>
+<div class="compatibility">Compatible with the database of the MPN Module for the previous version.</div>
+<div class="date">Released on 27 May 2020</div>
+
+<div class="text">
+
+<p>Fixed a protocol compliancy error in HTTP request parsing which could have
+   caused the Server to be subject to request smuggling attacks when coupled
+   with a vulnerable Load Balancer.</p>
+
+<p>Fixed a bug in the logging subsystem triggered by TLCP clients, whereby
+   some errors in request processing, reported to the clients with codes
+   67 or 68, were never logged on the Server.</p>
+
+<p>Fixed the output of the LightstreamerMonitorTAB logger; in fact, in the
+   initial line, the header of the recently added column for refused session
+   count was missing, also causing a mismatch of all subsequent columns.</p>
+
+<p>Fixed missing handling of some runtime exceptions that could occur in
+   some thread pools. Such exceptions are now logged and won't invalidate
+   the involved pooled thread.</p>
+
+<p>Fixed a bug, introduced in version 7.0, in the handling of the
+   &lt;pac_files&gt; block in lightstreamer_edition_conf.xml. When leveraging
+   the block, the Server startup would fail. The fix involves the addition
+   of two more third-party libraries. <span class="compatibility">
+   COMPATIBILITY NOTE: If using a custom launch script, in order to enable
+   the fix, ensure that the new libraries are referred.</span>
+   Also fixed (with respect to version 6.1) the handling of relative paths
+   in the &lt;file_path&gt; element inside the &lt;pac_files&gt; block,
+   which was not compliant with the documentation.<br/>
+   Moreover, fixed (with respect to version 6.1) the handling of the
+   &lt;file_url&gt; element inside the &lt;pac_files&gt; block, as the
+   element was ignored.</p>
+
+<p>Fixed a bug, introduced in version 7.0, in the handling of the
+   &lt;socks_proxy&gt; block in lightstreamer_edition_conf.xml, which caused
+   the connection attempts through the configured proxy to always fail.</p>
+
+<p>Fixed bugs, introduced in version 7.0, affecting license handling
+   for clients based on the macOS Client SDK.<ul>
+   <li>With the DEMO license in use, clients using version 3.0.0
+       or later were refused.</li>
+   <li>For the ENTERPRISE edition in general, the provided "osx_client"
+       keyword for the &lt;optional_features&gt; configuration block was
+       ineffective for macOS Client SDK version 3.0.0 or later.</li>
+   <li>For the COMMUNITY edition, the use of the provided "osx_client"
+       keyword in the &lt;enabled_client_api&gt; configuration element
+       was ineffective for macOS Client SDK version 3.0.0 or later.
+       In this case, the "macos_client" keyword has been provided in
+       replacement, with effect only on macOS Client SDK version 3.0.0
+       or later. <span class="compatibility">COMPATIBILITY NOTE:
+       an existing configuration which specifies "osx_client" is still
+       supported, although with the aforementioned limitation.</span></li>
+   </ul>
+   As a consequence of the fix, the licensed version of the
+   macOS Client SDK reported by the startup log, the JMX service,
+   and the Special MONITOR Data Adapter may be different than before,
+   also depending on the license in use.</p>
+
+<p>Fixed a bug in the MPN Module that could have caused some malfunctionings
+   only in the unlikely case of two MPN subscriptions by the same device
+   on different Data Adapters but same group and schema names.</p>
+
+<p>Fixed an error in the description of the &lt;file_path&gt; element in
+   lightstreamer_edition_conf.xml: the reference to &lt;license_path&gt;
+   is obsolete and should refer to the &lt;file_path&gt; element itself.</p>
+
+<p>Fixed a bug in the handling of the setting of the "AllocatedMaxBandwidthKbps"
+   property from the SessionMBean provided by the JMX Extension SDK.
+   Upon the setting via JMX, the latest requests for bandwidth limit changes
+   done by the client could have been reverted and discarded.</p>
+
+<p>Improved the detection of changes of the keystore files, in support to
+   runtime replacement. This should address some cases of undetected changes,
+   possible when mapped paths are used.</p>
+
+<p>Revised the response HTTP headers sent upon HTTP polling requests,
+   to reduce the overall response size on this rare but heavy case.
+   No other impact is expected, as most headers that were sent were
+   redundant.</p>
+
+<p>Clarified in the General Concepts document the current browser support
+   for Web Push Notifications.</p>
+
+</div>
+
+
+<div class="version">7.1.0 build 1954</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="compatibility">Compatible with client applications leveraging the MPN Module of the previous version.</div>
+<div class="compatibility">Compatible with the database of the MPN Module for the previous version.</div>
+<div class="date">Released on 10 Feb 2020</div>
+
+<div class="text">
+
+<p>Fixed an unwanted restriction that could have been posed on some particular
+   kinds of licenses.</p>
+
+<p>Removed unwanted occurrences of the "Failed to handle hijacked messages
+   in this connection: must close the socket" WARN log, introduced in build
+   1949 with the extended support of the &lt;max_delay_millis&gt; setting.
+   In fact, upon most of the occurrences of this log, the reported condition
+   was harmless.</p>
+
+</div>
+
+
+<div class="version">7.1.0 build 1951</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="compatibility">Compatible with client applications leveraging the MPN Module of the previous version.</div>
+<div class="compatibility">Compatible with the database of the MPN Module for the previous version.</div>
+<div class="date">Released on 30 Jan 2020</div>
+
+<div class="text">
+
+<p>Fixed a bug introduced in build 1949 with the extended support
+   of the &lt;max_delay_millis&gt; setting.
+   Under particular conditions, the bug could have caused a significant
+   delay in the delivery of updates upon session startup.</p>
+
+</div>
+
+
+<div class="version">7.1.0 build 1949</div>
+<div class="compatibility">May not be compatible with the deployment structure of the previous version;
+see the compatibility notes below.</div>
+<div class="compatibility">May not be compatible with configuration files for the previous version;
+see the compatibility notes below.</div>
+<div class="compatibility">May not be compatible with client applications leveraging the MPN Module of the previous version;
+see the compatibility notes below.</div>
+<div class="compatibility">Compatible with the database of the MPN Module for the previous version.</div>
+<div class="date">Released on 24 Jan 2020</div>
+
+<div class="subsectionTitle">Systemwide Changes and Extensions</div>
+
+<div class="text">
+
+<p>Replaced internal libraries for delivery of mobile push notifications (MPN)
+   for both Apple&trade; and Google&trade; platforms, with the objective of improving
+   performance and introducing the support for web push notifications (i.e.
+   MPN delivered to a web application running on a desktop web browser) to be
+   exploited by the SDK for Web Clients.
+   In particular, the new Apple&trade; APNs libraries take advantage of the HTTP/2
+   transport. On the Google&trade; side, the GCM libraries have been replaced
+   with the newer FCM libraries, which also support web push notifications.<br/>
+   This change has several side effects:
+   <ul>
+   <li>On the <code>apple_notifier_conf.xml</code> configuration file:<ul>
+       <li>the &lt;feedback_check_period_minutes&gt; parameter has been removed,
+           since the new library checks the delivery feedback immediately;</li>
+       <li>new global parameters named &lt;max_concurrent_connections&gt; and
+           &lt;connection_timeout&gt; have been introduced, to customize
+           the way the new library connects to Apple's APNs services;</li>
+       <li>a new app parameter named &lt;push_package_file&gt; has been introduced,
+           to specify the push package needed by Safari during the web push notifications
+           setup process. See the updated General Concepts document for information
+           on how to prepare the push package file.</li>
+       </ul></li>
+   <li>On the <code>google_notifier_conf.xml</code> configuration file:<ul>
+       <li>a new global parameter named &lt;messaging_pool_size&gt; has been added,
+           to specify the size of the thread pool devolved to sending notifications
+           to Google's Firebase services;</li>
+       <li>app parameters &lt;api_key&gt; and &lt;max_retries&gt; have been removed;</li>
+       <li>a new app parameter named &lt;service_json_file&gt; has been introduced,
+           to specify the path of a JSON file to be obtained from Google's FCM
+           console that includes all the details about the web application
+           configuration.
+           <span class="compatibility">COMPATIBILITY NOTE: if you haven't migrated
+           your GCM app to FCM yet, now it's mandatory to do so. See the updated
+           General Concepts document for information on how to obtain the service
+           JSON file.</span></li>
+       </ul></li>
+   </ul>
+   <span class="compatibility">COMPATIBILITY NOTE: If an existing installation
+   supports clients based on a version of the Android Client SDK before 4.2 and
+   MPN features are used, they may not work properly. In this case, an update
+   to Android Client SDK version 4.2 is needed. See paragraph "Special Considerations
+   on the GCM to FCM Transition" in the General Concepts document for more information
+   and how to update.</span></p>
+
+<p>Also revised the thread usage involved in MPN Module operations.
+   The "COMPOSER" and the various "NOTIFIER" thread pools have been collapsed
+   in a single "NOTIFIER" pool. As a consequence, the &lt;notifier_pools&gt;
+   block and the &lt;composer_pool_size&gt; element in the configuration file
+   have been replaced by the optional &lt;notifier_pool_size&gt; element.
+   <span class="compatibility">COMPATIBILITY NOTE: If keeping a configuration file
+   in which the pool configuration was leveraged, it should be revised.</span>
+   Obviously, the changes in the thread pools are also reflected by the instances
+   of ThreadPoolMBean returned by the JMX Extension SDK.</p>
+
+<p>Applied various improvements to the backpressure mechanisms to better cope
+   with the case of massive connection or reconnection of clients:
+   <ul>
+   <li>Introduced the &lt;port_type&gt; setting in the &lt;http_server&gt;
+       and &lt;https_server&gt; blocks, which allows for the specification of
+       meta-information on port usage which can help tuning the backpressure
+       in the best way. This only works if &lt;control_link_address&gt; is also
+       set. The Clustering.pdf document has been extended to show how to take
+       advantage of the setting.<br/>
+       Also provided a &lt;port_type&gt; that allows for the setup of privileged
+       ports, in which all backpressure is skipped, for local access.</li>
+   <li>Introduced the ACCEPT internal thread pool, to be used to perform the initial
+       parsing and identification of the Client requests. Before, these operations
+       were performed in the SERVER pool and could have been delayed by overload
+       issues in the Adapters. The pool is preconfigured as other pools for CPU-bound
+       tasks, but an &lt;accept_pool_max_size&gt; setting is also available.<br/>
+       The new pool will be visible in the log and on the JMX service.
+       This may also slightly affect the thread count and the task queue statistics.
+       and related limit checks.</li>
+   <li>To the latter purpose, added a separated &lt;accept_pool_max_queue&gt;
+       setting to enable queue limit checks for the new ACCEPT pool.
+       The behavior when the limit is exceeded is similar to the previous behavior
+       of &lt;server_pool_max_queue&gt; (i.e. suspending the accept loop), but
+       it is now milder, based on the new &lt;port_type&gt; setting.
+       See the setting description for details.</li>
+   <li>Modified the action related with the &lt;server_pool_max_queue&gt; setting.
+       When the limit is exceeded, any request to create a new session will be
+       refused. The requests refused in this way will be included in the refused
+       count reported by the JMX service.
+       The previous action (i.e. suspending the accept loop) has been kept, but
+       it is now milder, exactly like &lt;accept_pool_max_queue&gt;.
+       As a consequence, clients with active sessions will be now unaffected.<br/>
+       The setting default has also changed, to 100, which enables the check when
+       &lt;server_pool_max_queue&gt; is not configured.
+       <span class="compatibility">COMPATIBILITY NOTE: if upgrading an existing
+       installation and &lt;server_pool_max_queue&gt; is not defined, ensure that
+       the Server is not refusing too many requests by "Server overloaded" and
+       it is not logging "New accept pauses" too much. Otherwise, try setting
+       a larger &lt;server_pool_max_queue&gt; or set -1 to disable it. If using
+       Remote Adapters, please also see the comments to &lt;authentication_pool&gt;
+       and &lt;messages_pool&gt; in the new adapters.xml template.</span></li>
+   <li>Modified the actions related with the &lt;handshake_pool_max_queue&gt;
+       and &lt;https_auth_pool_max_queue&gt; settings. When the limit is exceeded,
+       the behavior (i.e. suspending the accept loop) is now milder, based on
+       the new &lt;port_type&gt; setting. See the setting descriptions for details.<br/>
+       The setting default has also changed, for both settings, to 100,
+       which enables the check when the queue is not configured.
+       <span class="compatibility">COMPATIBILITY NOTE: if upgrading an existing
+       installation and &lt;handshake_pool_max_queue&gt; and/or
+       &lt;https_auth_pool_max_queue&gt; is not defined, ensure that the Server
+       is not refusing too many requests by "Server overloaded" and it is not
+       logging "New accept pauses" too much. Otherwise, try introducing the
+       setting and specifying a larger queue, or set -1 to disable the check.</span>
+       Also extended the use of the related pools, relieving the
+       "HANDSHAKE SELECTOR" threads of some heavy operations.</li>
+   <li>Added a &lt;prestarted_max_queue&gt; setting, which makes it possible to
+       refuse requests for new sessions (similarly to &lt;server_pool_max_queue&gt;)
+       when the number of sessions waiting for the first bind or control operation
+       exceeds the limit. See the setting description for details.</li>
+   <li>Added a &lt;pump_pool_max_queue&gt; setting, which makes it possible to
+       refuse requests for new sessions (behaving exactly like
+       &lt;server_pool_max_queue&gt;) when the queue on the PUMP pool exceeds the limit,
+       which may indicate a CPU shortage. See the setting description for details.</li>
+   <li>Added checks on the liveness of the Client connection during the elaboration
+       of create_session requests. This will save useless invocations to the
+       Metadata Adapter when the Client gives up waiting for the response due
+       to slow processing.</li>
+   <li>Prepared the support for future client extensions which will enable improved
+       client-server collaboration in backpressure handling.</li>
+   </ul></p>
+
+<p>Revised internal handling of logging to improve separation between the logback
+   libraries and kernel code. This allows you to configure custom appenders,
+   or filters or other extensions with no risk of conflict with other libraries.
+   Look for the new notes in lightstreamer_log_conf.xml.<br/>
+   To achieve this, the following further changes were needed:<ul>
+   <li>Extended factory log setting for third-party libraries.</li>
+   <li>In order to send the log produced by some third-party libraries to logback,
+   such log is now also sent to the JDK's java.util.logging system. This makes it
+   visible to all classes. See the related notes in lightstreamer_log_conf.xml.</li>
+   <li>Kept the possibility of having slf4j/logback shared by all Adapters
+   by acting on the JVM command line (as explained in the launch script),
+   but now the way is different.
+   <span class="compatibility">COMPATIBILITY NOTE: In the unlikely case that you
+   are leveraging this possibility, the launch script should be aligned.</span></li>
+   </ul></p>
+
+<p>Introduced a separate kernel library, ls-mpn.jar, to host the MPN module code.
+   Also added various third-party libraries and removed some.
+   <span class="compatibility">COMPATIBILITY NOTE: if trying to upgrade an existing
+   installation, make sure you have removed the libraries no longer used. Moreover,
+   if using a custom launch script, ensure that the new libraries are now referred.</span>
+   Aligned the factory log configuration file to allow for configuration of the
+   error log from the new third-party libraries.
+   <span class="compatibility">COMPATIBILITY NOTE: if keeping an existing log
+   configuration file, the error log from the new third-party libraries will not
+   be received, unless the configuration is extended.</span></p>
+
+<p>Introduced a heuristic mechanism to temporarily enlarge the TCP send buffer
+   when a big amount of data is ready to be sent. This removes the negative
+   effect of the use of small TCP send buffers (needed for congestion detection)
+   on throughput when a high roundtrip time is involved. The problem affected,
+   in particular, long snapshots and big updates.</p> 
+
+<p>Introduced various improvements on the support for client https connections
+   (see the &lt;https_server&gt; configuration block).
+   <ul>
+   <li>Added the &lt;allow_cipher_suite&gt; configuration element,
+       as an alternative to &lt;remove_cipher_suites&gt;, which allows for the
+       manual specification of all the enabled cipher suites.<br/>
+       Also added the "order" attribute to &lt;enforce_server_cipher_suite_preference&gt;,
+       which allows for the specification of a custom preference order for
+       cipher suites, by leveraging the new &lt;allow_cipher_suite&gt;.<br/>
+       These settings are also available in the &lt;rmi_connector&gt; block
+       under &lt;jmx&gt;.</li>
+   <li>Revised the suggested settings of &lt;remove_cipher_suites&gt; and
+       removed obsolete settings.<br/>
+       Also revised the suggested settings of &lt;allow_protocol&gt; and
+       &lt;remove_protocols&gt; to only allow TLS 1.2.<br/>
+       These changes also apply to the &lt;rmi_connector&gt; block
+       under &lt;jmx&gt;.</li>
+   <li>Revised the handling of runtime replacement of the keystore file,
+       to add robustness<br/>
+       Also introduced the checks for runtime replacement of the keystore file
+       to the JMX service RMI connector ports configured with TLS/SSL.</li>
+   <li>Added robustness in the TLS handshake management with respect to unexpected
+       behavior by the low-level NIO support, which, in principle, could have led
+       to strict loops.</li>
+   <li>Clarified the log upon TLS handshakes failed because of client socket closure.</li>
+   <li>Clarified in the Clustering.pdf document when TLS configuration on the
+       Server and on a SSL accelerator should be consistent.</li>
+   </ul></p>
+
+<p>Discontinued the support for java 7 SDK and runtime environment.
+   Java 8 or later is now required.
+   <span class="compatibility">COMPATIBILITY NOTE: installations of the Server
+   still based on a java 7 JVM have to be upgraded. Existing Adapters that were
+   compiled for a java 7 or earlier JVM don't need to be upgraded.</span></p>
+
+<p>Incremented the minor version number.
+   <span class="compatibility">COMPATIBILITY NOTE: If running the Server with
+   a license file, an upgrade of the license file is needed.</span></p>
+
+</div>
+
+<div class="subsectionTitle">Fixes for Bugs and Defects</div>
+
+<div class="text">
+
+<p>Fixed the "stop" script, which was ineffective when the JMX service RMI connector
+   port was configured with TLS/SSL. The bug also affected the startup test
+   of the connector.<br/>
+   On the startup test, also fixed the log message about the test outcome,
+   which always reported "successful".</p>
+
+<p>Fixed a bug which could have caused wrong interpretation of non-ascii
+   characters in client requests when longer than single TCP packets.
+   The bug affected Java, Android, iOS, macOS, tvOS, watchOS, and Generic
+   Client SDKs. It could affect create_session requests with long user/password.
+   It could also affect long or aggregated subscription requests and long
+   send_message requests, but only for HTTP (i.e. non-WebSocket) Sessions.<p>
+
+<p>Fixed a bug which could have caused session recovery attempts to fail
+   when the Client had specified a maximum bandwidth limit. This affected,
+   for instance, the Monitoring Dashboard.</p>
+
+<p>Fixed a wrong statement in the Clustering.pdf document regarding the invocation
+   of setEarlyWSOpenEnabled(false) (available on clients based on
+   a Unified API Client SDK) when cookie-based persistency
+   is leveraged. Actually, this invocation is not just related to performance,
+   but it is mandatory, as needed to ensure the correct behavior.<br/>
+   Also revised some configuration examples in the Clustering.pdf document,
+   with a uniform policy on port numbers and listening interface settings.</p>
+
+<p>Fixed a bug in the JMX Tree of the Monitoring Dashboard, which caused
+   the setting of the "AllocatedMaxBandwidthKbps" property of the
+   SessionMBean to fail.</p>
+
+</div>
+
+<div class="subsectionTitle">Minor Changes and Extensions</div>
+
+<div class="text">
+
+<p>Revised the conditions under which a suspended MPN device is reactivated: now
+   it is sufficient for the Client to register its device again, even with the previous
+   device token. A token change, while still working as before, is no more necessary.</p>
+
+<p>Removed a wrong (though harmless) warning log that was issued in case a dual
+   RSA/ECDSA certificate were stored in a PKCS12 keystore.</p>
+
+<p>Removed a possible unneeded pause of several seconds during
+   the shutdown operation, only related with online license validation.</p>
+
+<p>Modified the way internal library paths have to be specified on the JVM command line
+   and modified the launch scripts accordingly. However, the whole handling of library
+   paths by the launch scripts has been revised.
+   <span class="compatibility">COMPATIBILITY NOTE: if using a custom launch script,
+   any customization should be ported to the new script structure.
+   You may contact Lightstreamer support for help.</span></p>
+
+<p>Removed a memory allocation inefficiency in the management of "delta delivey"
+   which could have doubled the memory footprint related with the caching
+   of last values sent to the clients for each subscribed item and field.</p>
+
+<p>Improved the handling of sessions abandoned by the Client before receiving
+   any response. Now they are immediately discarded, rather than kept for the
+   recovery timeout.</p>
+
+<p>Introduced the &lt;service_url_prefix&gt; configuration flag.
+   See the factory configuration file for details. It may also be used
+   as a partial replacement of the already deprecated &lt;base_url_path&gt;.
+
+<p>Extended the variable-expansion feature, available in the main and edition
+   configuration file and in the various adapters.xml files, by
+   <ul>
+   <li>supporting environment variables in addition to JVM properties,</li>
+   <li>providing the possibility to disable variable expansion for single
+   elements and attributes.</li>
+   </ul>
+   See the details by looking for the description of the variable-expansion
+   feature for each file, starting from the file's head comment.<br/>
+   Also clarified in the head comments the case-sensitivity policies.</p>
+
+<p>Added checks to prevent duplicated configuration of port and listening
+   interface in the &lt;http_server&gt; and &lt;https_server&gt; blocks.
+   <span class="compatibility">COMPATIBILITY NOTE: Existing configurations
+   are not expected to fail on the new checks; otherwise, the Server startup
+   would have failed during the socket bind operation.</span>
+   Moreover, added a check to refuse configuration of port 0.
+   <span class="compatibility">COMPATIBILITY NOTE: Existing configurations
+   were never supposed to specify port 0, which caused the Server to open
+   a system-determined port.</span></p>
+
+<p>Extended the Internal MONITOR Data Adapter with the CLIENTS.REFUSED_SESSIONS
+   field for the "monitor_statistics" item, which reflects the
+   "CumulRequestsRefused" property provided by the JMX service (ResourceMBean).<br/>
+   Likewise, extended the Internal Monitor log. <span class="compatibility">
+   COMPATIBILITY NOTE: If a custom automatic elaboration process of the
+   Internal Monitor log is in place, it may have to be aligned.</span></p>
+
+<p>Removed an annoying startup log message about the JDK's
+   javax.management.mbeanserver logger not being configured.<br/>
+   Slightly revised the startup sequence.<br/>
+   Slightly revised the startup log regarding Adapter loading.<br/>
+   Improved log messages upon startup failure during JMX service startup.</p>
+
+<p>Slightly revised the log of web requests (the ones on loggers
+   LightstreamerLogger.webServer and descendants).<br/>
+   Improved the log of unsuccessful polling requests.<br/>
+   Improved the log messages upon "sync errors".<br/>
+   Extended the log upon sessions closed by missing rebind
+   (i.e. cause code 39), to identify the scenario.</p>
+
+<p>Added the "requests" sublogger of the "LightstreamerLogger.mpn" logger
+   and migrated the log of client requests to the MPN module there.
+   In the recommended, factory configuration, the "LightstreamerLogger.mpn"
+   logger has been extended to INFO level.</p>
+
+<p>Improved internal request processing.<br/>
+   Slightly revised the request parsing and the error notifications in case
+   of low-level syntax errors.</p>
+
+<p>Extended the support of the &lt;max_delay_millis&gt; setting, which is
+   meant for data updates but only partially applied to other messages.
+   This should slightly reduce the overall outbound bandwidth usage with
+   recent Client SDKs on WebSocket.</p>
+
+</div>
+
+<div class="subsectionTitle">Documentation and Deployment Level Changes</div>
+
+<div class="text">
+
+<p>Extended the Clustering.pdf document with notes on the new support
+   for session draining added to the JMX service (ServerMBean).</p>
+
+<p>Aligned the documentation of the Internal Monitoring Data Adapter in the
+   General Concepts document, by adding the field related to the new .NET
+   Standard Client SDK in the "monitor_details" item. The alignment was forgotten
+   in the 7.0.3 release.</p>
+
+<p>Documented that the configured &lt;session_timeout_millis&gt; is also
+   involved in client inactivity checks.</p>
+
+<p>Updated the client library included in the Monitoring Dashboard to
+   SDK for Web Clients (Unified API) Version 8.0.2. 
+   <span class="compatibility">COMPATIBILITY NOTE: If the current licensing
+   doesn't support Web SDK Version 8.0.x, still no upgrade is needed
+   in order to use the Monitoring Dashboard.</span></p>
+
+<p>Fixed this changelog, as the build number of the previous 7.0.2 version
+   was mistakenly reported as 1855.3 instead of 1885.3.</p>
+
+</div>
+
+
+<div class="version">7.0.3 build 1885.8</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="compatibility">Compatible with the database of the MPN Module for the previous version.</div>
+<div class="date">Released on 7 Jan 2019</div>
+
+<div class="text">
+
+<p>Fixed an annoying bug introduced in version 7.0.1 and affecting the "relative appenders"
+   provided with the Server and preconfigured in the factory log configuration file as LSRolling
+   and LSDailyRolling. Upon the first modification (of any kind) of the file while the Server
+   was running, the position of the generated log files would have changed and become relative
+   to the launch directory instead of the configuration file directory, until the next restart.</p>
+
+<p>Fixed a bug which could have caused a ClassCastException during update forwarding.
+   As a consequence, this would have caused a streaming session to be suddenly closed
+   with error code 43. The bug was triggered by a rare race condition, only possible
+   with items subscribed to in both RAW and MERGE mode.</p>
+
+<p>Fixed the check that at least one custom Adapter Set is defined. A warning log
+   saying "No custom Adapter Set defined." might have been issued (or not issued) wrongly.</p>
+
+<p>Completed the support for .NET Standard Client SDK, recently published on NuGet,
+   which was partial in the preexisting versions of the Server. Added, in particular,
+   handling of Session recovery, support in edition configuration file,
+   and dedicated fields in the "monitor_details" item of the Monitoring Data Adapter.</p>
+
+</div>
+
+
+<div class="version">7.0.2 build 1885.3</div>
+<div class="compatibility">May not be compatible with the deployment structure of the previous version;
+see the compatibility notes below.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="compatibility">Compatible with the database of the MPN Module for the previous version.</div>
+<div class="date">Released on 3 Oct 2018</div>
+
+<div class="text">
+
+<p>Ensured runtime compatibility with Java 11; this involves changes and additions
+   of third party libraries, as well as changes in the launch script.
+   <span class="compatibility">COMPATIBILITY NOTE: As the updated libraries have different
+   names, if upgrading an existing installation, make sure you have removed the previous
+   version of the libraries first. Moreover, if using a custom launch script,
+   ensure that the new libraries are now referred.</span>
+   <span class="compatibility">COMPATIBILITY NOTE: If an existing installation
+   uses a custom launch script, the changes should be ported.</span></p>
+
+<p>Fixed a bug introduced in version 6.0.2 which prevented the handling of JVM
+   variable expansion in the main configuration file, when such variables were used
+   to define tag attributes.</p>
+
+<p>Fixed a bug in the reporting of unexpected exceptions on some Websocket requests,
+   which caused a NullPointerException to be reported instead.</p>
+
+<p>Removed spurious startup log messages, possible when starting with the
+   factory configuration file, mentioning duplicated &lt;remove_protocols&gt;
+   settings.</p>
+
+<p>Fixed the preconfigured error page, ErrorPage.html, which was not aligned after
+   renaming the internal logo in version 7.0.1. This renaming was in turn missed
+   in 7.0.1 changelog. <span class="compatibility">COMPATIBILITY NOTE: If you have
+   configured a customized error page, which, nevertheless, still links Lightstreamer
+   internal logo, it should be aligned as well.</span> Also improved the logo.</p>
+
+</div>
+
+
+<div class="version">7.0.1 build 1885</div>
+<div class="compatibility">May not be compatible with the deployment structure of the previous version;
+see the compatibility notes below.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="compatibility">Compatible with the database of the MPN Module for the previous version.</div>
+<div class="date">Released on 14 Jun 2018</div>
+
+<div class="text">
+
+<p>Introduced various improvements on the support for client https connections
+   (see the &lt;https_server&gt; configuration block).
+   <ul>
+   <li>Improved the support for TLS session resumption (see the
+   &lt;use_client_hints_for_TLS_session_resumption&gt; configuration element).</li>
+   <li>Added support for server-side choice of the cipher suite to be used
+   (see the &lt;enforce_server_cipher_suite_preference&gt; configuration
+   element); the server-side choice is now also the suggested setting.<br/>
+   This setting is also available in the &lt;rmi_connector&gt; block
+   under &lt;jmx&gt;.</li>
+   <li>Introduced the &lt;disable_TLS_renegotiation&gt; configuration
+   element.</li>
+   <li>Extended the suggested settings of &lt;remove_cipher_suites&gt;.
+   and the suggested settings of &lt;remove_protocols&gt;.
+   Note that this may be too restrictive for some old user agents.<br/>
+   This also applies to the &lt;rmi_connector&gt; block under &lt;jmx&gt;.</li>
+   <li>Introduced the support for keystore passwords written on a file
+   (see the &lt;keystore&gt; block).<br/>
+   The extension is also available for the &lt;truststore&gt; block and
+   also applies to the &lt;rmi_connector&gt; block under &lt;jmx&gt;.</li>
+   <li>Added checks for runtime replacement of the keystore file
+   (see the &lt;keystore&gt; block).</li>
+   </ul></p>
+
+<p>Discontinued the support for java 6 SDK and runtime environment.
+   Java 7 or later is now required.
+   <span class="compatibility">COMPATIBILITY NOTE: installations of the Server
+   still based on a java 6 JVM have to be upgraded. Existing Adapters compiled
+   for a java 6 SDK don't need to be upgraded.</span></p>
+
+<p>Fixed a bug that, under conditions of huge activity and high parallelism,
+   could have caused one or more threads to enter a strict loop and the whole
+   Server to hang.</p>
+
+<p>Fixed a bug introduced in 7.0.0 which caused the configuration of TLS/SSL
+   on the RMI Connector for the JMX service to be refused as not licensed in case the DEMO
+   license type was configured.</p>
+
+<p>Fixed a bug introduced in 7.0.0 which caused the &lt;truststore&gt; configuration
+   block in the &lt;https_server&gt; block to be ignored. This only affected
+   the case in which either &lt;use_client_auth&gt; or &lt;force_client_auth&gt;
+   (or both) was set to Y.</p>
+
+<p>Fixed bug in MPN module that could have caused an error when a new Server
+   instance was taking over devices from a previous instance. This would have
+   caused delays in the takeover operation.</p>
+
+<p>Improved handling of control requests targeted to closed sessions on WebSockets.
+   Such requests might have been reported as "Bad request"; now a proper error
+   notification will always be issued.</p>
+
+<p>Clarifying some logging messages and improved logging in various ways:<ul>
+   <li>Fixed some error messages in the MPN module reporting "Apple service" where,
+   actually, "Google service" was meant.</li>
+   <li>Removed some harmless occurrences the "Unexpected context ClassLoader found"
+   warning.</li>
+   <li>Removing the harmless "could not fulfill" warning message upon successful
+   session recovery.</li>
+   <li>Removed some error level log upon normal interruptions of https connections.</li>
+   <li>Extended the internal cause codes on connection interruptions for timeouts.</li>
+   </ul></p>
+
+<p>Added to the included Monitoring Dashboard (License tab) a section,
+   only available when the online license validation is leveraged, which reports the
+   number of Server instances currently active and validated for the same contract ID.</p>
+
+<p>Improved the reporting of client IPs in the internal Monitoring Data Adapter
+   and Monitoring Dashboard.</p>
+
+<p>Added a check to refuse session recovery requests specifying an event not yet sent;
+   in fact, in principle, such request could be fulfilled, but they are implicitly
+   forbidden by the specifications.</p>
+
+<p>Aligned the Clustering.pdf document (paragraph 4) to account for the extension
+   recently introduced in some Client SDKs to notify the Client of the Server's
+   detection of wrong affinity.</p>
+
+<p>Clarified the SSL Certificate.pdf document with respect to keytool limitations
+   and acquisition of the certificate chain.</p>
+
+<p>Fixed a bug in the included welcome page which caused malfunctioning in case of
+   network issues. However, the welcome page is for internal use only.</p>
+
+</div>
+
+
+<div class="version">7.0.0 build 1860.2</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="compatibility">Compatible with the database of the MPN Module for the previous version.</div>
+<div class="date">Released on 23 Apr 2018</div>
+
+<div class="text">
+
+<p>Fixed a serious bug in the recently introduced session recovery mechanism,
+   which could have caused update event duplication upon a successful recovery
+   on clients based on the Web and Node.js Client SDKs (of versions suitable
+   for session recovery support). The bug was triggered by previous subscription
+   requests that were refused, because illegal or disallowed by the Metadata Adapter
+   (such errors are notified to the client application through onSubscriptionError
+   or onCommandSecondLevelSubscriptionError).</p>
+
+<p>Fixed a compatibility issue which affected the validation
+   of ONLINE licenses. With some custom configurations of the JVM security
+   settings, a valid license could have been refused.</p>
+
+<p>Fixed a bug on the handling of suspension of MPN devices returned
+   by Apple’s feedback service. This prevented the removal of the devices.</p>
+
+<p>Improved logging upon session recovery, by adding a missing log
+   of the related bind_session request.</p>
+
+<p>Slightly revised the log of online license checks.</p>
+
+</div>
+
+
+<div class="version">7.0.0 build 1860</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Not compatible with configuration files for the previous version;
+see the compatibility notes below.</div>
+<div class="compatibility">May not be compatible with licensed features holding for the previous version;
+see the compatibility notes below.</div>
+<div class="compatibility">Not compatible with the database of the MPN Module for the previous version;
+see the compatibility notes below.</div>
+<div class="date">Released on 28 Feb 2018</div>
+
+<div class="subsectionTitle">Systemwide Changes and Extensions</div>
+
+<div class="text">
+
+<p>Introduced two different editions: "COMMUNITY" for FREE license (replacing the old
+   "Moderato" edition) and "ENTERPRISE" for all other types of license (replacing the old
+   "Allegro/Presto/Vivace" editions).<br/>
+   For this purpose, revised the licensing configuration, with the introduction
+   of the new "lightstreamer_edition_conf.xml" configuration file, which replaces
+   the old "lightstreamer_version_conf.xml". In particular, the &lt;license&gt; section
+   has been heavily modified. See &lt;edition&gt; in the new "lightstreamer_edition_conf.xml"
+   configuration file for details; and the specific section of each
+   edition depending on your choice:<br/>
+     - &lt;community_edition_details&gt;<br/>
+     - &lt;enterprise_edition_details&gt;<br/>
+   Also a new mandatory &lt;edition_conf&gt; configuration element in the main
+   configuration file "lightstreamer_conf.xml" has been introduced, replacing the old
+   &lt;version_conf&gt;. See the inline comments in the factory configuration
+   file for details.
+   <span class="compatibility">
+   COMPATIBILITY NOTE: In existing installations, the new &lt;edition_conf&gt;
+   element and "lightstreamer_edition_conf.xml" file must be added (and the old
+   &lt;version_conf&gt; element must be removed).<br/>
+   If previously using the "Moderato" package, configure the "COMMUNITY" edition;
+   otherwise, configure the "ENTERPRISE" edition. In the latter case:
+   </span><ul>
+   <li><span class="compatibility">If using a "DEMO" license with "Vivace" edition
+   configured, just keep the factory settings.</span></li>
+   <li><span class="compatibility">If using a "DEMO" license with other editions
+   configured, start from the factory settings, but restrict the feature set
+   accordingly (see below).</span></li>
+   <li><span class="compatibility">If using a "LICENSE_SERVER" or "LICENSE_FILE",
+   ask for a license upgrade, with instructions on how to configure it.</span></li>
+   </ul>
+   <span class="compatibility">The currently used "lightstreamer_version_conf.xml"
+   file should be abandoned, and any changes to the &lt;proxy&gt; block and the
+   &lt;audit_log_path&gt;, &lt;automatic_update_check&gt;, and &lt;automatic_audit_upload&gt;
+   elements should be ported to the new "lightstreamer_edition_conf.xml" configuration file.
+   </span></p>
+
+<p>For DEMO licenses, introduced the possibility to only activate the
+   optional features you want to use, instead of choosing only among the three old available
+   editions. See the &lt;optional_features&gt; section in the "lightstreamer_edition_conf.xml"
+   configuration file.<br/>
+   For online-validated licenses (previously the LICENSE_SERVER type), the optional features
+   are now provided by your license, instead of choosing among the three old available
+   editions. Yet, it is still possible to furtherly restrict the optional features
+   you want to use through the &lt;optional_features&gt; section.<br/>
+   Also for file-based licenses (previously the LICENSE_FILE type) it is now possible
+   to furtherly restrict the optional features you want to use through the
+   &lt;optional_features&gt; section.</p>
+
+<p>The COMMUNITY edition allows to choose one of the available Client SDKs
+   to use with the Lightstreamer Server; instead, the old "Moderato"
+   edition forced Web, Node.js, and Flash Client SDKs. <span class="compatibility">
+   COMPATIBILITY NOTE: If upgrading from "Moderato" to "COMMUNITY" edition,
+   whereas Web, Node.js, and Flash Client SDKs were all enabled at the same time,
+   now only one of them can be enabled at the same time.</span></p>
+
+<p>Wholly revised the support for Mobile Push Notifications
+   offered through the internal MPN Module.
+   The support is now available through the recently introduced TLCP client protocol.
+   This makes it part of the SDK for Generic Clients and enables support on more Client SDKs.<br/>
+   See the MPN chapter on the General Concepts document for all the details.
+   But in particular, the revision brings the following consequences:
+   <ul>
+        <li>Reserved the Adapter Set name "MPN_INTERNAL_ADAPTER_SET" (only when the
+        MPN Module is enabled). <span class="compatibility">COMPATIBILITY NOTE:
+        in the very unlikely case of a name conflict with a custom Adapter Set, the Server
+        will refuse to start and the custom Adapter Set will have to be renamed.</span></li>
+
+        <li>Added an internal Data Adapter in all Adapter Sets (only when the MPN Module
+        is enabled). It is available for queries related with MPN state by the various Client
+        SDKs. Note that client subscription requests for the new Adapter will not be submitted
+        to the custom Metadata Adapter and will be handled in the SERVER thread pool.<br/>
+        The Adapter is hidden from the Adapter Set configuration and its name is now
+        reserved (again, only when the MPN Module is enabled); the name can be configured
+        through the new &lt;internal_data_adapter&gt; flag in the &lt;mpn&gt; block.
+        <span class="compatibility">COMPATIBILITY NOTE: in the very unlikely case of
+        a name conflict with a custom Data Adapter, the Server will refuse to start;
+        anyway, the name can be reconfigured properly.</span></li>
+
+        <li>Changed the names used to identify the platforms, according to the changes
+        in the SDK for Java In-Process Adapters. This affects platform-specific:<ol>
+            <li>Logger names.</li>
+            <li>Log messages and error messages.</li>
+            <li>Thread pool names.</li>
+            <li>Configuration elements provided in the &lt;mpn&gt; block to specify
+            the notifier configuration files.</li>
+            <li>Names of the top-level elements of the notifier configuration files.</li>
+            <li>Factory names and paths of the notifier configuration files.</li>
+        </ol>
+        <span class="compatibility">COMPATIBILITY NOTE: In any existing installation
+        in which the MPN Module is enabled, the use of platform names should be verified.
+        Points 4 and 5 above are certainly involved and have to be addressed. Point 6
+        changes the deployment structure and should be addressed for clarity,
+        but does not pose compatibility issues.</span></li>
+
+        <li>Reduced the default value of the &lt;min_send_delay_millis&gt; configuration
+        flag, to request more frequent notifications to the third-party Push Notification Service.
+        Moreover, for notifications related to triggers, this restriction is no longer applied.</li>
+
+        <li>Discontinued the application of the &lt;reaction_on_database_failure&gt;
+        configuration flag in the specific case of badge management.
+        The "abort_operation" policy will always be adopted.</li>
+
+        <li>Added the &lt;notifier_pools&gt; and &lt;composer_pool_size&gt; configuration
+        flags to the &lt;mpn&gt; block of the main configuration file, to replace
+        the same flags available in the platform-specific configuration files.
+        <span class="compatibility">COMPATIBILITY NOTE: If the flags are used in an existing
+        installation, the new one should be leveraged. However, if the flag has different
+        values for different services, the differentiation cannot be kept. In any case,
+        it is recommended to remove the old flags, to avoid confusion.</span></li>
+
+        <li>Renamed the &lt;subscription_timeout_minutes&gt; configuration flag to
+        &lt;device_inactivity_timeout_minutes&gt;. <span class="compatibility">
+        COMPATIBILITY NOTE: Existing configuration files should be aligned.</span></li>
+
+        <li>Introduced a garbage collection of devices that remain too long with no
+        subscriptions. The timeout is enforced by the existing (but newly renamed)
+        &lt;device_inactivity_timeout_minutes&gt; configuration flag. Added the related
+        &lt;collector_period_minutes&gt; configuration flag in the &lt;mpn&gt; block.</li>
+
+        <li>Improved the detection, logging, and recovery of failed attemps to send
+        APNS Notifications.</li>
+
+        <li>Changed in various parts the schema of the database used by the MPN Module.
+        This also affects the factory hibernate configuration files under conf/mpn.
+        <span class="compatibility">COMPATIBILITY NOTE: In any existing installation
+        in which the MPN Module is enabled, the database should be migrated before
+        running the new Server. To achieve that, please
+        contact Lightstreamer support for instructions.</span></li>
+
+        <li>Changed the factory configuration of the database, to suggest HSQLDB for
+        the first tests.</li>
+   </ul></p>
+
+<p>Discontinued the support for Mobile Push Notifications
+   for clients based on the previous version of the MPN Module. This affects the
+   old non-Unified-API versions of the Android, iOS, and macOS Client SDKs.
+   The Server will remain formally compatible with these clients, but any request
+   for Mobile Push Notification services will be actively refused.
+   <span class="compatibility">COMPATIBILITY NOTE: Existing clients leveraging
+   the Mobile Push Notifications support should be upgraded by porting them to the
+   corresponding Unified-API versions of the old SDKs, which have now been extended
+   with Mobile Push Notification support based on the new MPN Module.</span></p>
+
+<p>Introduced the support for the recovery of a session upon an interruption of a
+   streaming or long polling connection. If the interruption is due to network
+   issues, a client can request a rebind starting from the last event it received.
+   See the new &lt;session_recovery_millis&gt;, &lt;max_recovery_length&gt;, and
+   &lt;max_recovery_poll_length&gt; configuration elements for details.</p>
+
+<p>Modified the default for the &lt;server_pool_max_size&gt; to become 1000.
+   This should reduce the delays caused by slow adapters on those installations
+   in which the settings for the SERVER thread pool and its optional subpools
+   are not leveraged.
+   <span class="compatibility">COMPATIBILITY NOTE: For installations leaning
+   on the default pool size, in case of slow adapters, the memory footprint could
+   increase by about 1GB. If an installation cannot afford this memory increase,
+   &lt;server_pool_max_size&gt; should be manually redefined. The previous
+   default was the maximum between 10 and the number of cores.</span>
+   Only if &lt;server_pool_max_size&gt; is missing and left at its default,
+   the default of &lt;server_pool_max_free&gt; also changes and becomes 10.</p>
+
+<p>Added a check on client's activity and heartbeats as a way to detect streaming
+   connections kept open by some intermediate node while the Client is stuck or
+   already detached. The check has to be requested by the clients.</p>
+
+<p>Introduced an experimental support for external
+   implementations of the PKCS#11 standard to be used as keystores. Contact
+   Lightstreamer Support for details.
+   Introduced the explicit support of keystores of type PKCS12, which, however,
+   may not be available with old JDKs. The extension involves the
+   &lt;keystore&gt; and &lt;truststore&gt; blocks under &lt;https_server&gt;
+   and the &lt;keystore&gt; block under &lt;rmi_connector&gt;. Updated the
+   included SSL Certificates.pdf document accordingly.<br/>
+   Enforced the syntax checks on the mandatory subelements of the abovementioned
+   blocks. <span class="compatibility">COMPATIBILITY NOTE: Only in case of
+   illegal missing subelements, an existing configuration that used to be
+   tolerated (by assuming an empty block) may now be refused on startup.</span></p>
+
+<p>Limited the responses of the form "License not valid for this Client version",
+   which were issued also in cases in which the Client SDK version was not correctly
+   specified in the request (which, actually, could also be due to request
+   corruption). These cases are now treated as normal syntax errors (which are
+   notified in different ways depending on the Client SDK type).<br/>
+   Relieved the above license notifications for all clients based on the
+   Web and Node.js Client SDKs,
+   also for old versions. Instead of issuing an alert (Web) or a console log
+   (Node.js), a suitable error code is now reported; where not available,
+   the issue is notified as a syntax error.</p>
+
+<p>Updated the included versions of some third-party libraries; also added a few more
+   libraries and removed some. <span class="compatibility">COMPATIBILITY NOTE:
+   As the new libraries have different names, make sure you have removed the previous
+   version of the libraries upon upgrade. Moreover, if using a custom launch script,
+   ensure that the new libraries are now referred.</span>
+   In particular:<ul>
+   <li>Updated the included version of the slf4j library from 1.7.21 to 1.7.25. This library
+   can be accessed by custom code from Adapters configured for the "log-enabled" ClassLoader.
+   <span class="compatibility">COMPATIBILITY NOTE: no compatibility issues are expected,
+   but see the slf4j changelog for any details.</span></li>
+   <li>Updated the included version of the logback library from 1.1.7 to 1.2.3. This library
+   governs the interpretation of the logging configuration file.
+   <span class="compatibility">COMPATIBILITY NOTE: no compatibility issues are expected,
+   but this library has introduced a few minor non-backward-compatible changes; see the
+   logback changelog for any details.</span></li>
+   <li>Updated the included version of the janino library
+   from 3.0.0 to 3.0.7. This library handles the interpretation of the trigger expressions
+   in the MPN Module. <span class="compatibility">COMPATIBILITY NOTE: no compatibility
+   issues are expected, but only improvements in the supported syntax; but see the janino
+   changelog for any details.</span></li>
+   </ul></p>
+
+<p>Added a heuristic detection of client requests that may be targeted to a different
+   Server instance of a cluster and routed to the wrong instance. The information
+   is made available in the log and to the most recent clients.</p>
+
+<p>Introduced a preliminary test of the reachability of the RMI Connector for the JMX service.
+   In fact, without the test, the Server could start by leaving the RMI Connector not
+   reachable even by the "stop" script when lanched from the same environment as the Server.
+   <span class="compatibility">COMPATIBILITY NOTE: if the RMI Connector were not reachable
+   from the Server environment with the configured hostname, an existing working installation
+   will now fail to start. To disable the test, see the new &lt;test_ports&gt; configuration
+   flag under &lt;rmi_connector&gt;.</span>
+   Added a configurable timeout to cope with cases in which the establishment or the test
+   of the RMI Connector could block and delay the Server startup. See the new
+   &lt;test_timeout_millis&gt; configuration flag under &lt;rmi_connector&gt;.<br/>
+   Improved the log of setup and connection to the RMI Connector.</p>
+
+</div>
+
+<div class="subsectionTitle">Fixes for Bugs and Defects</div>
+
+<div class="text">
+
+<p>Modified the handling of the HTTP headers configured through the
+   &lt;response_http_headers&gt; block. If the same header is reported multiple
+   times, multiple header lines will be now produced, instead of a single line
+   with comma-separated values.<br/>
+   This fixes the handling of multiple occurrences of the Set-Cookie header,
+   for which multiple occurrences are indeed legal, but a comma-separated
+   format, overriding the general HTTP rule, is not.
+   <span class="compatibility">COMPATIBILITY NOTE: For any other HTTP header
+   currently configured, no change is expected in the behavior of the user-agents,
+   as the multiple-lines and the comma-separated forms are supposed to be
+   equivalent. At the most, for some other non-standard HTTP header, we can
+   expect an improvement.</span></p>
+
+<p>Improved the robustness of the Internal Web Server and the Monitoring Dashboard.<br/>
+   Fixed missing escaping in the Internal Web Server, which might have caused some
+   requests on directories with unusual names to fail.</p>
+
+<p>Fixed a bug affecting update dispatching, which could have been triggered
+   by the combination of a very fast unsubscription-resubscription sequence and
+   significant delays in internal update processing, possibly due to high load.
+   The bug could have caused one or more updates for the previous subscription
+   to be used in place of an equal number of updates for the new subscription.</p>
+
+<p>Fixed a bug in the handling of session termination which, in case of a
+   concurrent unsubscription, could have caused the corresponding notifyTablesClose
+   invocation to be missed. As said, this could only occur upon session close,
+   hence just before the final notifySessionClose notification.<br/>
+   Fixed other harmless bugs in the handling of session termination which,
+   in rare cases, could have caused an exception to be logged.</p>
+
+<p>Fixed a bug which caused the Server response to be empty
+   upon requests made with the recently introduced TLCP protocol and containing
+   syntax errors. The response should have reported error code 65, 67, or 68.
+   This could only affect clients based on the SDK for Generic Clients.</p>
+
+<p>Fixed the handling of empty requests, which caused an exception to be thrown.</p>
+
+<p>Ensured compatibility with Javascript strict mode for clients based on the
+   Node.js Client SDK.</p>
+
+<p>Fixed a bug triggered by reuse, by the Data Adapter, of an update event
+   of HashMap type in multiple update/smartUpdate calls for different items,
+   when the modes of the two items were different. In this case, some field values
+   could have been treated as null and a WARN message could have been issued.</p>
+
+<p>Fixed a bug that, in rare and isolated cases, could have caused the average
+   wait on a thread pool queue to be computed as a negative number.
+   This affected the JMX Extension SDK (including
+   the JMX Tree) and the internal MONITOR Data Adapter and log.</p>
+
+<p>Ensured runtime compatibility with Java 9; this also required a change in the
+   launch script, to use Java 9's JDK_JAVA_OPTIONS environment variable.
+   <span class="compatibility">COMPATIBILITY NOTE: If an existing installation
+   uses a custom launch script, it can be left unmodified; however, in order
+   to take advantage of the improvement, the change should be ported.</span></p>
+
+<p>Fixed the documentation comment of the &lt;server_tokens&gt; configuration
+   element, as the Server identifies itself as "Lightstreamer Server" instead
+   of "Lightstreamer" since version 6.0.</p>
+
+</div>
+
+<div class="subsectionTitle">Minor Changes and Extensions</div>
+
+<div class="text">
+
+<p>Improved the communication with the embedded version of the Proxy Adapters.
+   This will impact on the count of "active threads" involved in the invocations
+   of notifyUser and notifyUserMessage, which should become much smaller.
+   Nevertheless, the related "queued tasks" and "pool queue wait" statistics
+   should remain similar, to still take into account the wait for the answers
+   from the Remote Adapter. As a consequence, the behavior of the various
+   "max_queue" configuration flags should also remain similar.</p>
+
+<p>Added preliminary checks on the completeness of the configured keystores.
+   If a keystore doesn't define a private key, the startup will fail.
+   <span class="compatibility">COMPATIBILITY NOTE: Existing installations
+   are not expected to configure an empty keystore, since, in this case,
+   the port wouldn't accept any connection; however, the Server would start
+   and other ports would still work. Now, to achieve the same, that port
+   should be removed from the configuration.</span></p>
+
+<p>Moved to case-sensitive checks for the recognition of the values set for
+   the "classloader" parameters in adapters.xml. <span class="compatibility">
+   COMPATIBILITY NOTE: Only existing configuration using non-lowercase values
+   would be refused, but this case is not expected, as never explicitly allowed.
+   </span></p>
+
+<p>Introduced the &lt;handshake_timeout_millis&gt;
+   configuration element to replace &lt;read_timeout_millis&gt; when TLS/SSL
+   handshakes are involved. This also modifies the applied timeout,
+   which is now 4000 ms, unless reconfigured.
+   <span class="compatibility">COMPATIBILITY NOTE: If an existing installation
+   needs to keep the TLS/SSL handshake timeout unchanged, a new
+   &lt;handshake_timeout_millis&gt; element with the same value specified for
+   &lt;read_timeout_millis&gt; has to be added.</span>
+   Clarified when the various I/O timeout checks can be suppressed.</p>
+
+<p>Modified the HTTP 404 response issued to WebSocket opening requests that
+   specify a wrong URI. The page configured through &lt;error_page&gt;
+   is now returned as the body.</p>
+
+<p>Revised and improved the Monitoring Dashboard.<br/>
+   Added the new tab "License" summarizing the details of your edition and the specific
+   license features active in the Server running.<br/>
+   Optimized the subscriptions handling for "Logs" tab in case of get/lost focus events.</p>
+
+<p>Extended the internal MONITOR Data Adapter with new items, "monitor_details" and
+   "monitor_client_libs", which provide details of your edition and the specific
+   license features active in the Server running. Look for the new items in the
+   General Concepts document for details.</p>
+
+<p>Brought various efficiency improvements, to increase the scalability with respect,
+   in particular, to the overall frequency of client control requests.<br/>
+   The scenario of massive client disconnections has also been addressed.<br/>
+   Reduced the allocation of short-lived memory for various tasks, which should
+   save some Garbage Collection work.</p>
+
+<p>Improved the checks associated to the &lt;unexpected_wait_threshold_millis&gt;
+   setting, to embrace all invocations to the adapters.</p>
+
+<p>Revised the handling and improved logging of http parsing issues.<br/>
+   Improved the log of connection issues by adding socket information where missing.</p>
+
+<p>Changed the suggested setting for the &lt;write_timeout_millis&gt; configuration
+   element to enable the check, though with a long timeout, to cope with half-open
+   connections.</p>
+
+<p>Extended the &lt;disable_session_mbeans&gt; configuration
+   element; with the new "sampled_statistics_only" setting, these MBeans will still
+   be available from the SDK for JMX Extensions, but the properties based
+   on periodic sampling (which can cause scalability issues in some scenarios)
+   will not be computed.</p>
+
+<p>Introduced a size limit on the internal buffers that can be kept allocated for reuse.
+   Only in particular cases, the overall allocation of these buffers could have grown
+   too much and caused memory shortage.<br/>
+   Introduced the &lt;max_common_pump_buffer_allocation&gt; and
+   &lt;max_common_nio_buffer_allocation&gt; configuration elements to manage the limit.</p>
+
+<p>Addressed a compatibility issue with Safari which, when leveraging the newly introduced
+   session recovery feature, could have caused unexpected exceptions in pages based on the
+   Web Client SDK.</p>
+
+<p>Revised the internal approximation in item frequency management. This avoids that,
+   with very high requested frequencies, the "real" frequency may be higher.</p>
+
+<p>Increased the length of the generated session IDs by a few bytes.</p>
+
+<p>Improved the log of WebSocket requests, by adding the involved session id when it is
+   omitted from the request.<br/>
+   Introduced the "upd" sublogger to the LightstreamerLogger.subscriptions logger,
+   to distinguish the part of log related with the events coming from the Data Adapter.
+   By setting it to ERROR, the warnings issued upon updates for items currently not
+   subscribed to can be suppressed.</p>
+
+<p>Slightly revised the log on startup.</p>
+
+<p>Improved the "stop" script to act faster.</p>
+
+</div>
+
+<div class="subsectionTitle">Documentation and Deployment Level Changes</div>
+
+<div class="text">
+
+<p>Aligned the included SSL Certificates.pdf document to recent
+   standards. In particular, suggested the inclusion of the "subject alternative name"
+   field in the certificate, which may be required by some user agents.</p>
+
+<p>Revised the Clustering.pdf document and aligned it to the current state
+   of the Client SDKs with regard to cookie handling requirements.
+   Also reformulated the HTTPS section to consider acquisition of multi-domain
+   certificates as the normal practice.</p>
+
+<p>Revised naming convention and format of Audit logs.
+   See files header in the "audit" folder for details.</p>
+
+<p>Slightly revised the preinstalled welcome page. Added a new section with "Edition"
+   details.</p>
+
+</div>
+
+
+<div class="version">6.1.0 build 1817</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">May not be compatible with configuration files for the previous version;
+see the compatibility notes below.</div>
+<div class="compatibility">Compatible with the database of the MPN Module for the previous version.</div>
+<div class="date">Released on 23 Jan 2017</div>
+
+<div class="text">
+
+<p>Introduced the support for a new client protocol, named TLCP,
+   with various improvements, that can be leveraged by Client SDKs and by custom clients.
+   See the SDK for Generic Clients for details.</p>
+
+<p>Fixed a bug related with the content-length configuration. When a value higher than 2^31
+   was configured for &lt;content_length&gt; or specified on the client side, it would be
+   read wrongly and an internally determined lower bound of 10000 would be used instead.<br/>
+   The same bug affected the &lt;max_streaming_millis&gt; setting; in that case,
+   high values were interpreted as not limiting at all.</p>
+
+<p>Fixed the documentation for the "name" attribute of the &lt;http_server&gt;
+   and &lt;https_server&gt; blocks, where the allowed
+   character range was missing. The use of non ASCII or ASCII control characters could,
+   in particular cases, have caused errors in the communication with the clients.<br/>
+   Added a check on the configured names which now refuses disallowed characters.
+   <span class="compatibility">COMPATIBILITY NOTE: If disallowed characters have
+   been used, the configuration may have to be modified.</span></p>
+
+<p>Fixed the documentation and the management of the
+   &lt;control_link_address&gt; and &lt;control_link_machine_name&gt; configuration
+   elements, where the use of non standard characters could, in particular cases,
+   have caused errors in the communication with the clients.<br/>
+   Unicode names are currently supported by the Web, Node.js, Java, and Android
+   (Unified API) Client SDKs and by the Generic Client SDK. More will come.</p>
+
+<p>Introduced a limited support for JVM property expansion in the interpretation
+   of the adapters.xml files. It has to be enabled through a new configuration flag,
+   &lt;enable_expansion_for_adapters_config&gt; in the main configuration file.
+   The new factory configuration enables the feature. <span class="compatibility">
+   COMPATIBILITY NOTE: In existing installations the interpretation will not change,
+   as the feature is disabled by default.</span></p>
+
+<p>Improved the factory settings of the log configuration file, with regard to the
+   display of the logger name by the preconfigured "LSDailyRolling" appender.
+   The new "%-19.19c{19}" setting is recommended, because it causes Logback to shorten
+   the "LightstreamerLogger" part of the names to "L", allowing for a reduced field,
+   while preserving the other parts of the names. The previous setting was "%-33.33c"</p>
+
+<p>Added the "private" property to the &lt;client_identification&gt; configuration element,
+   to prevent sending the determined client address to the Client, which is done by some
+   of the Unified API Client SDKs.</p>
+
+<p>Clarified the description of the &lt;cross_domain_policy&gt; configuration block,
+   for what concerns the origin checks on WebSockets.<br/>
+   Clarified the description of the &lt;max_buffer_size&gt; configuration element,
+   to cite the case of the snapshot for DISTINCT items.</p>
+
+<p>Revised the error messages sent to the Client. Improved the messages upon request
+   syntax errors, for the benefit of tests with the Generic Client SDK. Used less
+   specific messages on subscription errors, to avoid specifying item names.</p>
+
+<p>Slightly modified the behavior upon unexpected request URLs. The configured error page
+   will no longer be sent upon URLs related to features that are currently not supported
+   or not enabled, but a HTTP 400 error will be issued instead.<br/>
+   Modified the behavior upon syntactically wrong requests. A HTTP 400 error instead
+   of a HTTP 500 error will now be issued.<br/>
+   Revised the low-level WebSocket close code used, so as to report a non-successful
+   close only when really needed.</p>
+
+<p>Added a suggested configuration setting in the
+   &lt;response_http_headers&gt; block, which may help to enable streaming support
+   when proxies of several types are involved.</p>
+
+<p>Revised internal optimizations on field value processing to focus on the most recent
+   Client SDK libraries.</p>
+
+<p>Improved logging by LightstreamerLogger.requests.messages by adding message
+   forwarding details at DEBUG level.<br/>
+   Improved logging by LightstreamerLogger.subscriptions at DEBUG level, by handling
+   the case of byte array values.</p>
+
+<p>Incremented the minor version number.
+   <span class="compatibility">COMPATIBILITY NOTE: If running the Server with
+   a license file, an upgrade of the license file is needed.</span></p>
+
+</div>
+
+
+<div class="version">6.0.4 build 1807</div>
+<div class="compatibility">May not be compatible with the deployment structure of the previous version;
+see the compatibility notes below.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="compatibility">Compatible with the database of the MPN Module for the previous version.</div>
+
+<div class="text">
+
+<p>MPN Module: fixed handling of cases where a device tries to subscribe
+   multiple times in a short period of time, possibly causing device duplication.<br/>
+   Note: duplication is still possible if multiple subscriptions are sent on different
+   client sessions connected to different Server instances at the same time. In this
+   scenario the MPN Module tries to detect the spurious devices and deletes them
+   automatically.</p>
+
+<p>MPN Module: fixed handling of "InvalidPackageName" error code from
+   the GCM (now Firebase Cloud Messaging) service. The device is now suspended, similarly to
+   a "NotRegistered" error code.</p>
+
+<p>Updated the included versions of some third-party libraries used
+   by the MPN Module. <span class="compatibility">
+   COMPATIBILITY NOTE: As the new libraries have different names, make sure you have removed
+   the previous version of the libraries upon upgrade. Moreover, if using a custom launch script,
+   ensure that the new libraries are now referred.</span></p>
+
+<p>Aligned the install scripts to current naming of macOS system.</p>
+
+</div>
+
+
+<div class="version">6.0.3 build 1803</div>
+<div class="compatibility">May not be compatible with the deployment structure of the previous version;
+see the compatibility notes below.</div>
+<div class="compatibility">May not be compatible with configuration files for the previous version;
+see the compatibility notes below.</div>
+<div class="compatibility">Compatible with the database of the MPN Module for the previous version.</div>
+<div class="date">Released on 5 Sep 2016</div>
+
+<div class="text">
+
+<p>Fixed a bug in Mobile Push Notification module that resulted in payloads for APNs being
+   rejected if longer than 256 bytes. Now payloads up to 2048 bytes are accepted, as expected.</p>
+
+<p>Fixed a bug introduced in version 6.0, which could have caused incorrect, hence refused,
+   responses to session requests by very old versions of Web Client SDK library.
+   However, the malfunctioning was only associated with the use of uncommon transports,
+   usually needed only as fallbacks for old browsers.</p>
+
+<p>Fixed a bug introduced with version 6.0, which caused the "pool queue wait" statistics
+   to be always reported as 0.
+   This affected managers based on JMX Extension SDK
+   (including the JMX Tree) and the Special MONITOR Data Adapter;
+   the latter, in turn, affected the Monitoring log.</p>
+
+<p>Fixed a bug in the implementation of the JMX Extension SDK,
+   which caused the values for the AvgQueueWaitMillis and CurrQueueWaitMillis properties
+   in the ThreadPoolMBean to be switched.</p>
+
+<p>Updated the included versions of some third-party libraries. <span class="compatibility">
+   COMPATIBILITY NOTE: As the new libraries have different names, make sure you have removed
+   the previous version of the libraries upon upgrade. Moreover, if using a custom launch script,
+   ensure that the new libraries are now referred.</span>
+   Updated the included version of the slf4j library from 1.7.8 to 1.7.21. This library
+   can be accessed by custom code from Adapters configured for the "log-enabled" ClassLoader.
+   <span class="compatibility">COMPATIBILITY NOTE: no compatibility issues are expected,
+   but see the slf4j changelog for any details.</span>
+   Updated the included version of the logback library from 1.1.2 to 1.1.7. This library
+   governs the interpretation of the logging configuration file.
+   <span class="compatibility">COMPATIBILITY NOTE: this library has added some consistency
+   checks and may behave differently with existing log configuration files that are not
+   fully compliant. See the logback changelog for any details.</span></p>
+
+<p>Performed several improvements to the preinstalled welcome page.</p>
+
+</div>
+
+
+<div class="version">6.0.2 build 1797</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">May not be compatible with configuration files for the previous version;
+see the compatibility notes below.</div>
+<div class="compatibility">Compatible with the database of the MPN Module for the previous version.</div>
+<div class="date">Released on 10 May 2016</div>
+
+<div class="text">
+
+<p>Fixed a bug in the management of clearSnapshot for items subscribed to in DISTINCT mode.
+   The bug affected the first update after clearSnapshot and could cause some fields to be
+   dispatched with wrong values. Specifically, let [B2,B1,CS,A1] be a sequence of events
+   sent to a client (where CS is the ClearSnapshot): any field in A1 that was identical in B2
+   but different in B1 would have been reported with the value it had in B1, hence wrongly.</p>
+
+<p>Fixed a syntax error in the installation script for Linux, that was introduced
+   in version 6.0.1 build 1778.</p>
+
+<p>Fixed a bug introduced in version 4.0 and regarding encoding of custom error
+   messages when sending them to clients based on Web and Node.js (Unified API) Client SDKs;
+   such messages can be supplied through the exceptions thrown by notifyUser and notifyNewSession.
+   The bug only affected messages which included double quotes and would cause the
+   onServerError callback not to be invoked at all on the client JavaScript code.</p>
+
+<p>Fixed an inefficiency in the processing of COMMAND mode snapshot introduced in version
+   6.0 build 1737. The issue was noticeable only with snapshots of many thousands of keys.<br/>
+   Removed the same kind of inefficiency also with regard to real-time updates.</p>
+
+<p>Improved the handling of cross-origin requests (used by the Web (Unified API) Client SDK),
+   by returning the appropriate headers also upon most error responses.</p>
+
+<p>Revised the parsing of the various configuration files (including adapters.xml)
+   to improve diagnostics. Some space characters are now ignored.
+   <span class="compatibility">COMPATIBILITY NOTE: No change is to be expected
+   in the interpretation of correct configuration files.</span></p>
+
+<p>Slightly revised the page supplied by the internal Web Server upon a 404 error,
+   to also have IE and Edge display it rather than a custom page.</p>
+
+<p>Enforced upload of audit logs by default when
+   LICENSE_SERVER is configured in lightstreamer_version_conf.xml.
+   <span class="compatibility">COMPATIBILITY NOTE: If the upload is undesirable
+   or problematic for any reason, it can be suppressed with the subsequent
+   &lt;automatic_audit_upload&gt; element.</span></p>
+
+<p>Extended the factory settings for the &lt;remove_cipher_suites&gt; elements,
+   to comply with the current common recommendations.</p>
+
+<p>Clarified in the configuration file that the names chosen for the &lt;http_server&gt;
+   and &lt;https_server&gt; blocks are available
+   to the clients.</p>
+
+<p>Realigned the launch script to suggest the use of java 8.</p>
+
+<p>Put a reminder about JMX service RMI connector credential setting in
+   PRODUCTION_SECURITY_NOTES.TXT.</p>
+
+<p>Updated the client library included in the Monitoring Dashboard to
+   SDK for Web Clients (Unified API) Version 7.0.2. 
+   <span class="compatibility">COMPATIBILITY NOTE: If LICENSE_FILE is configured
+   in lightstreamer_version_conf.xml and the supplied license file doesn't support
+   Web Client SDK Version 7.0.2, still no upgrade is needed in order to use the Monitoring
+   Dashboard.</span></p>
+
+</div>
+
+
+<div class="version">6.0.1 build 1780</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="compatibility">Compatible with the database of the MPN Module for the previous version.</div>
+<div class="date">Released on 30 Jul 2015</div>
+
+<div class="text">
+
+<p>Changed the default for the &lt;handshake_pool_size&gt; setting,
+   from 1 to half the number of available cores, to better cope with intense client
+   reconnection activity.</p>
+
+<p>Updated the "file tag" of the launch scripts. The update was due, but forgotten,
+   in the previous release, to reflect the applied changes.</p>
+
+<p>Put a reminder of the &lt;server_tokens&gt; setting in PRODUCTION_SECURITY_NOTES.TXT.</p>
+
+</div>
+
+
+<div class="version">6.0.1 build 1778</div>
+<div class="compatibility">May not be compatible with the deployment structure of the previous version;
+   see the compatibility notes below.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="compatibility">Compatible with the database of the MPN Module for the previous version.</div>
+<div class="date">Released on 16 Jul 2015</div>
+
+<div class="text">
+
+<p>Fixed a bug triggered by thread pool settings of a 0 "max_size" (which means unlimited
+   in this case) and a 0 "max_free", for pools which support these settings.
+   The bug would cause a progressive and unlimited growth of the pool.</p>
+
+<p>Fixed a bug introduced with version 6.0, which caused the count of the total number
+   of internal selectors to be always reported as 0.
+   This affected managers based on JMX Extension SDK
+   (including the JMX Tree) and the Special MONITOR Data Adapter; the latter,
+   in turn, affected the Monitoring log and the Monitoring Dashboard.</p>
+
+<p>Fixed a bug which, in case of a massive disconnection of clients, could have caused
+   some harmless error conditions on single connections to be reported and handled
+   as serious errors affecting the whole NIO selector.</p>
+
+<p>Extended the check of the &lt;read_timeout_millis&gt; setting in the case of
+   TLS/SSL handshake operations. Now this delay limit is applied not only to read,
+   as well as write, operations related to the handshake, but also to any queueing of
+   elaboration tasks on the "TLS-SSL AUTHENTICATION" or "TLS-SSL HANDSHAKE" thread pool.<br/>
+   Clarified in the log when a connection is closed due to the
+   &lt;read_timeout_millis&gt; setting.</p>
+
+<p>Updated the included versions of some third-party libraries. <span class="compatibility">
+   COMPATIBILITY NOTE: As the new libraries have different names, make sure you have removed
+   the previous version of the libraries upon upgrade. Moreover, if using a custom launch script,
+   ensure that the new libraries are now referred.</span></p>
+
+<p>Extended the launch scripts to allow for the customization of the path of the main
+   configuration file through an environment variable; before, a custom modification
+   of the script was the only way to achieve that. <span class="compatibility">
+   COMPATIBILITY NOTE: The script now checks a variable named LS_CONFIG; in case the same
+   name were currently used for a custom variable in the launching environment, this would
+   rise a conflict.</span></p>
+
+<p>Extended the launch script for unix/linux to clarify how to handle the case in which
+   the file descriptor limit has to be manually supplied.</p>
+
+<p>Extended the installation script for Redhat, so that the installed System V init script
+   now supports the "status" option to determine the current status of Lightstreamer server.
+   This enables the "status" command for the "service" utility.</p>
+
+<p>Revised the internal handling of field values to improve the most common usage scenarios.
+   This also extends the cases of early conversions of field values, hence extending
+   the scope of the &lt;force_early_conversions&gt; configuration element.</p>
+
+<p>Applied some performance improvements to cope with a huge number of concurrent
+   requests for new sessions.</p>
+
+<p>Reorganized the initial configuration phase; some log messages related to adapters
+   and JMX service initialization may have changed.</p>
+
+<p>Slightly refactored the launch scripts, to simplify custom changes.</p>
+
+<p>Applied some improvements to the Monitoring Dashboard layout. Changed the layout
+   of the "JVM Memory Heap" chart.</p>
+
+<p>Added some clarifications to the General Concepts document.</p>
+
+</div>
+
+
+<div class="version">6.0 build 1741</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="compatibility">Compatible with the database of the MPN Module for the previous version.</div>
+<div class="date">Released on 13 Feb 2015</div>
+
+<div class="text">
+
+<p>Added an early check of the correctness of any trigger
+   expressions configured, whose failure will prevent startup; before, all
+   related notification deliveries would just fail.</p>
+
+<p>Clarified in the Clustering document how to handle the case
+   in which a Load Balancer discontinues the stickiness during a session and
+   improved the internal handling of this case.<br/>
+   Also clarified how a rebalancing can be enforced. Introduced, to this purpose,
+   the &lt;max_session_duration_minutes&gt; configuration flag, to set a maximum
+   duration for client sessions, after which a client has the opportunity
+   to recover with a new session, and the Balancer has the opportunity to migrate
+   the Client to a different Server instance.</p>
+
+<p>Fixed a wrong startup check which caused the startup
+   to fail upon a missing &lt;reaction_on_database_failure&lt; flag also when
+   the MPN Module was not enabled.</p>
+
+<p>Fixed a bug in the computation of statistics on the
+   MPN Module activity. This affected managers based on JMX Extension SDK
+   (including the JMX Tree) and the internal
+   MONITOR Data Adapter and log. The values that represent averages over an
+   interval were reported delayed, among the data for the subsequent interval.</p>
+
+<p>Revised and improved the Monitoring Dashboard.<br/>
+   Fixed a bug which caused wrong decimal parts to be displayed for the "total bytes"
+   fields when more than 1GB was reported.<br/>
+   Fixed a bug which caused a wrong value to be displayed in the "total heap" donut
+   when more than 1GB was reported.<br/>
+   Fixed the general behavior related to the case in which the Server was not reachable.
+   In particular, when reconnecting after a temporary disconnection, the charts are
+   now cleared to avoid confusion.<br/>
+   Improved the usability in several other small aspects.</p>
+
+<p>Improved the functionality of the preinstalled welcome page in several small
+   aspects and fixed some browser compatibility issues. This also removes some
+   possible harmless warning messages from the Server console.</p>
+
+<p>Fixed a bug introduced in build 1737 which caused loss of compatibility
+   with very old Metadata Adapter binaries (as IllegalArgumentException
+   was thrown upon the invocation of methods with an old signature).</p>
+
+<p>Fixed the determination of the SDK versions used by the clients, which was
+   ignoring the subminor version number. This affected
+   managers based on JMX Extension SDK (including the JMX Tree).</p>
+
+<p>Extended the install script for MACOSX (now macOS) with suitable variables to customize
+   the IDs if a new user and/or group has to be created.</p>
+
+<p>Added a default configuration for loggers used by the included third-party
+   "Apache Velocity" library.</p>
+
+<p>Added identification tags at the beginning of various configuration files and
+   launch scripts. By keeping them, future upgrades of these files may be automated.</p>
+
+<p>Removed the main README file, but kept directives on how to upgrade in the new
+   HOW_TO_UPGRADE.TXT file.</p>
+
+</div>
+
+
+<div class="version">6.0 build 1737</div>
+<div class="compatibility">Not compatible with the deployment structure of the previous version;
+   see the compatibility notes below.</div>
+<div class="compatibility">Not compatible with configuration files for the previous version;
+   see the compatibility notes below.</div>
+<div class="date">Released on 21 Jan 2015</div>
+
+<div class="subsectionTitle">Systemwide Changes and Extensions</div>
+
+<div class="text">
+
+<p>Introduced a Push Notification Service (or MPN Module),
+   which can be leveraged by the clients to have notifications sent to their
+   devices, through an available third-party Push Notification Service, upon
+   updates for subscribed items. Currently, only sending notifications
+   through Apple's APNS and Google's GCM is supported
+   and requesting subscriptions for such notifications is only supported by the
+   iOS / OS X (now macOS) and the Android Client SDKs, respectively. See the new chapter 5
+   in the General Concepts document for an introduction to the feature.<br/>
+   Introduced several new thread pools for the MPN Module operations.
+   The module also leans on an external database, which, in case of a cluster
+   of Server instances, can be shared among all instances.
+   See the new optional &lt;mpn&gt; configuration block for configuration details.
+   The new optional &lt;max_mpn_devices&gt; element is also available, to set
+   activity limits for protection.<br/>
+   Introduced a suitable logger, "LightstreamerLogger.mpn", with several
+   subloggers, for the MPN Module log (see the factory logging configuration
+   file for details).
+   When enabled, the MPN Module will also produce its own Audit Logs.
+   Note that the feature may not be available, depending
+   on the license terms. It is always available in the LICENSE_SERVER and DEMO
+   cases, in the latter case with a limit of 20 devices served.
+   New libraries have also been added under the "lib"
+   directory for this extension. <span class="compatibility">
+   COMPATIBILITY NOTE: If using a custom launch script,
+   ensure that the new libraries are referred.<br/>
+   Conflicts between the new
+   libraries and existing Adapter code are no longer possible, because of the
+   newly introduced ClassLoader separation.</span></p>
+
+<p>Extended the provided MONITOR Data Adapter with statistics related
+   with the newly introduced MPN Module. See the last paragraph of the General
+   Concepts document and Look for the PUSH_NOTIFICATIONS.* fields for details.<br/>
+   Extended the Internal Monitor log to include some of the new MPN Module
+   statistics, but only when the module is enabled.<br/>
+   The extension is also leveraged by the new Monitoring Dashboard.</p>
+
+<p>Introduced the Monitoring Dashboard, which extends and replaces the Monitor
+   Console. The new page has multiple tabs, which show the information available
+   in the previous Monitor Console with significant visual improvements;
+   moreover, the last tab shows the newly introduced JMX Tree, which exposes
+   the JMX service interface in web form.
+   <span class="compatibility">COMPATIBILITY NOTE: *** IMPORTANT *** The security
+   level previously adopted for the access to the Monitor Console may no longer
+   be adequate for the full Monitoring Dashboard, which enables
+   data view and management, including
+   the Server shutdown operation (note that the JMX Tree is enabled by factory
+   settings). We recommend configuring the credentials
+   and protecting them by making the Monitoring
+   Dashboard only available on https server sockets,
+   by leveraging the settings in the &lt;dashboard&gt; configuration block.
+   See PRODUCTION_SECURITY_NOTES.TXT for a full check-list.</span>
+   The Monitoring Dashboard can be reached through a different URL path,
+   whose default is /dashboard. The path can be changed through the
+   &lt;dashboard_url_path&gt; element under the &lt;dashboard&gt; block.
+   <span class="compatibility">COMPATIBILITY NOTE: If keeping an existing
+   installation where the Internal Web Server is leveraged, ensure that there
+   are no conflicts with the new reserved path.</span>
+   The extension is associated to several changes with respect to the previous
+   configuration rules:
+   <ul>
+   <li>The &lt;monitor_provider&gt; block has been discontinued, as replaced
+   by the new mandatory &lt;dashboard&gt; block, which features a similar but
+   extended content (see the configuration file for all details).
+   <span class="compatibility">COMPATIBILITY NOTE: Existing configuration files
+   have to be ported. If the &lt;monitor_provider&gt; block element is present,
+   the Server will refuse to start, in order to avoid confusion. Note that, by
+   just renaming an existing &lt;monitor_provider&gt; block to &lt;dashboard&gt;,
+   the accessibility of the Monitoring Dashboard will be configured in the same
+   way as the old Monitor Console, with the new JMX Tree disabled.</span></li>
+   <li>The &lt;monitor_enabled&gt; element under &lt;web_server&gt; has been
+   dismissed; actually, it was available only to prevent (when "N") the Internal
+   Web Server from considering the Monitor Console URL path as reserved;
+   this is no longer allowed with the Monitoring Dashboard URL path.
+   <span class="compatibility">COMPATIBILITY NOTE: If keeping an existing
+   configuration file, the &lt;monitor_enabled&gt; element, if present, must
+   be removed; otherwise the Server will refuse to start, in order to avoid
+   confusion. Note that if the element had been set to "N", this was only
+   hiding the Monitor Console page, not protecting the data: external access to
+   monitoring data was supposed to be prevented through the &lt;monitor_provider&gt;
+   block; the same protection should now be ensured through the &lt;dashboard&gt;
+   block.</span></li>
+   <li>The &lt;monitor_url_path&gt; element under &lt;web_server&gt; has been
+   dismissed, as replaced by the aforementioned &lt;dashboard_url_path&gt;.
+   <span class="compatibility">COMPATIBILITY NOTE: If keeping an existing
+   configuration file, the &lt;monitor_url_path&gt; element, if present, must
+   be removed; otherwise the Server will refuse to start, in order to avoid
+   confusion.</span></li>
+   <li>The dedicated "LightstreamerLogger.webServer.jmxTree" logger has been added.</li>
+   </ul>
+   New libraries have also been added under the "lib" directory for this extension.
+   <span class="compatibility">COMPATIBILITY NOTE: If using a custom launch script,
+   ensure that the new libraries are referred.<br/>
+   Conflicts between the new
+   libraries and existing Adapter code are no longer possible, because of the
+   newly introduced ClassLoader separation.</span></p>
+
+<p>Removed the proprietary Sun/Oracle HTML adaptor to the
+   JMX service; now, web access to the JMX service can be performed through
+   the new Monitoring Dashboard, with the included JMX Tree.
+   As a consequence, web access to JMX service can now be performed through the normal
+   listening ports, with no need for a dedicated port. This also allows for access
+   through https, which was not available with the old HTML adaptor.
+   <span class="compatibility">COMPATIBILITY NOTE: If there is a requirement
+   to still rely on a dedicated port, perhaps with restricted firewall rules,
+   for web access to the JMX service, then it is possible to setup a new server port through
+   &lt;http_server&gt; or &lt;https_server&gt; and restrict the visibility of the
+   JMX Tree to only this server port, through the settings in the &lt;dashboard&gt;
+   block.</span>
+   <span class="compatibility">COMPATIBILITY NOTE: Any credentials set to ensure
+   restricted access to the HTML adaptor can be transferred to the Monitoring
+   Dashboard, through the settings in the &lt;dashboard&gt; block. Note that the
+   involved users will have access to the full Monitoring Dashboard features.</span>
+   Removed the &lt;html_adaptor&gt; configuration section from the &lt;jmx&gt; block.
+   <span class="compatibility">COMPATIBILITY NOTE: If keeping an existing configuration
+   file, the &lt;html_adaptor&gt; block, if present, must be removed; otherwise the
+   Server will refuse to start, in order to avoid confusion.</span></p>
+
+<p>Introduced separate ClassLoaders for the loading of the external libraries used
+   by the Server internally. This means that all these libraries are no longer visible
+   from Adapter code and this should prevent the rise of any conflicts.
+   <span class="compatibility">COMPATIBILITY NOTE: No issues are expected, but see
+   the SDK for Java In-Process Adapters changelog for the details. Should any
+   problem arise, the previous behavior can also be restored, by changing the classpath
+   setting in the Server launch script (see the inline comment for details).</span>
+   As a consequence, added separate libraries in the "lib" directory, containing the
+   custom helper classes needed for the log configuration and the minimal server
+   startup code. Also moved most external libraries in dedicated subdirectories.
+   The above has also required a thorough modification of the launch scripts.
+   <span class="compatibility">COMPATIBILITY NOTE: It is not possible to reuse
+   a current installation of the previous 5.1.2 version and just overwrite the libraries;
+   a fresh installation is needed and the new launch script has to be used. Any custom
+   launch script should be revised.</span></p>
+
+<p>Extended the log configuration to handle some of the included third-party libraries
+   (see the factory logging configuration file for details).
+   <span class="compatibility">COMPATIBILITY NOTE: Conflicts with any configuration
+   for the same libraries in existing Adapter code are no longer possible, because of the
+   newly introduced ClassLoader separation.</span>
+   <span class="compatibility">COMPATIBILITY NOTE: If reusing an existing configuration,
+   the new loggers should be added; otherwise, some undesired log may be received
+   from the newly included libraries.</span></p>
+
+<p>Introduced the management of the Proxy Protocol, which allows a local reverse proxy
+   or load balancer to provide information on the remote endpoint in a direct way.
+   See the new configuration elements in the &lt;client_identification&gt; blocks
+   for details, also about how the existing elements interact with the new ones.
+   A dedicated logger, LightstreamerLogger.connections.proxy, has also been added.</p>
+
+<p>Introduced the &lt;allow_protocol&gt; and &lt;remove_protocols&gt;
+   configuration elements in the &lt;https_server&gt; to make it possible to restrict
+   the protocol versions to be used in the TLS/SSL interactions.<br/>
+   Introduced the same elements also in the &lt;rmi_connector&gt; block, to configure
+   the JMX service communication channel.</p>
+
+<p>Changed the factory and recommended settings for TLS/SSL sockets,
+   to remove weak protocols, by leveraging the new &lt;remove_protocols&gt; configuration
+   elements. This may cause some clients to no longer be able to connect; in this case,
+   the added configuration can be modified.
+   <span class="compatibility">COMPATIBILITY NOTE: As the change only involves the
+   factory configuration file, if an existing configuration is kept, it will not
+   be affected by the restriction. However, we recommend manually applying the same
+   restriction to these installations as well.</span></p>
+
+<p>Incremented the major version number.
+   <span class="compatibility">COMPATIBILITY NOTE: If running the Server with
+   a license file, an upgrade is needed.</span></p>
+
+</div>
+
+<div class="subsectionTitle">Fixes for Bugs and Defects</div>
+
+<div class="text">
+
+<p>Fixed a bug on the management of sendMessage requests for which a sequence
+   is specified; the bug could have caused some messages to be wrongly considered
+   as duplicated, hence discarded, due to a race condition.</p>
+
+<p>Fixed a bug in the internal detection of connection close causes, which could give rise
+   to cause code notifications of 43 (failure) upon some cases of normal close.</p>
+
+<p>Fixed the "stop" scripts, to take either the &lt;hostname&gt;
+   specified for the RMI connector to the JMX service, or the "java.rmi.server.hostname"
+   property into account, as the Server does.</p>
+
+<p>Fixed a bug which caused the "stop" scripts to fail when the Server was still
+   blocked in the startup phase, typically while waiting for the initialization
+   of some Adapter.</p>
+
+<p>Improved the launch scripts to enforce, by default, a maximum pause setting
+   for the GC. This fixes cases in which the default settings could allow for
+   pauses incompatible with the default timeouts used by the various Client SDKs
+   in socket inactivity checks.</p>
+
+<p>Fixed a memory leak triggered by exceptions thrown by the Metadata Adapter
+   upon notifyNewTables, which also caused the subscription attempt to never be
+   retried until reissued by the client application.</p>
+
+<p>Fixed a bug in the initialization phase, which could have caused the generation
+   of more threads and NIO selectors than configured. These spurious resources
+   wouldn't have been used by the Server, so they would have been just redundant.<p>
+
+<p>Fixed a missing case in which the error page (customizable through the &lt;error_page&gt;
+   configuration element) should have been issued instead of a generic response.</p>
+
+<p>Fixed the install script provided in bin\unix-like\install for the Redhat case,
+   which wouldn't have run correctly if the default installation user had been left.<br/>
+   Changed the install script for the openSUSE case, to also force run-at-startup,
+   as for all other scripts.<br/>
+   Fixed the install script for the MACOSX (now macOS) case, which would have generated a wrong
+   launch script; also revised the way it creates the dedicated user.</p>
+
+<p>Improved the policy for the speculative sizing of the TCP buffers. Fixed cases in which
+   the resizing was inappropriate.<br/>
+   Improved the management of internal buffers; this should reduce the use of short-lived memory
+   for high numbers of sessions, particularly when &lt;reuse_pump_buffers&gt; is set to N.<br/>
+   Fixed missing cases of buffer optimization when &lt;reuse_pump_buffers&gt; is set to N;
+   this significantly improves the scalability in terms of concurrent TLS/SSL connections.</p>
+
+<p>Improved parsing of HTTP requests for the internal Web Server, to limit the cases
+   of unrecognized requests.</p>
+
+<p>Extended the scope of the &lt;server_tokens&gt; configuration element to all aspects
+   of the interaction with the clients. This fixes a few rare cases in which further
+   identification information could be sent also when "MINIMAL" was specified.</p>
+
+<p>Fixed a harmless bug which could have caused redundant logs of lost updates.</p>
+
+</div>
+
+<div class="subsectionTitle">Minor Changes and Extensions</div>
+
+<div class="text">
+
+<p>Improved the support for request pipelining upon responses in HTTP 1.1,
+   to deal with the case of pipelined requests occurring during streaming
+   or long polling responses.
+
+<p>Improved the management of items requested in COMMAND
+   mode with unfiltered dispatching: unless &lt;preserve_unfiltered_command_ordering&gt;
+   is Y, a round-robin policy is enforced among the keys on updates waiting to be sent.
+   This should prove to be beneficial when no license-related frequency
+   restrictions are in place.</p>
+
+<p>Changed from N to Y the default of the
+   &lt;disable_session_mbeans&gt; configuration flag, so that the related,
+   potentially high, overhead will not affect managers based on
+   the JMX Extension SDK (including the JMX Tree) and the Server itself,
+   unless explicitly requested. <span class="compatibility">COMPATIBILITY NOTE:
+   If keeping an existing configuration file with this element not defined
+   and taking advantage of the JMX service interface and the SessionMBean's,
+   &lt;disable_session_mbeans&gt; should be explicitly set to N.</span></p>
+
+<p>Improved the check related with the &lt;server_pool_max_queue&gt; setting.
+   Now, if optional pools are configured in adapters.xml to absorb specific subsets
+   of tasks from the SERVER pool, their task queues are included in the count under check.</p>
+
+<p>Changed the default configuration when installing the Server as a service on
+   Windows: NSSM is now configured not to relaunch the Server in case of failure.
+   If needed, you may configure the service to restart in case of failure by
+   changing the 'Recovery' property of the service. <span class="compatibility">
+   COMPATIBILITY NOTE: Obviously, if the Server is currently installed as
+   a service, it can be updated without being affected by this change; the
+   change will take place only on the next installation.</span>
+   Improved the support for the installation of the Server as a service under
+   Windows; now it is possible to configure the display name, the description
+   and the startup type. See "README.TXT" under "bin/windows" for details.<br/>
+   Improved the LS.bat script by returning, in turn, the exit code returned by
+   Lightstreamer server; the error code is useful if Lightstreamer Server
+   is installed as a service and NSSM is configured not to relaunch the Server,
+   to let Windows correctly manage the service restart.</p>
+
+<p>Removed the log4j jar from the "shared" folder. It was there only for the benefit
+   of the preinstalled demos. <span class="compatibility">
+   COMPATIBILITY NOTE: If there were custom Adapters relying on the predeployed
+   log4j jar, they could be ported in the new structure only by copying the log4j
+   jar too; preferably, the jar should be put in the Adapters own folders.</span></p>
+
+<p>Updated the included versions of some third-party libraries.
+   <span class="compatibility">COMPATIBILITY NOTE: As the new libraries have different
+   names, ensure that the previous version of the libraries is removed. Moreover,
+   if using a custom launch script, ensure that the new libraries are now referred.<br/>
+   Conflicts between the new libraries and existing Adapter code are no longer possible,
+   because of the newly introduced ClassLoader separation.</span></p>
+
+<p>Improved the implementation of internal timers; this may reduce memory footprint
+   when strong update merging/filtering is involved.</p>
+
+<p>Modified the default setting of the &lt;selector_max_load&gt; configuration element
+   for the Windows case; previously, it had a dedicated value of 1000 to overcome a known
+   JDK 5 NIO bug; however, the currently supported JDK versions are unaffected.
+   <span class="compatibility">COMPATIBILITY NOTE: If leaning on the default setting,
+   the change should just cause a visible reduction in thread usage. Note that very old
+   versions of JDK 6 for Windows are affected by another NIO bug (2177606) and a higher
+   load on the selectors might, in principle, trigger it.</span></p>
+
+<p>Added the &lt;snapshot_pool_size&gt; configuration element; now there is full
+   control on the number of threads allocated for all the various internal pools.<br/>
+   Added the &lt;selector_pool_size&gt; configuration element, which allows some control
+   on the overall number of NIO selectors and related threads used by the Server.<br/>
+   Added the &lt;timer_pool_size&gt; configuration element, which allows for
+   parallelization of internal timer activity.</p>
+
+<p>Extended the supplied "MONITOR" Data Adapter by adding a "TIME_MS" field,
+   carrying a UTC timestamp, in all monitor_log_* items.<br/>
+   Extended the supplied "MONITOR" Data Adapter with new statistics on the overall
+   number of item subscriptions performed by the clients. Look for CLIENT.ITEM_SUBSCR
+   and CLIENT.MAX_ITEM_SUBSCR on the General Concepts document for details.<br/>
+   Extended the Internal Monitor log to include the actual number of item subscriptions.
+   The new statistics is also reported by the new Monitoring Dashboard.</p>
+
+<p>Improved the handling of unexpected empty elements in the "adapters.xml" files.</p>
+
+<p>Moved the activity log of the send_message requests to a suitable sublogger
+   (namely LightstreamerLogger.requests.messages), which allows for easy removal
+   of this log, if overwhelming.</p>
+
+<p>Adjusted the Server's self-identification in answers to clients.<br/>
+   Revised the format of error pages.</p>
+
+<p>Revised the names of some internal thread pools.</p>
+
+<p>Improved logging of closed connection and sessions with details on the connection
+   close cause.</p>
+
+<p>Improved logging of new sessions with information on the type and version
+   of the involved Client SDK, when available.</p>
+
+<p>Introduced the "accept_extra_headers" and "accept_credentials" properties to the
+   &lt;cross_domain_policy&gt; configuration element: if specified, they
+   allow clients based on the JavaScript Client SDK to send, respectively,
+   extra headers and credentials on CORS requests.
+   See description in the configuration file for details.</p>
+
+<p>Optimized memory usage related to item and field names.</p>
+
+<p>Introduced support for the WebPositive web browser (for clients based on JavaScript Client SDK).</p>
+
+</div>
+
+<div class="subsectionTitle">Documentation and Deployment Level Changes</div>
+
+<div class="text">
+
+<p>Clarified in the "SSL Certificates" document how to
+   cope with incomplete certificate chains received.</p>
+
+<p>Revised the Clustering.pdf document, to clarify the conditions for the support of
+   WebSockets by the Load Balancer.<br/>
+   Simplified the document by removing notes pertaining to the support
+   of old browsers (for clients based on JavaScript Client SDK);
+   added references into the JavaScript Client SDK documentation for notes on special cases.</p>
+
+<p>Revised and improved the "General Concepts" document, also with the addition
+   of a thorough introductory section.</p>
+
+<p>Added clarifications on when the &lt;enabled&gt; configuration element within
+   &lt;websocket&gt; can be leveraged to cope with a Load Balancer not handling
+   WebSockets correctly.</p>
+
+<p>Wholly revised the preinstalled welcome page and the related demos.
+   Now, the preinstalled resources are no longer meant as a deployment example
+   that can be used as a starting point for creating your own POC. See the new
+   "demos" site at demos.lightstreamer.com for all the available examples.</p>
+
+</div>
+
+
+<div class="version">5.1.2 build 1623.14</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="date">Released on 22 Jul 2014</div>
+
+<div class="text">
+
+<p>Modified the policy for the active session count to be reported
+   in the generated audit logs: sessions will no longer be considered as long as they are
+   in "prestarted" state (see CLIENTS.SESSIONS in paragraph 4.2.1 of the General Concepts
+   document for details). This may give rise to lower averages in
+   the audits, which may actually be seen as a relief of contractual terms.
+   In fact, prestarted sessions may include sessions that have not been completely
+   established because of communication issues, but (perhaps for the same cause)
+   are being kept open for some time.</p>
+
+<p>Improved the internal dispatching of NIO tasks; this may remove bottlenecks
+   in extreme cases.<br/>
+   Improved the internal mechanism of I/O buffer reusal;
+   this may remove bottlenecks in extreme cases.</p>
+
+<p>Introduced the possibility of customizing the page to be returned upon a "404 Not Found"
+   response, through the &lt;notfound_page&gt; configuration element in &lt;web_server&gt;.
+   Note that the 404 response is not used normally, but only when the Internal Web Server
+   is enabled.</p>
+
+<p>Fixed a bug introduced with version 5.0, by which the &lt;delta_delivery&gt;
+   configuration setting was ignored and delta delivery was always applied.
+   Note that applying delta delivery is the normal case.</p>
+
+<p>Introduced the &lt;use_enriched_content_type&gt; configuration
+   element; now it possible to choose between two options, text/plain and text/enriched,
+   the content-type to be specified in the response headers when handling requests issued
+   using the text output protocol.<br/>
+   By default, text/plain is still used, but the factory configuration supplied specifies
+   the text/enriched content-type. This has some consequences on the Generic Client SDK;
+   see the related changelog.</p>
+
+<p>Fixed a bug on the internal statistics, which, under high load, might have caused
+   spurious logs of the form "Current delay for tasks..." with very high delay.</p>
+
+<p>Fixed a race condition that, in rare cases, could have caused a session not to be
+   removed from the statistics when closed.</p>
+
+<p>Fixed a bug that could have caused a startup error if the "max_free" setting
+   of some thread pool had been configured as 0.</p>
+
+<p>Improved the internal implementation of some thread pools.<br/>
+   Revised the internal timers to reduce thread contentions; this should reduce
+   potential bottlenecks under very high load.</p>
+
+<p>Tested the compatibility with the new Java 8 release.</p>
+
+</div>
+
+
+<div class="version">5.1.1 build 1623.2</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="date">Released on 20 Dec 2013</div>
+
+<div class="text">
+
+<p>Changed the factory and recommended settings for TLS/SSL sockets,
+   to remove weak cipher suites. This may cause some clients to no longer
+   be able to connect; in this case, the &lt;remove_cipher_suites&gt;
+   configuration elements should be modified. <span class="compatibility">
+   COMPATIBILITY NOTE: The change only involves the configuration file;
+   if an existing configuration is kept, the Server upgrade will have no effect,
+   although we recommend checking if the restriction can be manually applied
+   to these installations as well.</span></p>
+
+</div>
+
+
+<div class="version">5.1.1 build 1623.2</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="date">Released on 5 Mar 2013</div>
+
+<div class="text">
+
+<p>Fixed the restart.sh launch script, which could have failed to stop the running Server
+   for particular choices of the custom JVM arguments. Also clarified the script use case.</p>
+
+<p>Improved the launch scripts and the installation scripts for the unix/linux environments
+   in order to support the use of unusual names for the installation directory, such as names
+   including spaces.<br/>
+   Revised the installation scripts for the unix/linux environments to better handle the case
+   in which the standard DESTDIR environment variable is not supplied (see the details in
+   bin/unix-like/install/README.TXT). <span class="compatibility">COMPATIBILITY NOTE:
+   If using the supplied scripts in order to reinstall the Server, just make sure again that
+   the scripts are compliant with your environment.</span>
+   Addressed a possible incompatibility issue on the installation script for MacOSX (now macOS).</p>
+
+<p>Extended the "Clustering.pdf" document, to clarify the conditions
+   for the availability of WebSocket connections when a Load Balancer is in place.</p>
+
+</div>
+
+
+<div class="version">5.1.1 build 1623.2</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="date">Released on 31 Jan 2013</div>
+
+<div class="text">
+
+<p>Fixed a bug affecting the configuration of the DEMO license.
+   The &lt;edition&gt; element was ignored, so that the Server would always run
+   in Vivace edition.</p>
+
+<p>Fixed a bug on unfiltered subscriptions in COMMAND mode, whereby an ADD immediately following
+   a DELETE on the same key could have been delayed until the next event on that key.</p>
+
+<p>Fixed a bug which affected the log of "create_session" requests, by stripping the first and
+   the last character; the bug was introduced in version 5.1.</p>
+
+</div>
+
+
+<div class="version">5.1.1 build 1623</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="date">Released on 10 Jan 2013</div>
+
+<div class="text">
+
+<p>Fixed a bug that could have caused data inconsistency or system vulnerability issues
+   in particular client environments and under particular conditions.</p>
+
+</div>
+
+
+<div class="version">5.1 build 1622</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">May not be compatible with configuration files for the previous version;
+   see the compatibility notes below.</div>
+<div class="date">Released on 20 Dec 2012</div>
+
+<div class="text">
+
+<p>Improved and optimized the allocation and parsing of client requests.
+   Particularly improved the efficiency in the handling of SendMessage requests
+   over WebSocket.</p>
+
+<p>Extended the provided MONITOR Data Adapter with new statistics on the elaboration of Client
+   Messages, sent through the SendMessage requests. Look for MESSAGE.* on the General Concepts
+   document for details.<br/>
+   Extended the Internal Monitor log to include some of the aforementioned
+   message-related statistics.<br/>
+   Extended the Monitor Console to display some of the aforementioned
+   message-related statistics.</p>
+
+<p>Introduced the automatic audit log upload service,
+   to be leveraged based on the current license terms; for details, see also the newly
+   added &lt;automatic_audit_upload&gt; configuration element in lightstreamer_version_conf.xml.
+   To this purpose, the pubkey.cer file has been added to the "lib" directory.</p>
+
+<p>Fixed a bug on the HTTP header parsing, that could have caused particular cases of headers
+   lying on multiple lines to be parsed incorrectly.</p>
+
+<p>Fixed a bug on the WebSocket handshake that could have caused the websocket establishment
+   to be delayed on some browsers (for clients based on JavaScript Client SDK).<br/>
+   Fixed a bug on WebSocket closure that might have caused a closure handshake to fail.<p>
+
+<p>Fixed the notification of trial license expiration,
+   corrupted in build 1513.1.11.</p>
+
+<p>Fixed the reporting of syntax errors in the configuration file,
+   which caused further errors.</p>
+
+<p>Fixed the installation script for Redhat, which caused the Server to always run as root,
+   regardless of the user configured.<br/>
+   Fixed a typo in the console output of the launch script.</p>
+
+<p>Improved the compatibility with the Android browser for Android version 4.x
+   (for clients based on the Android Client SDK);
+   this may also fix connection issues on some devices.</p>
+
+<p>Deprecated the &lt;base_url_path&gt; configuration flag, which was only leveraged by the
+   SDK for HTML Clients, but it is no longer leveraged by the new SDK for JavaScript Clients.
+   <span class="compatibility">COMPATIBILITY NOTE: If the existing configuration uses
+   this flag, it can be left unchanged and the flag will be still obeyed. However, the
+   support may be discontinued in future releases.</span></p>
+
+<p>Finally removed the support for the old-style configuration of the listening ports,
+   not based on the &lt;http_server&gt; and &lt;https_server&gt; blocks. Also removed
+   the support for the obsolete configuration element &lt;redundant_delivery&gt;.
+   <span class="compatibility">COMPATIBILITY NOTE: Existing configurations still using
+   the old elements have to be updated.</span></p>
+
+<p>Made the &lt;server_pool_max_free&gt; configuration flag to be mandatory when
+   &lt;server_pool_max_size&gt; is set to 0, since the previous default as also 0 was not suitable.
+   <span class="compatibility">COMPATIBILITY NOTE: Existing configurations leaning on the
+   mentioned default have to be completed, otherwise the Server startup will fail.</span></p>
+
+<p>Revised the format of the log messages. Revised the log messages
+   upon syntax errors in client requests (only possible with clients based on the
+   SDK for Generic Clients).
+   Slightly revised the format of the lines produced by the Internal Monitor log, to improve
+   readability.</p>
+
+<p>Added in the Clustering.pdf document notes on how to enable
+   cookie-based stickiness for non-browser clients.</p>
+
+<p>Put minor changes to the sample StockListDemo Adapter.</p>
+
+</div>
+
+
+<div class="version">5.0 build 1576</div>
+<div class="compatibility">May not be compatible with the deployment structure of the previous version;
+   see the compatibility notes below.</div>
+<div class="compatibility">May not be compatible with configuration files for the previous version;
+   see the compatibility notes below.</div>
+<div class="compatibility">May not be compatible with clients written with very old Client SDK versions;
+   see the compatibility notes below.</div>
+<div class="date">Released on 3 Aug 2012</div>
+
+<div class="text">
+
+<p>Introduced support for requests through the WebSocket protocol; the supported versions of the
+    WebSocket specifications are 8 and 13.
+    The clients can now open a single WebSocket to send all requests and messages and to receive
+    all data pertaining to a session. At the moment, this feature has been exploited
+    by the JavaScript Client SDK.<br/>
+    The support is enabled by default; see the new &lt;websocket&gt; element in the configuration
+    file.<br/>
+    A public specification of a network protocol based on WebSockets
+    for clients based on Generic Client SDK is not available yet.</p>
+
+<p>Introduced support to cross-origin requests (for clients based on JavaScript Client SDK).
+    See the new mandatory &lt;cross_domain_policy&gt;
+    element in the Server configuration file for further details. <span class="compatibility">
+    COMPATIBILITY NOTE: Current configuration files must be extended with
+    the &lt;cross_domain_policy&gt; element;
+    as long as an old HTML Client SDK is used, the element can be left empty.</span>
+    Note that the new JavaScript Client SDK library, on most browsers, uses cross-origin XHR or
+    WebSocket requests to ask for streaming data; hence, the new &lt;cross_domain_policy&gt;
+    element should be set properly and allow your site origin, in order to ensure that web pages
+    supplied from your site can access the Server.
+    <span class="compatibility">COMPATIBILITY NOTE: The above also holds for the Internal Monitor
+    Console, though the page origin, in that case, is the Server itself, so that a same-origin
+    access is performed; though most browsers don't need that, the Server origin should be
+    explicitly allowed in &lt;cross_domain_policy&gt; in order to ensure that the Monitor Console
+    keeps working on all browsers; see the Client Guide in the JavaScript Client SDK
+    for details.</span>
+    The factory setting of &lt;cross_domain_policy&gt; allows any kind of cross-origin access to
+    the Server; note that this kind of access was not even possible with the previous HTML Client
+    SDK.</p>
+
+<p>Disabled the forwarding of request cookies to some Metadata Adapter methods. As a consequence,
+    the new factory setting of &lt;use_protected_js&gt; is now N, which is recommended in order
+    to enable cross-origin access for some browsers which don't support cross-origin XHR
+    (for clients based on JavaScript Client SDK - see the Client Guide in this SDK
+    for details).<br/>
+    Introduced the &lt;forward_cookies&gt; configuration element (which defaults as N)
+    to reenable forwarding when needed.
+    <span class="compatibility"> COMPATIBILITY NOTE: Only if cookie information is used by
+    Metadata Adapter methods, &lt;forward_cookies&gt; should be set as Y. However, if cookie
+    information were used for authentication purpose (which is to be avoided, though),
+    &lt;use_protected_js&gt; should be left as Y and &lt;cross_domain_policy&gt; should be set
+    carefully.</span></p>
+
+<p>Revised the licensing configuration, with the introduction
+   of the new "lightstreamer_version_conf.xml" configuration file and the new mandatory
+   &lt;version_conf&gt; configuration element in the main configuration file. See the inline
+   comments in the factory configuration files for details.
+   The &lt;trial&gt; and &lt;production&gt; blocks in the main
+   configuration file have been dismissed.
+   <span class="compatibility">COMPATIBILITY NOTE: In order to keep using an existing
+   configuration file, it must be ported;
+   for the &lt;production&gt; block, refer to the "LICENSE_FILE"
+   license type; for the &lt;trial&gt; block, refer to the "LICENSE_SERVER" license type
+   and to the &lt;http_proxy&gt; block (note that the other parts of the &lt;proxy&gt;
+   block are not available for trial license configuration).</span></p>
+
+<p>Introduced the "DEMO" license type, which is not based on a license key
+   or trial account. See &lt;type&gt; in the new "lightstreamer_version_conf.xml"
+   configuration file for details.</p>
+
+<p>Introduced the generation of audit log files when trial accounts are in use.<br/>
+   Discontinued the generation of audit logs for any other non-production licenses.</p>
+
+<p>Provided an automatic update check service. See &lt;automatic_update_check&gt;
+   in the new "lightstreamer_version_conf.xml" configuration file for details. Note that a proper
+   proxy configuration, through the &lt;proxy&gt; block, may be needed.<br/>
+   New libraries have been added to the "lib" directory for this extension.
+   <span class="compatibility">COMPATIBILITY NOTE: If any existing Adapter were based
+   on a different version of one of the libraries in "lib", conflicts may arise.</span></p>
+
+<p>Changed the names returned by the "MONITOR" Data Adapter for the "LICENSE_TYPE" field,
+   according to the new licensing policy.</p>
+
+<p>Discontinued the support for java 5 SDK and runtime environment.
+    Java 6 or later is now required.
+    <span class="compatibility">COMPATIBILITY NOTE: installations of the Server still based
+    on a java 5 JVM have to be upgraded. Existing Adapters compiled with a java 5 SDK
+    don't need to be upgraded.</span>
+    Revised the suggested JVM configuration in the launch scripts.</p>
+
+<p>Improved the launch scripts for Windows and major Linux and Unix-like Operating Systems,
+    supplied under the "bin" folder.
+    As a consequence, manually setting the LS_HOME variable is no longer requested.<br/>
+    Provided suitable scripts to install the Server for automatic execution in many Unix
+    and Linux environments, including MAC OS X (now macOS); see "install" under "bin/unix-like".</p>
+
+<p>Updated the included version of the third-party slf4j and logback libraries.
+   <span class="compatibility">COMPATIBILITY NOTE: As the new libraries have different names,
+   ensure that the previous version
+   of the libraries is removed. Moreover, if using a custom launch script, ensure that the new
+   libraries are now referred.</span> <span class="compatibility">COMPATIBILITY NOTE: Existing
+   java Adapter binaries leaning on the included support for slf4j/logback should not be affected
+   (but see the slf4j/logback release notes).</span>
+   <span class="compatibility">COMPATIBILITY NOTE: In case further slf4j/logback libraries
+   are needed by the adapters, ensure that their versions
+   are consistent with the new libraries included.</span></p>
+
+<p>Removed the third-party JUG libraries. Removed the
+   "lib/native" directory and any reference to it in the launch script.
+   <span class="compatibility">COMPATIBILITY NOTE: Existing launch scripts will still work;
+   any included reference to the "lib/native" directory will be useless.</span>
+   Added more third-party libraries to support the new update check service.
+   <span class="compatibility">COMPATIBILITY NOTE: Existing launch scripts should be extended
+   to include the new libraries in the "lib" directory in the classpath.</span>
+   Simplified the factory
+   launch script in order to do a bulk add of the third-party libraries to the classpath.</p>
+
+<p>Revised the implementation of the scripts that stop a running Server.
+   They are now based on the RMI connector to the JMX service.
+   As a consequence, the requirement
+   for the script to work is that the &lt;rmi_connector&gt; block is properly configured,
+   no longer the &lt;jmxmp_connector&gt; block. If the JMXMP connector is not used directly,
+   it can be disabled.
+   <span class="compatibility">COMPATIBILITY NOTE: If an existing configuration disables the
+   RMI connector, it should enable it, possibly exposing the port to local connections only,
+   in order to restore the "stop" script functionality.</span></p>
+
+<p>Removed the third-party Oracle's jmxtools.jar and jmxremote_optional.jar
+   libraries, previously redistributed.
+   This drops the support for the HTML Adaptor and JMXMP
+   Connector to the JMX service. The support can be restored by manually downloading and
+   reinstalling the libraries. See README.TXT in the SDK for JMX Extensions for details.
+   <span class="compatibility">COMPATIBILITY NOTE: If just upgrading an existing deployment,
+   the aforementioned libraries should be manually removed. On the other hand, if the current
+   deployment leans on the HTML Adaptor or the JMXMP Connector, the needed libraries must be
+   obtained from Oracle as shown.</span>
+   Removed the factory preconfiguration of the HTML Adaptor and JMXMP Connector.</p>
+
+<p>Introduced a distinction between "prestarted" and started sessions; see CLIENTS.SESSIONS
+   in paragraph 4.2.1 of the General Concepts document for details. Prestarted sessions
+   are not included in the session count as far as Server activity metrics are concerned.<br/>
+   Starting a prestarted session may fail if it would cause any existing limit on the
+   number of sessions to be exceeded.</p>
+
+<p>Introduced the optional &lt;client_identification&gt; configuration block, in order to help
+   to better identify the remote address of the connected clients. The block is related to each
+   single &lt;http_server&gt; or &lt;https_server&gt; block. See the configuration file for
+   details.</p>
+
+<p>Changed the factory setting of &lt;max_delay_millis&gt; from 200 to 30 ms
+   (setting &lt;max_delay_millis&gt; may improve performances at the expense of a less smooth
+   data delivery).
+   The new, less restrictive, value is suitable for applications
+   in which push data is used to map
+   moving positions, provided that no edition-related frequency limits apply.</p>
+
+<p>Improved the support for TLS/SSL renegotiation
+    requests by the clients.<br/>
+    Introduced dedicated thread pools to handle the load related with TLS/SSL handshakes;
+    see &lt;handshake_pool_size&gt; and &lt;https_auth_pool_max_*&gt;
+    in the configuration file.</p>
+
+<p>Introduced configuration settings to suspend acceptance of new connection requests
+    when the thread pools devoted to request handling are busy; see &lt;*_pool_max_queue&gt;.<p>
+
+<p>Improved the implementation of the temporary refusal of new client
+    connections that can be requested through the JMX service
+    (see the ServerMBean in the JMX Extension SDK). In case of an HTTPS
+    connection, the refusal now occurs before the initial handshake takes place.</p>
+
+<p>Fixed a compatibility issue with HTML Client SDK version 5, which could have caused
+   error messages related to session creation refusal to be ignored by the SDK library.</p>
+
+<p>Fixed a bug, introduced in build 1513, which prevented the clean closure
+   of TLS/SSL connections. This shouldn't have had any impact on normal operation.</p>
+
+<p>Fixed a bug which could have caused some connections in long polling to return
+   unnecessarily early, with no data.</p>
+
+<p>Fixed a bug which would have provoked an error in the internal Web Server when sending
+    an empty file, if the compression_threshold had been set to 0.</p>
+
+<p>Fixed a bug which could have caused the processing of "remote logs" sent
+   by clients based on the old HTML Client SDK to fail for unusual user-agents.</p>
+
+<p>Fixed a bug in the management of logback's own log, whereby the log related to
+   logback initialization issues were not dumped. Now, it is available on the error console;
+   the log is shown only in case of errors and in that case it is in verbose form.<br/>
+   Introduced a custom Logback StatusListener implementation
+   (OnConsoleErrorWarningStatusListener). Such StatusListener is now configured by default
+   and will show on the standard error any internal ERROR or WARN event from Logback
+   internal status.</p>
+
+<p>Discontinued the support for the old syntax of the JMX service configuration.
+   <span class="compatibility">COMPATIBILITY NOTE: if any of the &lt;html_adaptor_port&gt;,
+   &lt;html_adaptor_public&gt;, &lt;html_adaptor_user&gt;, &lt;rmi_connector_port&gt;,
+   &lt;jmxmp_connector_port&gt; is still used in the configuration file, it should be rewritten
+   with the current syntax.</span></p>
+
+<p>Reduced the response overhead on polling requests
+   issued by clients based on Javascript Client SDK.</p>
+
+<p>Extended the format of the audit logs with a random identifier of the
+   Server run. <span class="compatibility">COMPATIBILITY NOTE: existing and new audit log lines
+   can coexist with no problems.</span></p>
+
+<p>Ensured that, for each type of monitor statistics, the same value is collected by the various
+   consumers for each time period; consumers include the monitor log, Monitor Console and any
+   "MONITOR" Data Adapters.</p>
+
+<p>Extended the logging of client activities, by adding information on the server socket
+   (i.e. &lt;http_server&gt; or &lt;https_server&gt; block) related to the connection.</p>
+
+<p>Revised various error log messages.<br/>
+   Moved some harmless "Sync error" log messages from INFO to DEBUG level.<br/>
+   Expanded and clarified info log messages about session closing.</p>
+
+<p>Discontinued support for the LS_top_max_frequency and LS_slowing_factor request parameters.
+    Such parameters had already been dismissed in all Client SDKs.
+    <span class="compatibility">COMPATIBILITY NOTE: only clients based on a very old version
+    of a Client SDK might make use of these features. For them,
+    the settings will no longer have any effect.</span></p>
+
+<p>Slightly changed the response content-types for requests
+   by clients based on the JavaScript Client SDK;
+   this may give rise to compatibility issues only for Opera browsers earlier than version 10.</p>
+
+<p>Improved the performances under heavy load and under spikes of external requests,
+    by reducing internal thread contention.</p>
+
+<p>Changed the Connection counts
+    returned by the internal MONITOR Data Adapter and the
+    related log, to include sockets currently involved in the initial TLS/SSL handshake.<br/>
+    Similarly, moved the log of accepted connections in https, to be issued immediately,
+    before the initial TLS/SSL handshake, rather than after.</p>
+
+<p>Improved the parsing of incoming HTTP requests, to make syntax checks more strict.</p>
+
+<p>Denied support for specifying a network interface
+    for the RMI connectorto the JMX service when the &lt;data_port&gt; setting is omitted,
+    as this configuration is in fact not working properly.
+    <span class="compatibility">COMPATIBILITY NOTE: we assume that no existing
+    installation could be configured in this way, as it wouldn't have worked correctly;
+    anyway, in such a case, only a warning message will be issued.</span>
+    Fixed a bug which, with the above configuration, would have caused a port conflict
+    error message to be issued.</p>
+
+<p>Introduced the stdout/stderr redirection when launching the Server as a service
+   under Windows. The LS.out file in the predefined logs directory is now generated.</p>
+
+<p>Revised the layout of the Internal Monitor Console and fixed a formatting issue.</p>
+
+<p>Updated the Clustering.pdf document, according with the new features added
+   in the JavaScript Client SDK.</p>
+
+<p>Fixed the jars of the included StockList demo: LS_StockListDemo_DataAdapter.jar also
+   included the classes already in LS_quote_feed_simulator.jar.</p>
+
+<p>Revised the documentation, in regard to the names of the main concepts.</p>
+
+</div>
+
+
+<div class="version">4.1 build 1513.1.14</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="date">Released on 9 Aug 2012</div>
+
+<div class="text">
+
+<p>Fixed the handling of uncommon pathnames in the utility scripts for using the Server
+   as a service under Windows.</p>
+
+<p>Fixed the documentation of the &lt;license_path&gt; configuration element
+   with the extensions introduced in build 1513.1.4</p>
+
+<p>Enlarged the "SNAPSHOT" thread pool (devoted to dispatching of snapshot contents)
+   so as to match the number of available processors, if greater than 10.</p>
+
+<p>Fixed a bug, introduced in version 3.6, which affected subscriptions
+    by clients based on the HTML Client SDK
+    to items in MERGE mode in case their snapshots was also requested; the update representing
+    the snapshot could have been notified as not being a snapshot by the SDK library.</p>
+
+<p>Fixed a bug in the RelativeFileAppenders$RollingFileAppender implementation:
+    the &lt;FileNamePattern&gt; specified in the &lt;rollingPolicy&gt; was interpreted
+    relative to the launch directory instead of being
+    interpreted relative to the log configuration file location, as it should have been.
+    Now the paths specified in the &lt;FileNamePattern&gt; elements are correctly interpreted.
+    On the other hand note that the &lt;File&gt; element was already correctly interpreted
+    and thus its handling has not changed.</p>
+
+</div>
+
+
+<div class="version">4.1 build 1513.1.12</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+
+<div class="text">
+
+<p>Introduced the support for dinamically reconfiguring the maximum frequency of currently
+   subscribed items, that can be leveraged by Client SDKs.</p>
+
+<p>Introduced the optional "randomize" attribute for both the &lt;default_keepalive_millis&gt;
+   and &lt;max_idle_millis&gt; configuration elements, that can be used in particular
+   scenarios; see the descriptions in the configuration file.</p>
+
+<p>Fixed a bug in the handling of the &lt;allowed_domain&gt; setting, by which the check
+   could have been avoided by purposedly altering the HTML Client SDK library.</p>
+
+<p>Clarified how resampling works for the LightstreamerMonitorText and LightstreamerMonitorTAB
+   loggers configuration.</p>
+
+</div>
+
+
+<div class="version">4.0.3 build 1513.1.11</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="date">Released on 6 Apr 2012</div>
+
+<div class="text">
+
+<p>Adopted java 7 as the recommended SDK runtime environment and as the factory setting
+   in the launch scripts.</p>
+
+<p>Added the &lt;max_streaming_millis&gt; configuration flag; see the configuration file
+   for details.</p>
+
+<p>Fixed a bug, introduced in version 4.0, affecting polling sessions; under particular
+    conditions of slowness, poll requests could have returned immediately even with no data
+    available, thus causing an unneeded increase of the overall frequency of requests.</p>
+
+<p>Fixed a bug affecting polling sessions; under particular conditions of fastness, poll
+    requests could have returned with no data even if data were available, thus causing
+    data delivery to be delayed.</p>
+
+<p>Fixed the supplied scripts for running the Server as a Windows service, which,
+    under some conditions, could have failed to correctly install the service.</p>
+
+</div>
+
+
+<div class="version">4.0.2 build 1513.1.9</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+
+<div class="text">
+
+<p>Fixed an issue with potential conflicts regarding proxy settings
+    when a trial license is used; if proxy settings are supplied in order to access
+    the LightStreamer trial license validation server,
+    they could also affect connections performed by the Adapters.</p>
+
+</div>
+
+
+<div class="version">4.0.2 build 1513.1.8</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="date">Released on 6 Dec 2011</div>
+
+<div class="text">
+
+<p>Fixed a bug introduced in version 4.0 which could have caused
+    a client based on HTML Client SDK to receive
+    wrong data in case of issues with the use of XHR during a polling session. The error
+    was serious, but the triggering environmental conditions were very rare.</p>
+
+<p>Fixed a potential race condition which could have led to an internal thread deadlock.
+    A high rate of socket disconnections (about 100 per second) was the only triggering
+    scenario observed.</p>
+
+<p>Changed, from 6666 to 6600, the factory setting for the port to be used
+    for accessing the HTML-based connector to the JMX service; in fact, access to port 6666
+    could be restricted by some browsers because of conflicts with known protocols.</p>
+
+</div>
+
+
+<div class="version">4.0.1 build 1513.1.4</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+
+<div class="text">
+
+<p>Extended license configuration support by allowing to specify multiple
+    &lt;license_path&gt; elements, so that, at any moment in the Server life, at least one
+    should refer to a valid license.
+    Slightly changed the log upon license refusal.</p>
+
+</div>
+
+
+<div class="version">4.0.1 build 1513.1.3</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="date">Released on 20 Jul 2011</div>
+
+<div class="text">
+
+<p>Fixed a bug that could have caused read failures on TLS/SSL
+   connections upon long requests.</p>
+
+</div>
+
+
+<div class="version">4.0 build 1513.1.1</div>
+<div class="compatibility">Compatible with the deployment structure of the previous version.</div>
+<div class="compatibility">Compatible with configuration files for the previous version.</div>
+<div class="date">Released on 8 Jul 2011</div>
+
+<div class="text">
+
+<p>Fixed and changed the timestamp format on the audit logs.
+   <span class="compatibility">COMPATIBILITY NOTE: existing and new audit log lines
+   can coexist with no problems.</span></p>
+
+<p>Introduced the execute permission flags for launch scripts also in the zip version
+   of the package.</p>
+
+</div>
+
+
+<div class="version">4.0 build 1513</div>
+<div class="date">Released on 7 Jun 2011</div>
+
+<div class="text">
+
+<p>Introduction of Lightstreamer "Duomo" release (Server 4.0).</p>
+
+</div>
+
+
+</div>
+
+
+
+</div>
+</body>
+</html>
