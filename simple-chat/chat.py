@@ -78,7 +78,7 @@ def index():
         # tests connection for now in Heroku logs
         r.publish(REDIS_CHAN, data)
         return False
-    return render_template('index.html', welcome_message=welcome_message, username=username, url=url)
+    return render_template('index.html', welcome_message=welcome_message, username=username)
 
 
 @sockets.route('/submit')
