@@ -8,14 +8,10 @@ import redis
 from flask import Flask, render_template, request
 from flask_sockets import Sockets
 # from six.moves.urllib.parse import urlparse
-from flask_dotenv import DotEnv
 from dotenv import load_dotenv
 load_dotenv()
 app = Flask(__name__)
 sockets = Sockets(app)
-env = DotEnv(app)
-env.init_app(app, env_file='.env', verbose_mode=True)
-print(env)
 # url = urlparse(os.environ.get("REDIS_URL"))
 REDIS_URL = os.environ.get('REDIS_URL')
 REDIS_CHAN = os.environ.get('REDIS_CHAN')
