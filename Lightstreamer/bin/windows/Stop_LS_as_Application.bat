@@ -1,1 +1,0 @@
-LS.bat stop

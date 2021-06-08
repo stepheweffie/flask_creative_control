@@ -1,2 +1,0 @@
-Lightstreamer Adapter Remoting Infrastructure version 1.9.8 build 118
-Compatible with Lightstreamer Server since version 7.1

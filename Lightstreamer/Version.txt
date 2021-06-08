@@ -1,1 +1,0 @@
-Lightstreamer Server version 7.1.2 build 1985
