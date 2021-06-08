@@ -4,5 +4,4 @@ testing-project
 poetry.lock
 dev-link/
 .env
-.json
 .cfg
