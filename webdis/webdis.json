@@ -1,17 +1,17 @@
 {
-	"redis_host":	"127.0.0.1",
+	"redis_host":	"$REDIS_HOST",
 
-	"redis_port":	6379,
-	"redis_auth":	null,
+	"redis_port":	"$REDIS_PORT",
+	"redis_auth":	"$REDIS_AUTH",
 
-	"http_host":	"0.0.0.0",
-	"http_port":	7379,
+	"http_host":	"$HTTP_HOST",
+	"http_port":	"$HTTP_PORT",
 
 	"threads":	5,
 	"pool_size": 20,
 
-	"daemonize":	false,
-	"websockets":	false,
+	"daemonize":	true,
+	"websockets":	true,
 
 	"database":	0,
 
