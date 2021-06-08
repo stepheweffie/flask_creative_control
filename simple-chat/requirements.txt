@@ -11,4 +11,6 @@ redis==3.5.3
 websocket-client==0.58.0
 Werkzeug==1.0.0
 six==1.16.0
+Flask-DotEnv-0.1.2
+python-dotenv-0.17.1
 
