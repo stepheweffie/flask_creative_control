@@ -1,2 +1,2 @@
-web: gunicorn -k flask_sockets.worker chat:app
-web: gunicorn chat:app
+web: bin/start-stunnel gunicorn -k flask_sockets.worker chat:app
+web: bin/start-stunnel gunicorn chat:app
